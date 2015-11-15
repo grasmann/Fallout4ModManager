@@ -12,6 +12,8 @@ Public Class ModSolver
     Private extractor_working As Boolean
     Private add_folder_node As TreeNode
 
+    Private already_exist As New List(Of ExtractJob)
+
     Private Sub TreeView1_ItemDrag(sender As Object, e As ItemDragEventArgs) Handles TreeView1.ItemDrag
         DoDragDrop(e.Item, DragDropEffects.Move)
     End Sub
@@ -167,10 +169,11 @@ Public Class ModSolver
         'Extract(TreeView1.Nodes(0), Directories.Data)
         writer = My.Computer.FileSystem.OpenTextFileWriter(Directories.Mods + "\" + path.Filename + ".txt", False)
         extracter = New SevenZipExtractor(path)
+        already_exist = New List(Of ExtractJob)
         Extract(TreeView1.Nodes(0), Directories.Data)
-        writer.Close()
+        Install()        
         'ProcessExtract()
-        ProcessExtractB()        
+        'ProcessExtractB()        
         'Me.Close()
     End Sub
 
@@ -191,7 +194,7 @@ Public Class ModSolver
         lbl_status_bad.Visible = True
     End Sub
 
-    Private Sub Extract(ByVal Node As TreeNode, ByVal Dir As String)
+    Private Sub Extract(ByVal Node As TreeNode, ByVal Dir As String)        
         For Each SubNode As TreeNode In Node.Nodes
             Dim ExtractFile As Boolean = True
             If SubNode.Checked Then
@@ -199,47 +202,73 @@ Public Class ModSolver
                 'If InStr(SubNode.Text, ".") Then
                 If Not SubNode.ToolTipText = "Dir" Then
                     Dim filepath As String = Dir + "\" + SubNode.Text
+
                     If My.Computer.FileSystem.FileExists(filepath) Then
-                        Select Case MsgBox("File """ + filepath + """ already exists." + vbCrLf + "Do you want to make a backup?" + vbCrLf + "Press cancel to skip the file.", MsgBoxStyle.Exclamation + MsgBoxStyle.YesNoCancel)
-                            Case MsgBoxResult.Cancel
-                                ExtractFile = False
-                            Case MsgBoxResult.Yes
-                                My.Computer.FileSystem.CopyFile(filepath, filepath + ".bak")
-                                MsgBox("The backup was saved as """ + filepath + ".bak""", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Backup created")
-                        End Select
-                    End If
-                    If ExtractFile Then
+                        already_exist.Add(New ExtractJob(SubNode.Tag, filepath))
+                    Else
                         extract_jobs.Add(New ExtractJob(SubNode.Tag, filepath))
-                        'Using fs As Stream = File.Create(filepath)
-                        '    Using ext As New SevenZipExtractor(path)
-                        '        ext.ExtractFile(SubNode.Tag, fs)
-                        '        Writer.WriteLine(Microsoft.VisualBasic.Right(filepath, Len(filepath) - Len(Directories.Data) - 1))
-                        '    End Using
-                        'End Using
-                        writer.WriteLine(Microsoft.VisualBasic.Right(filepath, Len(filepath) - Len(Directories.Data) - 1))
                     End If
+
+                    'If My.Computer.FileSystem.FileExists(filepath) Then
+                    '    Select Case MsgBox("File """ + filepath + """ already exists." + vbCrLf + "Do you want to make a backup?" + vbCrLf + "Press cancel to skip the file.", MsgBoxStyle.Exclamation + MsgBoxStyle.YesNoCancel)
+                    '        Case MsgBoxResult.Cancel
+                    '            ExtractFile = False
+                    '        Case MsgBoxResult.Yes
+                    '            My.Computer.FileSystem.CopyFile(filepath, filepath + ".bak")
+                    '            MsgBox("The backup was saved as """ + filepath + ".bak""", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Backup created")
+                    '    End Select
+                    'End If
+                    'If ExtractFile Then
+                    '    extract_jobs.Add(New ExtractJob(SubNode.Tag, filepath))
+                    '    'Using fs As Stream = File.Create(filepath)
+                    '    '    Using ext As New SevenZipExtractor(path)
+                    '    '        ext.ExtractFile(SubNode.Tag, fs)
+                    '    '        Writer.WriteLine(Microsoft.VisualBasic.Right(filepath, Len(filepath) - Len(Directories.Data) - 1))
+                    '    '    End Using
+                    '    'End Using
+                    '    writer.WriteLine(Microsoft.VisualBasic.Right(filepath, Len(filepath) - Len(Directories.Data) - 1))
+                    'End If
                 Else
                     My.Computer.FileSystem.CreateDirectory(Dir + "\" + SubNode.Text)
                     If SubNode.Nodes.Count > 0 Then Extract(SubNode, Dir + "\" + SubNode.Text)
                 End If
             End If
         Next
+        
     End Sub
 
-    Private Sub ProcessExtract()
-        ProgressBar1.Maximum = extract_jobs.Count
-        ProgressBar1.Value = 0
-        For Each job As ExtractJob In extract_jobs
-            Using fs As Stream = File.Create(job.ExtractPath)
-                'Using ext As New SevenZipExtractor(path)
-                extracter.ExtractFile(job.ArchivePath, fs)
-                writer.WriteLine(Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.Data) - 1))
-                ProgressBar1.Value += 1
-                Application.DoEvents()
-                'End Using
-            End Using
+    Private Sub Install()
+        ' Evaluate overwrite
+        Dim overwrite_files As New List(Of ExtractJob)
+        If already_exist.Count > 0 Then            
+            Dim overwrite As New OverwriteSolver(already_exist, overwrite_files)
+            If overwrite.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
+                writer.Close()
+                Exit Sub
+            End If            
+        End If        
+        ' Add overwrite files
+        For Each job As ExtractJob In overwrite_files
+            extract_jobs.Add(job)
         Next
+
+        ProcessExtractB()
     End Sub
+
+    'Private Sub ProcessExtract()
+    '    ProgressBar1.Maximum = extract_jobs.Count
+    '    ProgressBar1.Value = 0
+    '    For Each job As ExtractJob In extract_jobs
+    '        Using fs As Stream = File.Create(job.ExtractPath)
+    '            'Using ext As New SevenZipExtractor(path)
+    '            extracter.ExtractFile(job.ArchivePath, fs)
+    '            writer.WriteLine(Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.Data) - 1))
+    '            ProgressBar1.Value += 1
+    '            Application.DoEvents()
+    '            'End Using
+    '        End Using
+    '    Next
+    'End Sub
 
     Private Sub ProcessExtractB()
         'extracter.BeginExtractArchive(System.IO.Path.GetTempPath + "\" + path.Filename)
@@ -252,7 +281,7 @@ Public Class ModSolver
         Next
         'extracter.ExtractFiles(System.IO.Path.GetTempPath + "\" + path.Filename, filenames.ToArray)
         'extracter.BeginExtractFiles(System.IO.Path.GetTempPath + path.Filename, filenames.ToArray)
-        extracter.BeginExtractFiles(System.IO.Path.GetTempPath + "f4mm_install", filenames.ToArray)
+        extracter.BeginExtractFiles(Directories.Mods + "\f4mm_install", filenames.ToArray)
     End Sub
 
     Private Sub extracter_Extracting(sender As Object, e As ProgressEventArgs) Handles extracter.Extracting
@@ -261,18 +290,34 @@ Public Class ModSolver
 
     Private Sub extracter_ExtractionFinished(sender As Object, e As EventArgs) Handles extracter.ExtractionFinished
         For Each job As ExtractJob In extract_jobs
-            Using sourceStream As FileStream = File.Open(System.IO.Path.GetTempPath + "f4mm_install\" + job.ArchivePath, FileMode.Open)
-                Using destinationStream As FileStream = File.Create(job.ExtractPath)
-                    sourceStream.CopyTo(destinationStream)
-                    sourceStream.Close()
-                End Using
-            End Using
-            'My.Computer.FileSystem.MoveFile(System.IO.Path.GetTempPath + "f4mm_install\" + job.ArchivePath, job.ExtractPath)
-            'writer.WriteLine(Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.Data) - 1))
+            ' Backup
+            'If My.Computer.FileSystem.FileExists(job.ExtractPath) Then
+            '    If job.Backup Then
+            '        Using sourceStream As FileStream = File.Open(job.ExtractPath, FileMode.Open)
+            '            Using destinationStream As FileStream = File.Create(job.ExtractPath + ".bak")
+            '                sourceStream.CopyTo(destinationStream)
+            '            End Using
+            '        End Using
+            '    End If
+            'End If
+            If My.Computer.FileSystem.FileExists(job.ExtractPath) Then
+                If job.Backup Then
+                    My.Computer.FileSystem.MoveFile(job.ExtractPath, job.ExtractPath + ".bak")
+                End If
+            End If            
+            ' Move
+            'Using sourceStream As FileStream = File.Open(Directories.Mods + "\f4mm_install\" + job.ArchivePath, FileMode.Open)
+            '    Using destinationStream As FileStream = File.Create(job.ExtractPath)
+            '        sourceStream.CopyTo(destinationStream)
+            '    End Using
+            'End Using
+            My.Computer.FileSystem.MoveFile(Directories.Mods + "\f4mm_install\" + job.ArchivePath, job.ExtractPath)
+            writer.WriteLine(Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.Data) - 1))
         Next
-        My.Computer.FileSystem.DeleteDirectory(System.IO.Path.GetTempPath + "f4mm_install", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        My.Computer.FileSystem.DeleteDirectory(Directories.Mods + "\f4mm_install", FileIO.DeleteDirectoryOption.DeleteAllContents)
         ' Close
         extractor_working = False
+        writer.Close()
         Me.Close()        
     End Sub
 

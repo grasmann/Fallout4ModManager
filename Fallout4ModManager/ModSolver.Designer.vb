@@ -23,11 +23,11 @@ Partial Class ModSolver
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node1")
-        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node4")
-        Dim TreeNode18 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node3", New System.Windows.Forms.TreeNode() {TreeNode17})
-        Dim TreeNode19 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node2", New System.Windows.Forms.TreeNode() {TreeNode18})
-        Dim TreeNode20 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data", New System.Windows.Forms.TreeNode() {TreeNode16, TreeNode19})
+        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node1")
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node4")
+        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node3", New System.Windows.Forms.TreeNode() {TreeNode2})
+        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node2", New System.Windows.Forms.TreeNode() {TreeNode3})
+        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data", New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode4})
         Me.TreeView1 = New System.Windows.Forms.TreeView()
         Me.lbl_status_bad = New System.Windows.Forms.Label()
         Me.lbl_status_good = New System.Windows.Forms.Label()
@@ -48,17 +48,17 @@ Partial Class ModSolver
         Me.TreeView1.FullRowSelect = True
         Me.TreeView1.Location = New System.Drawing.Point(1, 36)
         Me.TreeView1.Name = "TreeView1"
-        TreeNode16.Name = "Node1"
-        TreeNode16.Text = "Node1"
-        TreeNode17.Name = "Node4"
-        TreeNode17.Text = "Node4"
-        TreeNode18.Name = "Node3"
-        TreeNode18.Text = "Node3"
-        TreeNode19.Name = "Node2"
-        TreeNode19.Text = "Node2"
-        TreeNode20.Name = "Node0"
-        TreeNode20.Text = "Data"
-        Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode20})
+        TreeNode1.Name = "Node1"
+        TreeNode1.Text = "Node1"
+        TreeNode2.Name = "Node4"
+        TreeNode2.Text = "Node4"
+        TreeNode3.Name = "Node3"
+        TreeNode3.Text = "Node3"
+        TreeNode4.Name = "Node2"
+        TreeNode4.Text = "Node2"
+        TreeNode5.Name = "Node0"
+        TreeNode5.Text = "Data"
+        Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode5})
         Me.TreeView1.Size = New System.Drawing.Size(560, 457)
         Me.TreeView1.TabIndex = 0
         '
@@ -115,12 +115,12 @@ Partial Class ModSolver
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewFolderToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 48)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(135, 26)
         '
         'NewFolderToolStripMenuItem
         '
         Me.NewFolderToolStripMenuItem.Name = "NewFolderToolStripMenuItem"
-        Me.NewFolderToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewFolderToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.NewFolderToolStripMenuItem.Text = "New Folder"
         '
         'ModSolver
@@ -136,7 +136,7 @@ Partial Class ModSolver
         Me.Name = "ModSolver"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "ModSolver"
+        Me.Text = "Mod Solver"
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 

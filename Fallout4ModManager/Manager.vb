@@ -43,7 +43,7 @@ Public Class Manager
     Private Sub btn_play_Click(sender As Object, e As EventArgs) Handles btn_play.Click
         Save()
         ' Start
-        Process.Start(Directories.Install + "\Fallout4.exe")
+        Process.Start(Directories.Install + "\Fallout4Launcher.exe")
     End Sub
 
     Private Sub Save()
@@ -118,10 +118,13 @@ Public Class Manager
         End If
         openFileDialog1.Filter = "All files (*.*)|*.*|Compressed files (*.7z;*.zip;*.rar)|*.7z;*.zip;*.rar"
         openFileDialog1.FilterIndex = 2
-        openFileDialog1.RestoreDirectory = True
+        openFileDialog1.RestoreDirectory = True               
 
         If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             Try
+                If My.Computer.FileSystem.DirectoryExists(openFileDialog1.FileName.Folder) Then
+                    My.Settings.FileDirectory = openFileDialog1.FileName.Folder
+                End If
                 Dim solve As New ModSolver
                 solve.Data(openFileDialog1.FileName)
                 solve.ShowDialog()
@@ -143,6 +146,7 @@ Public Class Manager
     End Sub
 
     Private Sub Manager_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        My.Settings.Save()
         Save()
     End Sub
 

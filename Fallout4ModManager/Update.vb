@@ -3,7 +3,7 @@ Imports System.Text.RegularExpressions
 
 Module Update
 
-    Public Const Version As String = "1.0.4"
+    Public Const Version As String = "1.0.5"
     Public UpdateAvailable As Boolean
 
     Private WithEvents client As New WebClient

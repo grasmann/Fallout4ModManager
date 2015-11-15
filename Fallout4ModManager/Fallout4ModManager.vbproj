@@ -95,6 +95,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="BackupSolver.Designer.vb">
+      <DependentUpon>BackupSolver.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BackupSolver.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Extensions.vb" />
     <Compile Include="ExtractJob.vb" />
     <Compile Include="Manager.vb">
@@ -127,11 +133,20 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Files.vb" />
+    <Compile Include="OverwriteSolver.Designer.vb">
+      <DependentUpon>OverwriteSolver.vb</DependentUpon>
+    </Compile>
+    <Compile Include="OverwriteSolver.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Update.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BackupSolver.resx">
+      <DependentUpon>BackupSolver.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager.resx">
       <DependentUpon>Manager.vb</DependentUpon>
@@ -144,6 +159,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OverwriteSolver.resx">
+      <DependentUpon>OverwriteSolver.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +219,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\202.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,6 +15,10 @@ Fallout4ModManager
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.
 </summary>
+</member><member name="P:Fallout4ModManager.My.Resources.Resources._202">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:Fallout4ModManager.My.Resources.Resources.default_">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.

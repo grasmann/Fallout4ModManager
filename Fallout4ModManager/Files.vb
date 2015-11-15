@@ -108,6 +108,9 @@ Module Files
     End Function
 
     Public Sub DeinstallMod(ByVal ModFile As String)
+        Dim backups As New List(Of String)
+        Dim restore_backups As New List(Of String)
+        Dim delete_backups As New List(Of String)
         Dim Path As String = Directories.Mods + "\" + ModFile
         Using mfs As New StreamReader(Path)
             While Not mfs.EndOfStream
@@ -115,18 +118,34 @@ Module Files
                     Dim Line As String = mfs.ReadLine
                     My.Computer.FileSystem.DeleteFile(Directories.Data + "\" + Line)
                     If My.Computer.FileSystem.FileExists(Directories.Data + "\" + Line + ".bak") Then
-                        If MsgBox("It appears there is a backup file of """ + Directories.Data + "\" + Line + """." + vbCrLf + _
-                                  "Restore backup?", MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Backup found") = MsgBoxResult.Yes Then
-                            My.Computer.FileSystem.MoveFile(Directories.Data + "\" + Line + ".bak", Directories.Data + "\" + Line)
-                        End If
-                    End If
+                        backups.Add(Directories.Data + "\" + Line)
+                        'If MsgBox("It appears there is a backup file of """ + Directories.Data + "\" + Line + """." + vbCrLf + _
+                        '          "Restore backup?", MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Backup found") = MsgBoxResult.Yes Then
+                        'My.Computer.FileSystem.MoveFile(Directories.Data + "\" + Line + ".bak", Directories.Data + "\" + Line)
+                        'End If
+                    End If                    
                 Catch ex As Exception
                     Debug.Print(ex.Message)
                 End Try
             End While
         End Using
-        Directories.CleanDirectories(Directories.Data)
+        ' Delete Mod file
         My.Computer.FileSystem.DeleteFile(Path)
+        ' Backups
+        If backups.Count > 0 Then
+            Dim backup As New BackupSolver(backups, restore_backups, delete_backups)
+            backup.ShowDialog()
+            ' Restore
+            For Each File As String In restore_backups
+                My.Computer.FileSystem.MoveFile(File + ".bak", File)
+            Next
+            ' Delete
+            For Each File As String In delete_backups
+                My.Computer.FileSystem.DeleteFile(File + ".bak")
+            Next
+        End If
+        ' Directories
+        Directories.CleanDirectories(Directories.Data)        
     End Sub
 
     Public Function ValidExtension(ByVal File As String) As Boolean
