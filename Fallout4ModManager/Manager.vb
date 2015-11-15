@@ -43,7 +43,11 @@ Public Class Manager
     Private Sub btn_play_Click(sender As Object, e As EventArgs) Handles btn_play.Click
         Save()
         ' Start
-        Process.Start(Directories.Install + "\Fallout4Launcher.exe")
+        If My.Computer.FileSystem.FileExists(Directories.Install + "\Fallout4Launcher.exe") Then
+            Process.Start(Directories.Install + "\Fallout4Launcher.exe")
+        ElseIf My.Computer.FileSystem.FileExists(Directories.Install + "\Fallout4.exe") Then
+
+        End If
     End Sub
 
     Private Sub Save()
