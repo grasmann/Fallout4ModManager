@@ -1,0 +1,60 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Fallout4ModManager
+</name>
+</assembly>
+<members>
+<member name="P:Fallout4ModManager.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:Fallout4ModManager.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="P:Fallout4ModManager.My.Resources.Resources.default_">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Fallout4ModManager.My.Resources.Resources.deinstall">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Fallout4ModManager.My.Resources.Resources.down">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Fallout4ModManager.My.Resources.Resources.download">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Fallout4ModManager.My.Resources.Resources.info">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Fallout4ModManager.My.Resources.Resources.install">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Fallout4ModManager.My.Resources.Resources.play">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Fallout4ModManager.My.Resources.Resources.Raoul_duke">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Fallout4ModManager.My.Resources.Resources.up">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="T:Fallout4ModManager.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>

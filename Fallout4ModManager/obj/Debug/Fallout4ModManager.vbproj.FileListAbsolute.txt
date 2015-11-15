@@ -1,0 +1,22 @@
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\bin\Debug\Fallout4ModManager.exe.config
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\bin\Debug\Fallout4ModManager.exe
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\bin\Debug\Fallout4ModManager.pdb
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\bin\Debug\Fallout4ModManager.xml
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\obj\Debug\Fallout4ModManager.Manager.resources
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\obj\Debug\Fallout4ModManager.Resources.resources
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\obj\Debug\Fallout4ModManager.vbproj.GenerateResource.Cache
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\obj\Debug\Fallout4ModManager.exe
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\obj\Debug\Fallout4ModManager.xml
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\obj\Debug\Fallout4ModManager.pdb
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\obj\Debug\Fallout4ModManager.ModSolver.resources
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\bin\Debug\SevenZipSharp.dll
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\obj\Debug\Fallout4ModManager.vbprojResolveAssemblyReference.cache
+F:\Work\Anderes\HWatcher2_Merge\Fallout4ModManager\Fallout4ModManager\obj\Debug\Fallout4ModManager.About.resources
+F:\Work\Anderes\Fallout4ModManager\Fallout4ModManager\bin\Debug\Fallout4ModManager.exe.config
+F:\Work\Anderes\Fallout4ModManager\Fallout4ModManager\obj\Debug\Fallout4ModManager.exe
+F:\Work\Anderes\Fallout4ModManager\Fallout4ModManager\obj\Debug\Fallout4ModManager.xml
+F:\Work\Anderes\Fallout4ModManager\Fallout4ModManager\obj\Debug\Fallout4ModManager.pdb
+F:\Work\Anderes\Fallout4ModManager - Kopie\Fallout4ModManager\bin\Debug\Fallout4ModManager.exe.config
+F:\Work\Anderes\Fallout4ModManager - Kopie\Fallout4ModManager\obj\Debug\Fallout4ModManager.exe
+F:\Work\Anderes\Fallout4ModManager - Kopie\Fallout4ModManager\obj\Debug\Fallout4ModManager.xml
+F:\Work\Anderes\Fallout4ModManager - Kopie\Fallout4ModManager\obj\Debug\Fallout4ModManager.pdb

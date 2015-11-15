@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Fallout4ModManager", "Fallout4ModManager\Fallout4ModManager.vbproj", "{DDAA3F91-B3EE-4605-9774-0C13FDAFDCBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDAA3F91-B3EE-4605-9774-0C13FDAFDCBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDAA3F91-B3EE-4605-9774-0C13FDAFDCBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDAA3F91-B3EE-4605-9774-0C13FDAFDCBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDAA3F91-B3EE-4605-9774-0C13FDAFDCBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
