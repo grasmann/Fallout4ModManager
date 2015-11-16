@@ -336,7 +336,8 @@ Public Class ModSolver
         If Not IsNothing(add_folder_node) Then
             Dim NewFolder As String = InputBox("Name the new folder.", "New folder", "")
             If Not String.IsNullOrEmpty(NewFolder) Then
-                add_folder_node.Nodes.Add(NewFolder)
+                Dim newnode As TreeNode = add_folder_node.Nodes.Add(NewFolder)
+                newnode.ToolTipText = "Dir"
             End If
         End If
     End Sub
