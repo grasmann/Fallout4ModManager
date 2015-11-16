@@ -14,8 +14,12 @@ Public Class Manager
 
         UpdateUI()
 
+        ' sResourceDataDirsFinal
         If String.IsNullOrEmpty(My.Settings.sResourceDataDirsFinal) Then My.Settings.sResourceDataDirsFinal = sResourceDataDirsFinal_Default
         TextBox1.Text = My.Settings.sResourceDataDirsFinal
+
+        ' iPresentInterval
+        CheckBox1.Checked = My.Settings.SetiPresentInterval
 
         Fallout4ModManager.Update.CheckUpdate()
 
@@ -96,6 +100,8 @@ Public Class Manager
         Files.EditFalloutPrefsINI()
         ' Save sResourceDataDirsFinal
         My.Settings.sResourceDataDirsFinal = TextBox1.Text
+        ' Save
+        My.Settings.Save()
     End Sub
 
     Private Sub btn_up_Click(sender As Object, e As EventArgs) Handles btn_up.Click
@@ -183,7 +189,6 @@ Public Class Manager
     End Sub
 
     Private Sub Manager_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        My.Settings.Save()
         Save()
     End Sub
 
@@ -194,6 +199,10 @@ Public Class Manager
     Private Sub btn_about_Click(sender As Object, e As EventArgs) Handles btn_about.Click
         Dim about As New About
         about.ShowDialog()
+    End Sub
+
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        My.Settings.SetiPresentInterval = CheckBox1.Checked
     End Sub
 
 End Class

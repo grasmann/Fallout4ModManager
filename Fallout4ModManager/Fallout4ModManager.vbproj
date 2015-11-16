@@ -103,6 +103,12 @@
     </Compile>
     <Compile Include="Extensions.vb" />
     <Compile Include="ExtractJob.vb" />
+    <Compile Include="IniSettings.Designer.vb">
+      <DependentUpon>IniSettings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="IniSettings.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Manager.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BackupSolver.resx">
       <DependentUpon>BackupSolver.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IniSettings.resx">
+      <DependentUpon>IniSettings.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager.resx">
       <DependentUpon>Manager.vb</DependentUpon>

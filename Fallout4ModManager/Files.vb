@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.InteropServices
+Imports System.Text
 Imports System.IO
 
 Module Files
@@ -97,6 +98,7 @@ Module Files
         Dim Path As String = Directories.MyGames + "\Fallout4Prefs.ini"
         ' Write to ini
         WritePrivateProfileString("Launcher", "bEnableFileSelection", "1", Path)
+        If My.Settings.SetiPresentInterval Then WritePrivateProfileString("Display", "iPresentInterval", "0", Path)
     End Sub
 
     Public Function InstalledMods() As List(Of String)

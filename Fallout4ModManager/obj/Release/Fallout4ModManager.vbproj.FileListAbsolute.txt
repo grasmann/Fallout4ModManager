@@ -27,3 +27,4 @@ F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Release\Fallout4
 F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Release\Fallout4ModManager.Resources.resources
 F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Release\Fallout4ModManager.OverwriteSolver.resources
 F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Release\Fallout4ModManager.vbproj.GenerateResource.Cache
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Release\Fallout4ModManager.IniSettings.resources
