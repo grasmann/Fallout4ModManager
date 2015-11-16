@@ -28,6 +28,15 @@ Public Class Manager
         Return False
     End Function
 
+    Private Function EspsContain(ByVal Esps As List(Of String), ByVal Esp As String) As Boolean
+        For Each e As String In Esps
+            If e.Filename = Esp Then
+                Return True
+            End If
+        Next
+        Return False
+    End Function
+
     Private Sub UpdateUI()
         Dim Dir As String = Directories.Data
         Dim Esps As List(Of String) = Files.Find(Dir)
@@ -35,12 +44,15 @@ Public Class Manager
 
         DataGridView1.Rows.Clear()
         For Each Esp As String In Active
-            DataGridView1.Rows.Add(True, Esp.Filename, Esp)
-            If Esp.Filename.ToLower = "fallout4.esm" Then
-                Dim Row As DataGridViewRow = DataGridView1.Rows(DataGridView1.Rows.Count - 1)
-                Row.ReadOnly = True
-                Row.Cells(0).Style.BackColor = SystemColors.InactiveCaption
-                Row.Cells(1).Style.BackColor = SystemColors.InactiveCaption
+            If EspsContain(Esps, Esp) Or Esp.ToLower = "fallout4.esm" Then
+                DataGridView1.Rows.Add(True, Esp.Filename, Esp)
+                ' Fallout 4 esm
+                If Esp.Filename.ToLower = "fallout4.esm" Then
+                    Dim Row As DataGridViewRow = DataGridView1.Rows(DataGridView1.Rows.Count - 1)
+                    Row.ReadOnly = True
+                    Row.Cells(0).Style.BackColor = SystemColors.InactiveCaption
+                    Row.Cells(1).Style.BackColor = SystemColors.InactiveCaption
+                End If
             End If
         Next
         For Each Esp As String In Esps
@@ -62,7 +74,7 @@ Public Class Manager
         If My.Computer.FileSystem.FileExists(Directories.Install + "\Fallout4Launcher.exe") Then
             Process.Start(Directories.Install + "\Fallout4Launcher.exe")
         ElseIf My.Computer.FileSystem.FileExists(Directories.Install + "\Fallout4.exe") Then
-
+            Process.Start(Directories.Install + "\Fallout4.exe")
         End If
     End Sub
 
@@ -89,7 +101,7 @@ Public Class Manager
     Private Sub btn_up_Click(sender As Object, e As EventArgs) Handles btn_up.Click
         If DataGridView1.SelectedRows.Count > 0 Then
             Dim Index As Integer = DataGridView1.SelectedRows(0).Index
-            If Index > 0 Then
+            If Index > 1 Then
                 For i = 0 To DataGridView1.Columns.Count - 1
                     Dim val As Object = DataGridView1.Rows(Index - 1).Cells(i).Value
                     DataGridView1.Rows(Index - 1).Cells(i).Value = DataGridView1.Rows(Index).Cells(i).Value
@@ -103,7 +115,7 @@ Public Class Manager
     Private Sub btn_down_Click(sender As Object, e As EventArgs) Handles btn_down.Click
         If DataGridView1.SelectedRows.Count > 0 Then
             Dim Index As Integer = DataGridView1.SelectedRows(0).Index
-            If Index < DataGridView1.Rows.Count - 1 Then
+            If Index > 0 And Index < DataGridView1.Rows.Count - 1 Then
                 For i = 0 To DataGridView1.Columns.Count - 1
                     Dim val As Object = DataGridView1.Rows(Index + 1).Cells(i).Value
                     DataGridView1.Rows(Index + 1).Cells(i).Value = DataGridView1.Rows(Index).Cells(i).Value
@@ -117,15 +129,20 @@ Public Class Manager
     Private Sub DataGridView1_RowStateChanged(sender As Object, e As DataGridViewRowStateChangedEventArgs) Handles DataGridView1.RowStateChanged
         If e.StateChanged = DataGridViewElementStates.Selected Then
             If e.Row.Index = 0 Then
+                btn_down.Enabled = False
                 btn_up.Enabled = False
             Else
-                btn_up.Enabled = True
-            End If
-            If e.Row.Index = DataGridView1.Rows.Count - 1 Then
-                btn_down.Enabled = False
-            Else
-                btn_down.Enabled = True
-            End If
+                If e.Row.Index = 1 Then
+                    btn_up.Enabled = False
+                Else
+                    btn_up.Enabled = True
+                End If
+                If e.Row.Index = DataGridView1.Rows.Count - 1 Then
+                    btn_down.Enabled = False
+                Else
+                    btn_down.Enabled = True
+                End If
+            End If            
         End If
     End Sub
 
