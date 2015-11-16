@@ -21,14 +21,30 @@ Public Class Manager
 
     End Sub
 
+    Private Function ListContains(ByVal Esp As String) As Boolean
+        For Each Row As DataGridViewRow In DataGridView1.Rows
+            If Row.Cells(1).Value = Esp Then Return True
+        Next
+        Return False
+    End Function
+
     Private Sub UpdateUI()
         Dim Dir As String = Directories.Data
         Dim Esps As List(Of String) = Files.Find(Dir)
         Dim Active As List(Of String) = Files.GetActivePlugins
 
         DataGridView1.Rows.Clear()
+        For Each Esp As String In Active
+            DataGridView1.Rows.Add(True, Esp.Filename, Esp)
+            If Esp.Filename.ToLower = "fallout4.esm" Then
+                Dim Row As DataGridViewRow = DataGridView1.Rows(DataGridView1.Rows.Count - 1)
+                Row.ReadOnly = True
+                Row.Cells(0).Style.BackColor = SystemColors.InactiveCaption
+                Row.Cells(1).Style.BackColor = SystemColors.InactiveCaption
+            End If
+        Next
         For Each Esp As String In Esps
-            DataGridView1.Rows.Add(Active.Contains(Esp.Filename), Esp.Filename, Esp)
+            If Not ListContains(Esp.Filename) Then DataGridView1.Rows.Add(False, Esp.Filename, Esp)
         Next
 
         DataGridView2.Rows.Clear()

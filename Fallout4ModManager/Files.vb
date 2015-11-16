@@ -30,7 +30,9 @@ Module Files
             objWriter.Write(_plugins_txt_default)
             ' Write plugins
             For Each Plugin As String In Plugins
-                objWriter.Write(Plugin + vbCrLf)
+                If Not Plugin.ToLower = "fallout4.esm" Then
+                    objWriter.Write(Plugin + vbCrLf)
+                End If
             Next
             ' Close
             objWriter.Close()
@@ -48,7 +50,9 @@ Module Files
             Dim objWriter As New System.IO.StreamWriter(Path, False)
             ' Write plugins
             For Each Plugin As String In Plugins
-                objWriter.Write(Plugin + vbCrLf)
+                If Not Plugin.ToLower = "fallout4.esm" Then
+                    objWriter.Write(Plugin + vbCrLf)
+                End If
             Next
             ' Close
             objWriter.Close()
@@ -59,13 +63,15 @@ Module Files
 
     Public Function GetActivePlugins() As List(Of String)
         Dim Plugins As New List(Of String)
+        Dim Plugin As String
         ' plugins.txt
         Dim Path As String = Directories.Appdata + "\plugins.txt"
         ' Read from file
         If System.IO.File.Exists(Path) = True Then
             Dim objReader As New System.IO.StreamReader(Path)
             While Not objReader.EndOfStream
-                Plugins.Add(objReader.ReadLine)
+                Plugin = objReader.ReadLine
+                If Not Left(Plugin, 1) = "#" Then Plugins.Add(Plugin)
             End While
             ' Close
             objReader.Close()
