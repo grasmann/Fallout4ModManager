@@ -6,6 +6,7 @@ Module Directories
     Public Function Install() As String
         Dim Dir As String = String.Empty
         Dim Key As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\WOW6432Node\bethesda softworks\Fallout4")
+        If IsNothing(Key) Then Key = Registry.LocalMachine.OpenSubKey("SOFTWARE\bethesda softworks\Fallout4")
         Dir = Key.GetValue("installed path")
         Return Dir
     End Function
