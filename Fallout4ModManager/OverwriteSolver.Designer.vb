@@ -104,7 +104,7 @@ Partial Class OverwriteSolver
         Me.or_backup.HeaderText = "Create Backup"
         Me.or_backup.Name = "or_backup"
         Me.or_backup.ReadOnly = True
-        Me.or_backup.Width = 76
+        Me.or_backup.Width = 84
         '
         'Label1
         '
@@ -154,6 +154,7 @@ Partial Class OverwriteSolver
         Me.Controls.Add(Me.DataGridView1)
         Me.Name = "OverwriteSolver"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Overwrite Solver"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

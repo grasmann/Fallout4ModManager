@@ -128,6 +128,12 @@
     <Compile Include="ModSolver.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ModSolverHelp.Designer.vb">
+      <DependentUpon>ModSolverHelp.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ModSolverHelp.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -168,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ModSolver.resx">
       <DependentUpon>ModSolver.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModSolverHelp.resx">
+      <DependentUpon>ModSolverHelp.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -240,6 +249,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\202.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\179.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tutorial001.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tutorial002.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tutorial003.JPG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

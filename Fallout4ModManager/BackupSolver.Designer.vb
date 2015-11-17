@@ -25,10 +25,10 @@ Partial Class BackupSolver
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.or_restore = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.or_delete = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.or_name = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -69,18 +69,6 @@ Partial Class BackupSolver
         Me.DataGridView1.Size = New System.Drawing.Size(712, 421)
         Me.DataGridView1.TabIndex = 1
         '
-        'Button1
-        '
-        Me.Button1.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
-        Me.Button1.Location = New System.Drawing.Point(637, 459)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 36)
-        Me.Button1.TabIndex = 2
-        Me.Button1.Text = "Ok"
-        Me.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.Button1.UseVisualStyleBackColor = True
-        '
         'or_restore
         '
         Me.or_restore.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
@@ -104,6 +92,18 @@ Partial Class BackupSolver
         Me.or_name.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
         Me.or_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
         '
+        'Button1
+        '
+        Me.Button1.DialogResult = System.Windows.Forms.DialogResult.OK
+        Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
+        Me.Button1.Location = New System.Drawing.Point(637, 459)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 36)
+        Me.Button1.TabIndex = 2
+        Me.Button1.Text = "Ok"
+        Me.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'BackupSolver
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -113,6 +113,7 @@ Partial Class BackupSolver
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.Label1)
         Me.Name = "BackupSolver"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Backup Solver"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

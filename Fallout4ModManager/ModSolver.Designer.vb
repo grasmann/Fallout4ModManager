@@ -31,10 +31,11 @@ Partial Class ModSolver
         Me.TreeView1 = New System.Windows.Forms.TreeView()
         Me.lbl_status_bad = New System.Windows.Forms.Label()
         Me.lbl_status_good = New System.Windows.Forms.Label()
-        Me.btn_install = New System.Windows.Forms.Button()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.NewFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btn_install = New System.Windows.Forms.Button()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -90,24 +91,13 @@ Partial Class ModSolver
         Me.lbl_status_good.Text = "Looking Good!"
         Me.lbl_status_good.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'btn_install
-        '
-        Me.btn_install.Image = Global.Fallout4ModManager.My.Resources.Resources.install
-        Me.btn_install.Location = New System.Drawing.Point(0, 0)
-        Me.btn_install.Name = "btn_install"
-        Me.btn_install.Size = New System.Drawing.Size(75, 36)
-        Me.btn_install.TabIndex = 1
-        Me.btn_install.Text = "Install"
-        Me.btn_install.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.btn_install.UseVisualStyleBackColor = True
-        '
         'ProgressBar1
         '
         Me.ProgressBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProgressBar1.Location = New System.Drawing.Point(76, 1)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(485, 34)
+        Me.ProgressBar1.Size = New System.Drawing.Size(419, 34)
         Me.ProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous
         Me.ProgressBar1.TabIndex = 4
         '
@@ -123,11 +113,34 @@ Partial Class ModSolver
         Me.NewFolderToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.NewFolderToolStripMenuItem.Text = "New Folder"
         '
+        'Button1
+        '
+        Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources._179
+        Me.Button1.Location = New System.Drawing.Point(496, 0)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(65, 36)
+        Me.Button1.TabIndex = 5
+        Me.Button1.Text = "Help"
+        Me.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'btn_install
+        '
+        Me.btn_install.Image = Global.Fallout4ModManager.My.Resources.Resources.install
+        Me.btn_install.Location = New System.Drawing.Point(0, 0)
+        Me.btn_install.Name = "btn_install"
+        Me.btn_install.Size = New System.Drawing.Size(75, 36)
+        Me.btn_install.TabIndex = 1
+        Me.btn_install.Text = "Install"
+        Me.btn_install.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.btn_install.UseVisualStyleBackColor = True
+        '
         'ModSolver
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(562, 535)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.btn_install)
         Me.Controls.Add(Me.TreeView1)
@@ -148,4 +161,5 @@ Partial Class ModSolver
     Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar
     Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents NewFolderToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents Button1 As System.Windows.Forms.Button
 End Class

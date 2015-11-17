@@ -7,7 +7,7 @@ Public Class ModSolver
 
     Private common_data_folders As New List(Of String) _
         ({"music", "textures", "interface", "video", "sound", "meshes", "programs", "materials", "lodsettings", "vis", "misc", "scripts", "shadersfx"})
-    Private archive_data As New TreeNode("Data")
+    Private archive_data As New TreeNode("Data ( Don't disable )")
     Private path As String
     Private extract_jobs As New List(Of ExtractJob)
     Private WithEvents extracter As SevenZipExtractor
@@ -33,6 +33,7 @@ Public Class ModSolver
     Private Sub ModSolver_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         TreeView1.Nodes.Clear()
         archive_data.Checked = True
+        archive_data.ForeColor = SystemColors.InactiveCaptionText
         TreeView1.Nodes.Add(archive_data)
         TreeView1.ExpandAll()
         ' Check structure
@@ -121,35 +122,75 @@ Public Class ModSolver
         End If
     End Sub
 
-    Private Sub CheckStructure()
+    Private Function CheckStructure() As Boolean        
         Dim valid As Boolean
         lbl_status_bad.Visible = True
         lbl_status_good.Visible = False
+        btn_install.Enabled = False
         For Each Node As TreeNode In TreeView1.Nodes(0).Nodes
             If common_data_folders.Contains(Node.Text.ToLower) Or Microsoft.VisualBasic.Right(Node.Text.ToLower, 4) = ".esp" Then
                 Node.Checked = True
                 valid = True
                 lbl_status_good.Visible = True
+                btn_install.Enabled = True
             Else
                 Node.Checked = False
             End If
         Next
-        If valid Then Exit Sub
-        lbl_status_bad.Visible = True
-    End Sub
+        If valid Then Return True
+        lbl_status_bad.Visible = True        
+        Return False
+    End Function
 
 #End Region
 
 #Region "Control"
 
+    Private ignore_changes As Boolean
     Private Sub TreeView1_AfterCheck(sender As Object, e As TreeViewEventArgs) Handles TreeView1.AfterCheck
-        For Each node As TreeNode In e.Node.Nodes
-            node.Checked = e.Node.Checked
+        If Not ignore_changes Then
+            DoChildNodes(e.Node)
+        End If
+    End Sub
+
+    Private Function CorrectNodes() As Boolean
+        Dim change As Boolean
+        Dim change2 As Boolean
+        If Not TreeView1.Nodes(0).Checked Then
+            TreeView1.Nodes(0).Checked = True
+            change = True
+        End If
+        For Each n As TreeNode In TreeView1.Nodes
+            ignore_changes = True
+            change2 = DoParentNodes(n)
+            ignore_changes = False
+        Next
+        Return change Or change2
+    End Function
+
+    Private Sub DoChildNodes(ByVal Node As TreeNode)
+        For Each n As TreeNode In Node.Nodes
+            n.Checked = Node.Checked
+            If n.Nodes.Count > 0 Then DoChildNodes(n)
         Next
     End Sub
 
+    Private Function DoParentNodes(ByVal Node As TreeNode) As Boolean
+        Dim change As Boolean
+        If Node.Checked Then
+            Dim Parent As TreeNode = Node.Parent
+            While Not IsNothing(Parent)
+                If Not Parent.Checked = Node.Checked Then
+                    Parent.Checked = True
+                    change = True
+                End If
+                Parent = Parent.Parent
+            End While
+        End If
+        Return change
+    End Function
+
     Private Sub btn_install_Click(sender As Object, e As EventArgs) Handles btn_install.Click
-        'Extract(TreeView1.Nodes(0), Directories.Data)
         writer = My.Computer.FileSystem.OpenTextFileWriter(Directories.Mods + "\" + path.Filename + ".txt", False)
         extracter = New SevenZipExtractor(path)
         already_exist = New List(Of ExtractJob)
@@ -307,5 +348,10 @@ Public Class ModSolver
     End Sub
 
 #End Region
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim help As New ModSolverHelp
+        help.ShowDialog()
+    End Sub
 
 End Class
