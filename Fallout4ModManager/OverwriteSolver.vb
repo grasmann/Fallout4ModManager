@@ -24,4 +24,16 @@
         End If        
     End Sub
 
+    Private Sub OverwriteAllToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OverwriteAllToolStripMenuItem.Click
+        For Each Row As DataGridViewRow In DataGridView1.Rows
+            Row.Cells(0).Value = True
+        Next
+    End Sub
+
+    Private Sub BackupAllToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BackupAllToolStripMenuItem.Click
+        For Each Row As DataGridViewRow In DataGridView1.Rows
+            Row.Cells(4).Value = True
+        Next
+    End Sub
+
 End Class

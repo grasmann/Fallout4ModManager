@@ -22,17 +22,22 @@ Partial Class OverwriteSolver
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.OverwriteAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BackupAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.or_overwrite = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.or_name = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.or_extracted_path = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.or_target_path = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.or_backup = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'DataGridView1
@@ -46,9 +51,9 @@ Partial Class OverwriteSolver
         Me.DataGridView1.BackgroundColor = System.Drawing.SystemColors.Control
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.or_overwrite, Me.or_name, Me.or_extracted_path, Me.or_target_path, Me.or_backup})
+        Me.DataGridView1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.DataGridView1.Location = New System.Drawing.Point(0, 37)
         Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.RowHeadersVisible = False
         DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
         DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText
@@ -62,49 +67,6 @@ Partial Class OverwriteSolver
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DataGridView1.Size = New System.Drawing.Size(784, 429)
         Me.DataGridView1.TabIndex = 0
-        '
-        'or_overwrite
-        '
-        Me.or_overwrite.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.or_overwrite.HeaderText = "Overwrite"
-        Me.or_overwrite.Name = "or_overwrite"
-        Me.or_overwrite.ReadOnly = True
-        Me.or_overwrite.Width = 58
-        '
-        'or_name
-        '
-        Me.or_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.or_name.HeaderText = "File"
-        Me.or_name.Name = "or_name"
-        Me.or_name.ReadOnly = True
-        Me.or_name.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.or_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        '
-        'or_extracted_path
-        '
-        Me.or_extracted_path.HeaderText = "extracted_path"
-        Me.or_extracted_path.Name = "or_extracted_path"
-        Me.or_extracted_path.ReadOnly = True
-        Me.or_extracted_path.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.or_extracted_path.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.or_extracted_path.Visible = False
-        '
-        'or_target_path
-        '
-        Me.or_target_path.HeaderText = "target_path"
-        Me.or_target_path.Name = "or_target_path"
-        Me.or_target_path.ReadOnly = True
-        Me.or_target_path.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.or_target_path.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.or_target_path.Visible = False
-        '
-        'or_backup
-        '
-        Me.or_backup.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.or_backup.HeaderText = "Create Backup"
-        Me.or_backup.Name = "or_backup"
-        Me.or_backup.ReadOnly = True
-        Me.or_backup.Width = 84
         '
         'Label1
         '
@@ -143,6 +105,67 @@ Partial Class OverwriteSolver
         Me.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.Button1.UseVisualStyleBackColor = True
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OverwriteAllToolStripMenuItem, Me.BackupAllToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(143, 48)
+        '
+        'OverwriteAllToolStripMenuItem
+        '
+        Me.OverwriteAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
+        Me.OverwriteAllToolStripMenuItem.Name = "OverwriteAllToolStripMenuItem"
+        Me.OverwriteAllToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.OverwriteAllToolStripMenuItem.Text = "Overwrite All"
+        '
+        'BackupAllToolStripMenuItem
+        '
+        Me.BackupAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.install
+        Me.BackupAllToolStripMenuItem.Name = "BackupAllToolStripMenuItem"
+        Me.BackupAllToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.BackupAllToolStripMenuItem.Text = "Backup All"
+        '
+        'or_overwrite
+        '
+        Me.or_overwrite.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.or_overwrite.HeaderText = "Overwrite"
+        Me.or_overwrite.Name = "or_overwrite"
+        Me.or_overwrite.Width = 58
+        '
+        'or_name
+        '
+        Me.or_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.or_name.HeaderText = "File"
+        Me.or_name.Name = "or_name"
+        Me.or_name.ReadOnly = True
+        Me.or_name.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.or_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        '
+        'or_extracted_path
+        '
+        Me.or_extracted_path.HeaderText = "extracted_path"
+        Me.or_extracted_path.Name = "or_extracted_path"
+        Me.or_extracted_path.ReadOnly = True
+        Me.or_extracted_path.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.or_extracted_path.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.or_extracted_path.Visible = False
+        '
+        'or_target_path
+        '
+        Me.or_target_path.HeaderText = "target_path"
+        Me.or_target_path.Name = "or_target_path"
+        Me.or_target_path.ReadOnly = True
+        Me.or_target_path.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.or_target_path.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.or_target_path.Visible = False
+        '
+        'or_backup
+        '
+        Me.or_backup.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.or_backup.HeaderText = "Create Backup"
+        Me.or_backup.Name = "or_backup"
+        Me.or_backup.Width = 84
+        '
         'OverwriteSolver
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -157,16 +180,20 @@ Partial Class OverwriteSolver
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Overwrite Solver"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
+    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents OverwriteAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BackupAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents or_overwrite As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents or_name As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents or_extracted_path As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents or_target_path As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents or_backup As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents Button1 As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Button2 As System.Windows.Forms.Button
 End Class

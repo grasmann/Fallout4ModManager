@@ -44,4 +44,18 @@
         End If
     End Sub
 
+    Private Sub RestoreAllToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RestoreAllToolStripMenuItem.Click
+        For Each Row As DataGridViewRow In DataGridView1.Rows
+            Row.Cells(0).Value = True
+            Row.Cells(1).Value = False
+        Next
+    End Sub
+
+    Private Sub DeleteAllToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteAllToolStripMenuItem.Click
+        For Each Row As DataGridViewRow In DataGridView1.Rows
+            Row.Cells(0).Value = False
+            Row.Cells(1).Value = True
+        Next
+    End Sub
+
 End Class

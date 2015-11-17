@@ -22,6 +22,7 @@ Partial Class BackupSolver
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
@@ -29,7 +30,11 @@ Partial Class BackupSolver
         Me.or_delete = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.or_name = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.RestoreAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeleteAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label1
@@ -52,6 +57,7 @@ Partial Class BackupSolver
         Me.DataGridView1.BackgroundColor = System.Drawing.SystemColors.Control
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.or_restore, Me.or_delete, Me.or_name})
+        Me.DataGridView1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.DataGridView1.Location = New System.Drawing.Point(0, 37)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
@@ -104,6 +110,26 @@ Partial Class BackupSolver
         Me.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.Button1.UseVisualStyleBackColor = True
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RestoreAllToolStripMenuItem, Me.DeleteAllToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 70)
+        '
+        'RestoreAllToolStripMenuItem
+        '
+        Me.RestoreAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
+        Me.RestoreAllToolStripMenuItem.Name = "RestoreAllToolStripMenuItem"
+        Me.RestoreAllToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RestoreAllToolStripMenuItem.Text = "Restore All"
+        '
+        'DeleteAllToolStripMenuItem
+        '
+        Me.DeleteAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
+        Me.DeleteAllToolStripMenuItem.Name = "DeleteAllToolStripMenuItem"
+        Me.DeleteAllToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DeleteAllToolStripMenuItem.Text = "Delete All"
+        '
         'BackupSolver
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -116,6 +142,7 @@ Partial Class BackupSolver
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Backup Solver"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -125,4 +152,7 @@ Partial Class BackupSolver
     Friend WithEvents or_restore As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents or_delete As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents or_name As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents RestoreAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DeleteAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

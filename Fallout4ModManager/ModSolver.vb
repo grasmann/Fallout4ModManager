@@ -288,6 +288,7 @@ Public Class ModSolver
             Dim overwrite As New OverwriteSolver(already_exist, overwrite_files)
             If overwrite.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
                 writer.Close()
+                My.Computer.FileSystem.DeleteFile(Directories.Mods + "\" + path.Filename + ".txt")
                 Exit Sub
             End If
         End If
