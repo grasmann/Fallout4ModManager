@@ -134,7 +134,7 @@ Partial Class OverwriteSolver
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources._202
+        Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
         Me.Button1.Location = New System.Drawing.Point(603, 468)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(64, 36)

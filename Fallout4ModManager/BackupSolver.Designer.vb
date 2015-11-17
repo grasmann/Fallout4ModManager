@@ -72,7 +72,7 @@ Partial Class BackupSolver
         'Button1
         '
         Me.Button1.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources._202
+        Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
         Me.Button1.Location = New System.Drawing.Point(637, 459)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 36)

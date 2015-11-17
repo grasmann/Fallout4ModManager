@@ -60,6 +60,9 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="SevenZipSharp">
       <HintPath>..\..\SevenZipSharp.dll</HintPath>
@@ -117,6 +120,8 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Directories.vb" />
+    <Compile Include="ModDownload.vb" />
+    <Compile Include="ModDownloads.vb" />
     <Compile Include="ModSolver.Designer.vb">
       <DependentUpon>ModSolver.vb</DependentUpon>
     </Compile>
@@ -146,6 +151,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Update.vb" />
+    <Compile Include="URLProtocol.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="About.resx">
@@ -174,6 +180,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="My Project\app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

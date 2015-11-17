@@ -31,6 +31,22 @@ Module Directories
         Return Path
     End Function
 
+    Public Function Temp() As String
+        Dim Path As String = Directories.Mods + "\f4mm_install"
+        If Not My.Computer.FileSystem.DirectoryExists(Path) Then
+            My.Computer.FileSystem.CreateDirectory(Path)
+        End If
+        Return Path
+    End Function
+
+    Public Function Downloads() As String
+        Dim Path As String = Directories.Mods + "\Downloads"
+        If Not My.Computer.FileSystem.DirectoryExists(Path) Then
+            My.Computer.FileSystem.CreateDirectory(Path)
+        End If
+        Return Path
+    End Function
+
     Public Sub CleanDirectories(ByVal Dir As String)
         For Each folder As String In Directory.GetDirectories(Dir)
             CleanDirectories(folder)

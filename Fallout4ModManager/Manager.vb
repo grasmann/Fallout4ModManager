@@ -2,7 +2,10 @@
 
 Public Class Manager
 
-    Private Const sResourceDataDirsFinal_Default As String = "STRINGS\, TEXTURES\, INTERFACE\, SOUND\, MUSIC\, VIDEO\, MESHES\, PROGRAMS\, MATERIALS\, LODSETTINGS\, VIS\, MISC\, SCRIPTS\, SHADERSFX\"
+    Public WithEvents Downloads As New ModDownloads
+
+    Private Const sResourceDataDirsFinal_Default As String = _
+        "STRINGS\, TEXTURES\, INTERFACE\, SOUND\, MUSIC\, VIDEO\, MESHES\, PROGRAMS\, MATERIALS\, LODSETTINGS\, VIS\, MISC\, SCRIPTS\, SHADERSFX\"
 
     Private Sub Manager_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -11,6 +14,8 @@ Public Class Manager
         Else
             SevenZipExtractor.SetLibraryPath(Application.StartupPath + "\7z.dll")
         End If
+
+        'URLProtocol.Register()
 
         UpdateUI()
 
@@ -168,8 +173,7 @@ Public Class Manager
                 If My.Computer.FileSystem.DirectoryExists(openFileDialog1.FileName.Folder) Then
                     My.Settings.FileDirectory = openFileDialog1.FileName.Folder
                 End If
-                Dim solve As New ModSolver
-                solve.Data(openFileDialog1.FileName)
+                Dim solve As New ModSolver(openFileDialog1.FileName)
                 solve.ShowDialog()
             Catch ex As Exception
                 Debug.Print(ex.Message)
@@ -203,6 +207,22 @@ Public Class Manager
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         My.Settings.SetiPresentInterval = CheckBox1.Checked
+    End Sub
+
+    Private Sub Downloads_Added(ByVal Download As ModDownload) Handles Downloads.Added
+        'DataGridView3.Rows.Add(Download.Name)
+    End Sub
+
+    Private Sub Downloads_Finished(ByVal Path As String) Handles Downloads.Finished
+        Dim solver As New ModSolver(Path)
+        solver.ShowDialog()
+    End Sub
+
+    Private Sub Downloads_Update() Handles Downloads.Update
+        'DataGridView3.Rows.Clear()
+        'For Each Download As ModDownload In Downloads.Downloads
+        '    DataGridView3.Rows.Add(Download.Name, Download.Percentage.ToString + "%")
+        'Next
     End Sub
 
 End Class

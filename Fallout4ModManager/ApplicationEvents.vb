@@ -22,9 +22,14 @@
             If CommandLine.Count > 0 Then
                 If My.Computer.FileSystem.FileExists(CommandLine(0)) Then
                     If Files.ValidExtension(CommandLine(0)) Then
-                        Dim solve As New ModSolver
-                        solve.Data(CommandLine(0))
+                        Dim solve As New ModSolver(CommandLine(0))
                         solve.ShowDialog()
+                    End If
+                Else
+                    If Left(CommandLine(0), 4) = "nxm:" Then
+                        'Debug.Print("http://www.nexusmods.com/fallout4/download/" + CommandLine(0).Filename)
+                        'Manager._downloads.Downloads.Add(New ModDownload(CommandLine(0)))
+                        Manager.Downloads.AddDownload(New ModDownload(CommandLine(0)))
                     End If
                 End If
             End If
