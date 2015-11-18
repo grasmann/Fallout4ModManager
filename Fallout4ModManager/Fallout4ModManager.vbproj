@@ -63,6 +63,9 @@
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="SevenZipSharp">
       <HintPath>..\..\SevenZipSharp.dll</HintPath>
@@ -150,6 +153,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Files.vb" />
+    <Compile Include="Options.Designer.vb">
+      <DependentUpon>Options.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Options.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="OverwriteSolver.Designer.vb">
       <DependentUpon>OverwriteSolver.vb</DependentUpon>
     </Compile>
@@ -183,6 +192,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Options.resx">
+      <DependentUpon>Options.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OverwriteSolver.resx">
       <DependentUpon>OverwriteSolver.vb</DependentUpon>
@@ -261,6 +273,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\tutorial003.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.ico" />
+    <None Include="Resources\142.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

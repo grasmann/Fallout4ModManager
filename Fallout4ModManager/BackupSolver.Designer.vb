@@ -29,10 +29,10 @@ Partial Class BackupSolver
         Me.or_restore = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.or_delete = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.or_name = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.RestoreAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DeleteAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -98,6 +98,26 @@ Partial Class BackupSolver
         Me.or_name.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
         Me.or_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RestoreAllToolStripMenuItem, Me.DeleteAllToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(131, 48)
+        '
+        'RestoreAllToolStripMenuItem
+        '
+        Me.RestoreAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
+        Me.RestoreAllToolStripMenuItem.Name = "RestoreAllToolStripMenuItem"
+        Me.RestoreAllToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.RestoreAllToolStripMenuItem.Text = "Restore All"
+        '
+        'DeleteAllToolStripMenuItem
+        '
+        Me.DeleteAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
+        Me.DeleteAllToolStripMenuItem.Name = "DeleteAllToolStripMenuItem"
+        Me.DeleteAllToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.DeleteAllToolStripMenuItem.Text = "Delete All"
+        '
         'Button1
         '
         Me.Button1.DialogResult = System.Windows.Forms.DialogResult.OK
@@ -109,26 +129,6 @@ Partial Class BackupSolver
         Me.Button1.Text = "Ok"
         Me.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.Button1.UseVisualStyleBackColor = True
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RestoreAllToolStripMenuItem, Me.DeleteAllToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 70)
-        '
-        'RestoreAllToolStripMenuItem
-        '
-        Me.RestoreAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
-        Me.RestoreAllToolStripMenuItem.Name = "RestoreAllToolStripMenuItem"
-        Me.RestoreAllToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.RestoreAllToolStripMenuItem.Text = "Restore All"
-        '
-        'DeleteAllToolStripMenuItem
-        '
-        Me.DeleteAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
-        Me.DeleteAllToolStripMenuItem.Name = "DeleteAllToolStripMenuItem"
-        Me.DeleteAllToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.DeleteAllToolStripMenuItem.Text = "Delete All"
         '
         'BackupSolver
         '

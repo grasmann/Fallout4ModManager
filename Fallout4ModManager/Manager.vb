@@ -15,6 +15,8 @@ Public Class Manager
           "Fallout4 - Meshes.ba2", "Fallout4 - MeshesExtra.ba2", "Fallout4 - Misc.ba2", "Fallout4 - Shaders.ba2", "Fallout4 - Sounds.ba2", _
           "Fallout4 - Startup.ba2", "Fallout4 - Voices.ba2"})
 
+    Private exit_without_save As Boolean
+
     Private Sub Manager_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         If Environment.Is64BitProcess Then
@@ -23,19 +25,26 @@ Public Class Manager
             SevenZipExtractor.SetLibraryPath(Application.StartupPath + "\7z.dll")
         End If
 
+        If Not Directories.CheckInstall() Then
+            exit_without_save = True
+            Application.Exit()
+        End If
+
+    End Sub
+
+    Private Sub Manager_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         'URLProtocol.Register()
 
         UpdateUI()
 
         ' sResourceDataDirsFinal
         If String.IsNullOrEmpty(My.Settings.sResourceDataDirsFinal) Then My.Settings.sResourceDataDirsFinal = sResourceDataDirsFinal_Default
-        TextBox1.Text = My.Settings.sResourceDataDirsFinal
+        'TextBox1.Text = My.Settings.sResourceDataDirsFinal
 
         ' iPresentInterval
-        CheckBox1.Checked = My.Settings.SetiPresentInterval
+        'CheckBox1.Checked = My.Settings.SetiPresentInterval
 
         Fallout4ModManager.Update.CheckUpdate()
-
     End Sub
 
     Private Function ListContains(ByVal Esp As String) As Boolean
@@ -126,11 +135,11 @@ Public Class Manager
                 sResourceStartUpArchiveList += ", " + Row.Cells(1).Value
             End If            
         Next
-        Files.EditFalloutINI(TextBox1.Text, sResourceStartUpArchiveList)
+        Files.EditFalloutINI(My.Settings.sResourceDataDirsFinal, sResourceStartUpArchiveList)
         ' Edit Fallout4Prefs.ini
         Files.EditFalloutPrefsINI()
         ' Save sResourceDataDirsFinal
-        My.Settings.sResourceDataDirsFinal = TextBox1.Text
+        'My.Settings.sResourceDataDirsFinal = TextBox1.Text
         ' Save
         My.Settings.Save()
     End Sub
@@ -219,21 +228,21 @@ Public Class Manager
     End Sub
 
     Private Sub Manager_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        Save()
+        If Not exit_without_save Then Save()
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        TextBox1.Text = sResourceDataDirsFinal_Default
-    End Sub
+    'Private Sub Button1_Click(sender As Object, e As EventArgs)
+    '    TextBox1.Text = sResourceDataDirsFinal_Default
+    'End Sub
 
     Private Sub btn_about_Click(sender As Object, e As EventArgs) Handles btn_about.Click
         Dim about As New About
         about.ShowDialog()
     End Sub
 
-    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
-        My.Settings.SetiPresentInterval = CheckBox1.Checked
-    End Sub
+    'Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs)
+    '    My.Settings.SetiPresentInterval = CheckBox1.Checked
+    'End Sub
 
     Private Sub Downloads_Added(ByVal Download As ModDownload) Handles Downloads.Added
         'DataGridView3.Rows.Add(Download.Name)
@@ -249,6 +258,11 @@ Public Class Manager
         'For Each Download As ModDownload In Downloads.Downloads
         '    DataGridView3.Rows.Add(Download.Name, Download.Percentage.ToString + "%")
         'Next
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim options As New Options
+        options.ShowDialog()
     End Sub
 
 End Class

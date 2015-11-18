@@ -5,6 +5,7 @@
     End Sub
 
     Private Sub About_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Icon = System.Drawing.Icon.FromHandle(My.Resources.info.GetHicon)
         Label2.Text = Fallout4ModManager.Update.Version
         If UpdateAvailable Then
             Label4.Visible = True

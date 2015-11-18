@@ -357,4 +357,8 @@ Public Class ModSolver
         help.ShowDialog()
     End Sub
 
+    Private Sub ModSolver_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Icon = System.Drawing.Icon.FromHandle(My.Resources.install.GetHicon)
+    End Sub
+
 End Class

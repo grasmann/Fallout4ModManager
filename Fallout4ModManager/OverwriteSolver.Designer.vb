@@ -25,17 +25,17 @@ Partial Class OverwriteSolver
         Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.OverwriteAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BackupAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.or_overwrite = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.or_name = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.or_extracted_path = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.or_target_path = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.or_backup = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.OverwriteAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BackupAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -67,63 +67,6 @@ Partial Class OverwriteSolver
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DataGridView1.Size = New System.Drawing.Size(784, 429)
         Me.DataGridView1.TabIndex = 0
-        '
-        'Label1
-        '
-        Me.Label1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label1.Location = New System.Drawing.Point(-3, 0)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(787, 34)
-        Me.Label1.TabIndex = 2
-        Me.Label1.Text = "Some files already exist." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Please select files to overwrite."
-        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Button2
-        '
-        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button2.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.Button2.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
-        Me.Button2.Location = New System.Drawing.Point(673, 468)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(75, 36)
-        Me.Button2.TabIndex = 3
-        Me.Button2.Text = "Cancel"
-        Me.Button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.Button2.UseVisualStyleBackColor = True
-        '
-        'Button1
-        '
-        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button1.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
-        Me.Button1.Location = New System.Drawing.Point(603, 468)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(64, 36)
-        Me.Button1.TabIndex = 1
-        Me.Button1.Text = "Ok"
-        Me.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.Button1.UseVisualStyleBackColor = True
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OverwriteAllToolStripMenuItem, Me.BackupAllToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(143, 48)
-        '
-        'OverwriteAllToolStripMenuItem
-        '
-        Me.OverwriteAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
-        Me.OverwriteAllToolStripMenuItem.Name = "OverwriteAllToolStripMenuItem"
-        Me.OverwriteAllToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
-        Me.OverwriteAllToolStripMenuItem.Text = "Overwrite All"
-        '
-        'BackupAllToolStripMenuItem
-        '
-        Me.BackupAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.install
-        Me.BackupAllToolStripMenuItem.Name = "BackupAllToolStripMenuItem"
-        Me.BackupAllToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
-        Me.BackupAllToolStripMenuItem.Text = "Backup All"
         '
         'or_overwrite
         '
@@ -165,6 +108,63 @@ Partial Class OverwriteSolver
         Me.or_backup.HeaderText = "Create Backup"
         Me.or_backup.Name = "or_backup"
         Me.or_backup.Width = 84
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OverwriteAllToolStripMenuItem, Me.BackupAllToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(143, 48)
+        '
+        'OverwriteAllToolStripMenuItem
+        '
+        Me.OverwriteAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
+        Me.OverwriteAllToolStripMenuItem.Name = "OverwriteAllToolStripMenuItem"
+        Me.OverwriteAllToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.OverwriteAllToolStripMenuItem.Text = "Overwrite All"
+        '
+        'BackupAllToolStripMenuItem
+        '
+        Me.BackupAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.install
+        Me.BackupAllToolStripMenuItem.Name = "BackupAllToolStripMenuItem"
+        Me.BackupAllToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.BackupAllToolStripMenuItem.Text = "Backup All"
+        '
+        'Label1
+        '
+        Me.Label1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label1.Location = New System.Drawing.Point(-3, 0)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(787, 34)
+        Me.Label1.TabIndex = 2
+        Me.Label1.Text = "Some files already exist." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Please select files to overwrite."
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Button2
+        '
+        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button2.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.Button2.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
+        Me.Button2.Location = New System.Drawing.Point(673, 468)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 36)
+        Me.Button2.TabIndex = 3
+        Me.Button2.Text = "Cancel"
+        Me.Button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.DialogResult = System.Windows.Forms.DialogResult.OK
+        Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
+        Me.Button1.Location = New System.Drawing.Point(603, 468)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(64, 36)
+        Me.Button1.TabIndex = 1
+        Me.Button1.Text = "Ok"
+        Me.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'OverwriteSolver
         '
