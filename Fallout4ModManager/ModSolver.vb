@@ -331,7 +331,7 @@ Public Class ModSolver
                     End If
                 End If
                 ' Move
-                My.Computer.FileSystem.MoveFile(Directories.Temp + "\" + job.ArchivePath, job.ExtractPath)
+                My.Computer.FileSystem.MoveFile(Directories.Temp + "\" + job.ArchivePath, job.ExtractPath, True)
                 ' Mod file
                 writer.WriteLine(Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.Data) - 1))
             Catch ex As Exception
