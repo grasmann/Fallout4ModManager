@@ -135,7 +135,7 @@ Public Class Manager
         My.Settings.Save()
     End Sub
 
-    Private Sub btn_up_Click(sender As Object, e As EventArgs)
+    Private Sub btn_up_Click(sender As Object, e As EventArgs) Handles btn_up.Click
         If DataGridView1.SelectedRows.Count > 0 Then
             Dim Index As Integer = DataGridView1.SelectedRows(0).Index
             If Index > 1 Then
@@ -149,7 +149,7 @@ Public Class Manager
         End If
     End Sub
 
-    Private Sub btn_down_Click(sender As Object, e As EventArgs)
+    Private Sub btn_down_Click(sender As Object, e As EventArgs) Handles btn_down.Click
         If DataGridView1.SelectedRows.Count > 0 Then
             Dim Index As Integer = DataGridView1.SelectedRows(0).Index
             If Index > 0 And Index < DataGridView1.Rows.Count - 1 Then
