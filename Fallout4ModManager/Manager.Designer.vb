@@ -398,7 +398,7 @@ Partial Class Manager
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources.default_
-        Me.Button1.Location = New System.Drawing.Point(853, 0)
+        Me.Button1.Location = New System.Drawing.Point(730, 0)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 36)
         Me.Button1.TabIndex = 7
@@ -432,7 +432,7 @@ Partial Class Manager
         '
         Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(736, 12)
+        Me.CheckBox1.Location = New System.Drawing.Point(811, 11)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(111, 17)
         Me.CheckBox1.TabIndex = 9
