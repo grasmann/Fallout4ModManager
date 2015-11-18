@@ -16,4 +16,10 @@ Module Extensions
         Return Left(Str, Slash)
     End Function
 
+    <Extension>
+    Public Function Ending(ByVal Str As String) As String
+        Dim Dot As Integer = InStrRev(Str, ".")
+        Return Right(Str, Len(Str) - Dot)
+    End Function
+
 End Module

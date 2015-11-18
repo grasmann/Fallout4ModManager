@@ -7,6 +7,8 @@ Public Class ModSolver
 
     Private common_data_folders As New List(Of String) _
         ({"music", "textures", "interface", "video", "sound", "meshes", "programs", "materials", "lodsettings", "vis", "misc", "scripts", "shadersfx"})
+    Private common_data_files As New List(Of String) _
+        ({"esp", "esm", "bsa", "ba2"})
     Private archive_data As New TreeNode("Data ( Don't disable )")
     Private path As String
     Private extract_jobs As New List(Of ExtractJob)
@@ -128,7 +130,7 @@ Public Class ModSolver
         lbl_status_good.Visible = False
         btn_install.Enabled = False
         For Each Node As TreeNode In TreeView1.Nodes(0).Nodes
-            If common_data_folders.Contains(Node.Text.ToLower) Or Microsoft.VisualBasic.Right(Node.Text.ToLower, 4) = ".esp" Then
+            If common_data_folders.Contains(Node.Text.ToLower) Or common_data_files.Contains(Node.Text.ToLower.Ending) Then
                 Node.Checked = True
                 valid = True
                 lbl_status_good.Visible = True

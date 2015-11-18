@@ -6,6 +6,14 @@ Public Class Manager
 
     Private Const sResourceDataDirsFinal_Default As String = _
         "STRINGS\, TEXTURES\, INTERFACE\, SOUND\, MUSIC\, VIDEO\, MESHES\, PROGRAMS\, MATERIALS\, LODSETTINGS\, VIS\, MISC\, SCRIPTS\, SHADERSFX\"
+    Public Const sResourceStartUpArchiveList_Default As String = _
+        "Fallout4 - Startup.ba2, Fallout4 - Shaders.ba2, Fallout4 - Interface.ba2"
+    Private archives_default As New List(Of String) _
+        ({"Fallout4 - Textures1.ba2", "Fallout4 - Textures2.ba2", "Fallout4 - Textures3.ba2", "Fallout4 - Textures4.ba2", "Fallout4 - Textures5.ba2", _
+          "Fallout4 - Textures6.ba2", "Fallout4 - Textures7.ba2", "Fallout4 - Textures8.ba2", "Fallout4 - Textures9.ba2", "Fallout4 - Startup.ba2", _
+          "Fallout4 - Shaders.ba2", "Fallout4 - Interface.ba2", "Fallout4 - Animations.ba2", "Fallout4 - Interface.ba2", "Fallout4 - Materials.ba2", _
+          "Fallout4 - Meshes.ba2", "Fallout4 - MeshesExtra.ba2", "Fallout4 - Misc.ba2", "Fallout4 - Shaders.ba2", "Fallout4 - Sounds.ba2", _
+          "Fallout4 - Startup.ba2", "Fallout4 - Voices.ba2"})
 
     Private Sub Manager_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -48,9 +56,12 @@ Public Class Manager
 
     Private Sub UpdateUI()
         Dim Dir As String = Directories.Data
-        Dim Esps As List(Of String) = Files.Find(Dir)
+        Dim Esps As List(Of String) = Files.FindPlugins(Dir)
         Dim Active As List(Of String) = Files.GetActivePlugins
+        Dim Archives As List(Of String) = Files.FindArchives(Dir)
+        Dim ActiveArchvies As List(Of String) = Files.ActiveArchives
 
+        ' Plugins
         DataGridView1.Rows.Clear()
         For Each Esp As String In Active
             If EspsContain(Esps, Esp) Or Esp.ToLower = "fallout4.esm" Then
@@ -68,6 +79,15 @@ Public Class Manager
             If Not ListContains(Esp.Filename) Then DataGridView1.Rows.Add(False, Esp.Filename, Esp)
         Next
 
+        ' Archives
+        DataGridView3.Rows.Clear()
+        For Each Archive As String In Archives
+            If Not archives_default.Contains(Archive.Filename) Then
+                DataGridView3.Rows.Add(ActiveArchives.Contains(Archive.Filename), Archive.Filename)
+            End If
+        Next
+
+        ' Installed Mods
         DataGridView2.Rows.Clear()
         Dim InstalledMods As List(Of String) = Files.InstalledMods
         For Each InsMod As String In InstalledMods
@@ -100,7 +120,13 @@ Public Class Manager
         ' Write DLCList.txt
         Files.WriteDLCList(Plugins)
         ' Edit Fallout.ini
-        Files.EditFalloutINI(TextBox1.Text)
+        Dim sResourceStartUpArchiveList As String = sResourceStartUpArchiveList_Default
+        For Each Row As DataGridViewRow In DataGridView3.Rows
+            If Row.Cells(0).Value Then
+                sResourceStartUpArchiveList += ", " + Row.Cells(1).Value
+            End If            
+        Next
+        Files.EditFalloutINI(TextBox1.Text, sResourceStartUpArchiveList)
         ' Edit Fallout4Prefs.ini
         Files.EditFalloutPrefsINI()
         ' Save sResourceDataDirsFinal
@@ -109,7 +135,7 @@ Public Class Manager
         My.Settings.Save()
     End Sub
 
-    Private Sub btn_up_Click(sender As Object, e As EventArgs) Handles btn_up.Click
+    Private Sub btn_up_Click(sender As Object, e As EventArgs)
         If DataGridView1.SelectedRows.Count > 0 Then
             Dim Index As Integer = DataGridView1.SelectedRows(0).Index
             If Index > 1 Then
@@ -120,10 +146,10 @@ Public Class Manager
                 Next
                 DataGridView1.Rows(Index - 1).Selected = True
             End If
-        End If        
+        End If
     End Sub
 
-    Private Sub btn_down_Click(sender As Object, e As EventArgs) Handles btn_down.Click
+    Private Sub btn_down_Click(sender As Object, e As EventArgs)
         If DataGridView1.SelectedRows.Count > 0 Then
             Dim Index As Integer = DataGridView1.SelectedRows(0).Index
             If Index > 0 And Index < DataGridView1.Rows.Count - 1 Then
@@ -153,7 +179,7 @@ Public Class Manager
                 Else
                     btn_down.Enabled = True
                 End If
-            End If            
+            End If
         End If
     End Sub
 

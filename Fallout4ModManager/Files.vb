@@ -4,7 +4,29 @@ Imports System.IO
 
 Module Files
 
-    Public Function Find(ByVal Dir As String) As List(Of String)
+    Public Function FindArchives(ByVal Dir As String) As List(Of String)
+        Dim Plugins As New List(Of String)
+        For Each Plugin As String In My.Computer.FileSystem.GetFiles(Dir, FileIO.SearchOption.SearchTopLevelOnly, "*.ba2", "*.bsa")
+            Plugins.Add(Plugin)
+        Next
+        Return Plugins
+    End Function
+
+    Public Function ActiveArchives() As List(Of String)
+        Dim Archives As New List(Of String)
+        Dim Path As String = Directories.MyGames + "\Fallout4.ini"
+        ' Read
+        Dim sb As New StringBuilder(1024)
+        Dim rt As Integer = GetPrivateProfileString("Archive", "sResourceStartUpArchiveList", "", sb, sb.Capacity, Path) 'Manager.sResourceStartUpArchiveList_Default, sb, sb.Capacity, Path)
+        ' Split
+        Archives = sb.ToString.Split(",").ToList
+        For i = 0 To Archives.Count - 1
+            Archives(i) = Trim(Archives(i))
+        Next
+        Return Archives
+    End Function
+
+    Public Function FindPlugins(ByVal Dir As String) As List(Of String)
         Dim Plugins As New List(Of String)
         For Each Plugin As String In My.Computer.FileSystem.GetFiles(Dir, FileIO.SearchOption.SearchTopLevelOnly, "*.esp")
             Plugins.Add(Plugin)
@@ -86,11 +108,31 @@ Module Files
                                                ByVal lpString As String, ByVal lpFileName As String) As Boolean
     End Function
 
-    Public Sub EditFalloutINI(ByVal sResourceDataDirsFinal As String)
+    <DllImport("kernel32.dll", SetLastError:=True)> _
+    Private Function GetPrivateProfileString(ByVal lpAppName As String, ByVal lpKeyName As String, _
+                            ByVal lpDefault As String, ByVal lpReturnedString As StringBuilder, _
+                            ByVal nSize As Integer, ByVal lpFileName As String) As Integer
+    End Function
+
+    'Private Declare Ansi Function GetPrivateProfileString Lib "kernel32.dll" Alias "GetPrivateProfileStringA" _
+    '    (ByVal lpApplicationName As String, ByVal lpKeyName As String, ByVal lpDefault As String, _
+    '     ByVal lpReturnedString As System.Text.StringBuilder, ByVal nSize As Integer, _
+    '     ByVal lpFileName As String) As Integer
+
+    'Private Declare Function GetPrivateProfileString Lib "kernel32" Alias _
+    '    "GetPrivateProfileStringA" (ByVal lpApplicationName As String, _
+    '        ByVal lpKeyName As String, _
+    '        ByVal lpDefault As String, _
+    '        ByVal lpReturnedString As String, _
+    '        ByVal nSize As Integer, ByVal lpFileName As String) As Integer
+
+    Public Sub EditFalloutINI(ByVal sResourceDataDirsFinal As String, ByVal sResourceStartUpArchiveList As String)
         ' Path
         Dim Path As String = Directories.MyGames + "\Fallout4.ini"
-        ' Write to ini
+        ' Write sResourceDataDirsFinal to ini
         WritePrivateProfileString("Archive", "sResourceDataDirsFinal", sResourceDataDirsFinal, Path)
+        ' Write sResourceStartUpArchiveList to ini
+        WritePrivateProfileString("Archive", "sResourceStartUpArchiveList", sResourceStartUpArchiveList, Path)
     End Sub
 
     Public Sub EditFalloutPrefsINI()

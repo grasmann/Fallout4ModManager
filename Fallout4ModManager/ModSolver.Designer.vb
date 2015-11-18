@@ -115,7 +115,7 @@ Partial Class ModSolver
         '
         'Button1
         '
-        Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources._179
+        Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources.help
         Me.Button1.Location = New System.Drawing.Point(496, 0)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(65, 36)
