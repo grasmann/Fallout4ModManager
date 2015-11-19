@@ -225,4 +225,27 @@ Module Files
         Return False
     End Function
 
+    Public Sub SetAttributes(ByVal directory As String)
+        For Each fileName As String In My.Computer.FileSystem.GetFiles(directory)
+            Try
+                'set the file attributes to ensure that we can delete the file
+                My.Computer.FileSystem.GetFileInfo(fileName).Attributes = FileAttributes.Normal
+            Catch ex As Exception
+                Debug.Print("Could not set attributes on file: " + fileName)
+            End Try
+        Next
+
+        For Each dirName As String In My.Computer.FileSystem.GetDirectories(directory)
+            Try
+                'set the file attributes to ensure that we can delete the directory
+                My.Computer.FileSystem.GetFileInfo(dirName).Attributes = FileAttributes.Directory
+            Catch ex As Exception
+                Debug.Print("Could not set attributes on directory: " + dirName)
+            End Try
+
+            'run through method recursively so that all files and directories are taken care of
+            SetAttributes(dirName)
+        Next
+    End Sub
+
 End Module

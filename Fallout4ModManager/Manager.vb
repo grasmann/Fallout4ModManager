@@ -408,7 +408,19 @@ Public Class Manager
         End If
         Dim Folder As String = Directories.ModCache + "\" + Microsoft.VisualBasic.Left(ModFile, Len(ModFile) - 4)
         If My.Computer.FileSystem.DirectoryExists(Folder) Then
-            My.Computer.FileSystem.DeleteDirectory(Folder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            Try
+                Files.SetAttributes(Folder)
+                My.Computer.FileSystem.DeleteDirectory(Folder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            Catch ex As Exception
+                Debug.Print(ex.Message)
+                Try
+                    System.IO.Directory.Delete(Folder, True)
+                Catch ex2 As Exception
+                    MsgBox("Couldn't delete directory """ + Folder + """.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Error")
+                    Process.Start(Folder)
+                    Debug.Print(ex2.Message)
+                End Try
+            End Try            
         End If
     End Sub
 
