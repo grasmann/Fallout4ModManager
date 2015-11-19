@@ -115,6 +115,7 @@
     <Compile Include="IniSettings.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Log.vb" />
     <Compile Include="Manager.vb">
       <SubType>Form</SubType>
     </Compile>

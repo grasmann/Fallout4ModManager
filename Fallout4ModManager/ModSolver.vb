@@ -6,10 +6,10 @@ Imports System.Security.Permissions
 Public Class ModSolver
 
     Private common_data_folders As New List(Of String) _
-        ({"music", "textures", "interface", "video", "sound", "meshes", "programs", "materials", "lodsettings", "vis", "misc", "scripts", "shadersfx"})
+        ({"music", "textures", "interface", "video", "sound", "meshes", "programs", "materials", "lodsettings", "vis", "misc", "scripts", "shadersfx", "strings"})
     Private common_data_files As New List(Of String) _
         ({"esp", "esm", "bsa", "ba2"})
-    Private archive_data As New TreeNode("Data ( Don't disable )")
+    Private archive_data As New TreeNode("Data ( don't disable )")
     Private path As String
     Private extract_jobs As New List(Of ExtractJob)
     Private WithEvents extracter As SevenZipExtractor

@@ -1,8 +1,10 @@
 ﻿Imports SevenZip
+Imports System.IO
 
 Public Class Manager
 
     Public WithEvents Downloads As New ModDownloads
+    Public Shared CreateLog As Boolean
 
     Private Const sResourceDataDirsFinal_Default As String = _
         "STRINGS\, TEXTURES\, INTERFACE\, SOUND\, MUSIC\, VIDEO\, MESHES\, PROGRAMS\, MATERIALS\, LODSETTINGS\, VIS\, MISC\, SCRIPTS\, SHADERSFX\"
@@ -19,16 +21,29 @@ Public Class Manager
 
     Private Sub Manager_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        If CreateLog Then Log.CreateWriter()
+
         If Environment.Is64BitProcess Then
+            If CreateLog Then Log.Log("Attempting to load 7z64.dll")
             SevenZipExtractor.SetLibraryPath(Application.StartupPath + "\7z64.dll")
         Else
+            If CreateLog Then Log.Log("Attempting to load 7z.dll")
             SevenZipExtractor.SetLibraryPath(Application.StartupPath + "\7z.dll")
         End If
 
+        If CreateLog Then Log.Log("Attempting to fetch fallout 4 directory")
         If Not Directories.CheckInstall() Then
+            If CreateLog Then Log.Log("Fallout 4 directory wasn't specified. Program is closing now.")
             exit_without_save = True
+            MsgBox("Fallout 4 directory wasn't specified." + vbCrLf + "Program is closing now.", MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Error")
             Application.Exit()
         End If
+
+        If CreateLog Then
+            If Not exit_without_save Then
+                Log.Log("Startup complete.")
+            End If
+        End If        
 
     End Sub
 
@@ -38,7 +53,8 @@ Public Class Manager
         UpdateUI()
 
         ' sResourceDataDirsFinal
-        If String.IsNullOrEmpty(My.Settings.sResourceDataDirsFinal) Then My.Settings.sResourceDataDirsFinal = sResourceDataDirsFinal_Default
+        If String.IsNullOrEmpty(My.Settings.sResourceDataDirsFinal) Then _
+            My.Settings.sResourceDataDirsFinal = sResourceDataDirsFinal_Default
         'TextBox1.Text = My.Settings.sResourceDataDirsFinal
 
         ' iPresentInterval
