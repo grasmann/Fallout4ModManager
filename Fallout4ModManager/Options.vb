@@ -18,6 +18,7 @@
         TextBox1.Text = My.Settings.sResourceDataDirsFinal
         TextBox2.Text = My.Settings.InstallDir
         CheckBox1.Checked = My.Settings.SetiPresentInterval
+        CheckBox2.Checked = My.Settings.CleanDirectories
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -37,6 +38,7 @@
             My.Settings.InstallDir = TextBox2.Text
             My.Settings.sResourceDataDirsFinal = TextBox1.Text
             My.Settings.SetiPresentInterval = CheckBox1.Checked
+            My.Settings.CleanDirectories = CheckBox2.Checked
         End If        
     End Sub
 
@@ -51,6 +53,14 @@
         If folderdiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
             TextBox2.Text = folderdiag.FileName.Folder
         End If
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Dim Count As Integer
+        Directories.DirectoryCount(Directories.Data, Count)
+        ProgressBar1.Maximum = Count
+        Directories.CleanDirectories(Directories.Data, ProgressBar1)
+        ProgressBar1.Value = 0
     End Sub
 
 End Class

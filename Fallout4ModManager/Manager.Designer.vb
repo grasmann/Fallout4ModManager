@@ -29,13 +29,12 @@ Partial Class Manager
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Manager))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.btn_down = New System.Windows.Forms.Button()
-        Me.btn_up = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.esp_active = New System.Windows.Forms.DataGridViewCheckBoxColumn()
@@ -46,14 +45,21 @@ Partial Class Manager
         Me.DataGridViewCheckBoxColumn1 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.btn_deinstall = New System.Windows.Forms.Button()
-        Me.DataGridView2 = New System.Windows.Forms.DataGridView()
-        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.mod_txt = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.dgv_mods = New System.Windows.Forms.DataGridView()
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.mods_active = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.mods_name = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.mods_txt = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.mods_warning = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.btn_about = New System.Windows.Forms.Button()
         Me.btn_play = New System.Windows.Forms.Button()
         Me.btn_install = New System.Windows.Forms.Button()
+        Me.btn_down = New System.Windows.Forms.Button()
+        Me.btn_up = New System.Windows.Forms.Button()
+        Me.btn_deactivate = New System.Windows.Forms.Button()
+        Me.btn_activate = New System.Windows.Forms.Button()
+        Me.btn_deinstall = New System.Windows.Forms.Button()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -64,7 +70,7 @@ Partial Class Manager
         Me.SplitContainer2.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dgv_mods, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -81,8 +87,10 @@ Partial Class Manager
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btn_deactivate)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btn_activate)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btn_deinstall)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.DataGridView2)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.dgv_mods)
         Me.SplitContainer1.Size = New System.Drawing.Size(1002, 462)
         Me.SplitContainer1.SplitterDistance = 450
         Me.SplitContainer1.TabIndex = 2
@@ -108,28 +116,6 @@ Partial Class Manager
         Me.SplitContainer2.Size = New System.Drawing.Size(450, 462)
         Me.SplitContainer2.SplitterDistance = 328
         Me.SplitContainer2.TabIndex = 7
-        '
-        'btn_down
-        '
-        Me.btn_down.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_down.Enabled = False
-        Me.btn_down.Image = Global.Fallout4ModManager.My.Resources.Resources.down
-        Me.btn_down.Location = New System.Drawing.Point(411, 52)
-        Me.btn_down.Name = "btn_down"
-        Me.btn_down.Size = New System.Drawing.Size(36, 36)
-        Me.btn_down.TabIndex = 10
-        Me.btn_down.UseVisualStyleBackColor = True
-        '
-        'btn_up
-        '
-        Me.btn_up.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_up.Enabled = False
-        Me.btn_up.Image = Global.Fallout4ModManager.My.Resources.Resources.up
-        Me.btn_up.Location = New System.Drawing.Point(411, 16)
-        Me.btn_up.Name = "btn_up"
-        Me.btn_up.Size = New System.Drawing.Size(36, 36)
-        Me.btn_up.TabIndex = 9
-        Me.btn_up.UseVisualStyleBackColor = True
         '
         'Label2
         '
@@ -285,76 +271,94 @@ Partial Class Manager
         Me.DataGridViewTextBoxColumn3.ReadOnly = True
         Me.DataGridViewTextBoxColumn3.Visible = False
         '
-        'btn_deinstall
+        'dgv_mods
         '
-        Me.btn_deinstall.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_deinstall.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
-        Me.btn_deinstall.Location = New System.Drawing.Point(512, 0)
-        Me.btn_deinstall.Name = "btn_deinstall"
-        Me.btn_deinstall.Size = New System.Drawing.Size(36, 36)
-        Me.btn_deinstall.TabIndex = 4
-        Me.btn_deinstall.UseVisualStyleBackColor = True
-        '
-        'DataGridView2
-        '
-        Me.DataGridView2.AllowUserToAddRows = False
-        Me.DataGridView2.AllowUserToDeleteRows = False
-        Me.DataGridView2.AllowUserToResizeRows = False
+        Me.dgv_mods.AllowUserToAddRows = False
+        Me.dgv_mods.AllowUserToDeleteRows = False
+        Me.dgv_mods.AllowUserToResizeRows = False
         DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control
         DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText
         DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText
-        Me.DataGridView2.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle7
-        Me.DataGridView2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.dgv_mods.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle7
+        Me.dgv_mods.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DataGridView2.BackgroundColor = System.Drawing.SystemColors.Control
-        Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.mod_txt})
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle8.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.MenuText
-        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DataGridView2.DefaultCellStyle = DataGridViewCellStyle8
-        Me.DataGridView2.GridColor = System.Drawing.SystemColors.Control
-        Me.DataGridView2.Location = New System.Drawing.Point(1, 0)
-        Me.DataGridView2.MultiSelect = False
-        Me.DataGridView2.Name = "DataGridView2"
+        Me.dgv_mods.BackgroundColor = System.Drawing.SystemColors.Control
+        Me.dgv_mods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgv_mods.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.mods_active, Me.mods_name, Me.mods_txt, Me.mods_warning})
         DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control
         DataGridViewCellStyle9.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText
         DataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView2.RowHeadersDefaultCellStyle = DataGridViewCellStyle9
-        Me.DataGridView2.RowHeadersVisible = False
-        Me.DataGridView2.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.SystemColors.Control
-        Me.DataGridView2.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.DataGridView2.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        Me.DataGridView2.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.ControlText
-        Me.DataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView2.Size = New System.Drawing.Size(510, 462)
-        Me.DataGridView2.TabIndex = 3
+        DataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.MenuText
+        DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.dgv_mods.DefaultCellStyle = DataGridViewCellStyle9
+        Me.dgv_mods.GridColor = System.Drawing.SystemColors.Control
+        Me.dgv_mods.Location = New System.Drawing.Point(1, 0)
+        Me.dgv_mods.MultiSelect = False
+        Me.dgv_mods.Name = "dgv_mods"
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle10.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_mods.RowHeadersDefaultCellStyle = DataGridViewCellStyle10
+        Me.dgv_mods.RowHeadersVisible = False
+        Me.dgv_mods.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.SystemColors.Control
+        Me.dgv_mods.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.dgv_mods.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        Me.dgv_mods.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.ControlText
+        Me.dgv_mods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.dgv_mods.Size = New System.Drawing.Size(510, 462)
+        Me.dgv_mods.TabIndex = 3
         '
-        'DataGridViewTextBoxColumn1
+        'ProgressBar1
         '
-        Me.DataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.DataGridViewTextBoxColumn1.HeaderText = "Installed Mods"
-        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
-        Me.DataGridViewTextBoxColumn1.ReadOnly = True
-        Me.DataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.ProgressBar1.Location = New System.Drawing.Point(213, 1)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(714, 34)
+        Me.ProgressBar1.TabIndex = 10
         '
-        'mod_txt
+        'mods_active
         '
-        Me.mod_txt.HeaderText = "Textfile"
-        Me.mod_txt.Name = "mod_txt"
-        Me.mod_txt.ReadOnly = True
-        Me.mod_txt.Visible = False
+        Me.mods_active.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.mods_active.HeaderText = "Active"
+        Me.mods_active.Name = "mods_active"
+        Me.mods_active.ReadOnly = True
+        Me.mods_active.Width = 43
+        '
+        'mods_name
+        '
+        Me.mods_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.mods_name.HeaderText = "Installed Mods"
+        Me.mods_name.Name = "mods_name"
+        Me.mods_name.ReadOnly = True
+        Me.mods_name.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.mods_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        '
+        'mods_txt
+        '
+        Me.mods_txt.HeaderText = "Textfile"
+        Me.mods_txt.Name = "mods_txt"
+        Me.mods_txt.ReadOnly = True
+        Me.mods_txt.Visible = False
+        '
+        'mods_warning
+        '
+        Me.mods_warning.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader
+        DataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle8.ForeColor = System.Drawing.Color.Red
+        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Red
+        Me.mods_warning.DefaultCellStyle = DataGridViewCellStyle8
+        Me.mods_warning.HeaderText = "Warning"
+        Me.mods_warning.Name = "mods_warning"
+        Me.mods_warning.ReadOnly = True
+        Me.mods_warning.Width = 5
         '
         'Button1
         '
@@ -401,11 +405,64 @@ Partial Class Manager
         Me.btn_install.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btn_install.UseVisualStyleBackColor = True
         '
+        'btn_down
+        '
+        Me.btn_down.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_down.Enabled = False
+        Me.btn_down.Image = Global.Fallout4ModManager.My.Resources.Resources.down
+        Me.btn_down.Location = New System.Drawing.Point(411, 52)
+        Me.btn_down.Name = "btn_down"
+        Me.btn_down.Size = New System.Drawing.Size(36, 36)
+        Me.btn_down.TabIndex = 10
+        Me.btn_down.UseVisualStyleBackColor = True
+        '
+        'btn_up
+        '
+        Me.btn_up.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_up.Enabled = False
+        Me.btn_up.Image = Global.Fallout4ModManager.My.Resources.Resources.up
+        Me.btn_up.Location = New System.Drawing.Point(411, 16)
+        Me.btn_up.Name = "btn_up"
+        Me.btn_up.Size = New System.Drawing.Size(36, 36)
+        Me.btn_up.TabIndex = 9
+        Me.btn_up.UseVisualStyleBackColor = True
+        '
+        'btn_deactivate
+        '
+        Me.btn_deactivate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_deactivate.Image = Global.Fallout4ModManager.My.Resources.Resources.deactivate
+        Me.btn_deactivate.Location = New System.Drawing.Point(512, 35)
+        Me.btn_deactivate.Name = "btn_deactivate"
+        Me.btn_deactivate.Size = New System.Drawing.Size(36, 36)
+        Me.btn_deactivate.TabIndex = 6
+        Me.btn_deactivate.UseVisualStyleBackColor = True
+        '
+        'btn_activate
+        '
+        Me.btn_activate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_activate.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
+        Me.btn_activate.Location = New System.Drawing.Point(512, -1)
+        Me.btn_activate.Name = "btn_activate"
+        Me.btn_activate.Size = New System.Drawing.Size(36, 36)
+        Me.btn_activate.TabIndex = 5
+        Me.btn_activate.UseVisualStyleBackColor = True
+        '
+        'btn_deinstall
+        '
+        Me.btn_deinstall.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_deinstall.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
+        Me.btn_deinstall.Location = New System.Drawing.Point(512, 77)
+        Me.btn_deinstall.Name = "btn_deinstall"
+        Me.btn_deinstall.Size = New System.Drawing.Size(36, 36)
+        Me.btn_deinstall.TabIndex = 4
+        Me.btn_deinstall.UseVisualStyleBackColor = True
+        '
         'Manager
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1004, 520)
+        Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.btn_about)
         Me.Controls.Add(Me.btn_play)
@@ -428,17 +485,15 @@ Partial Class Manager
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dgv_mods, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents btn_install As System.Windows.Forms.Button
     Friend WithEvents btn_play As System.Windows.Forms.Button
-    Friend WithEvents DataGridView2 As System.Windows.Forms.DataGridView
+    Friend WithEvents dgv_mods As System.Windows.Forms.DataGridView
     Friend WithEvents btn_deinstall As System.Windows.Forms.Button
-    Friend WithEvents DataGridViewTextBoxColumn1 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents mod_txt As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents btn_about As System.Windows.Forms.Button
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents Label2 As System.Windows.Forms.Label
@@ -454,5 +509,12 @@ Partial Class Manager
     Friend WithEvents DataGridViewTextBoxColumn3 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents btn_deactivate As System.Windows.Forms.Button
+    Friend WithEvents btn_activate As System.Windows.Forms.Button
+    Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar
+    Friend WithEvents mods_active As System.Windows.Forms.DataGridViewCheckBoxColumn
+    Friend WithEvents mods_name As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents mods_txt As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents mods_warning As System.Windows.Forms.DataGridViewTextBoxColumn
 
 End Class

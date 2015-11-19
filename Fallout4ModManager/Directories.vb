@@ -49,6 +49,14 @@ Module Directories
         Return Path
     End Function
 
+    Public Function ModCache() As String
+        Dim Path As String = Directories.Mods + "\Cache"
+        If Not My.Computer.FileSystem.DirectoryExists(Path) Then
+            My.Computer.FileSystem.CreateDirectory(Path)
+        End If
+        Return Path
+    End Function
+
     Public Function Temp() As String
         Dim Path As String = Directories.Mods + "\f4mm_install"
         If Not My.Computer.FileSystem.DirectoryExists(Path) Then
@@ -65,10 +73,20 @@ Module Directories
         Return Path
     End Function
 
-    Public Sub CleanDirectories(ByVal Dir As String)
+    Public Sub DirectoryCount(ByVal Dir As String, ByRef Count As Integer)
         For Each folder As String In Directory.GetDirectories(Dir)
-            CleanDirectories(folder)
+            Count += 1
+            DirectoryCount(folder, Count)
+        Next
+    End Sub
+
+    Public Sub CleanDirectories(ByVal Dir As String, ByVal Progressbar As ProgressBar)
+        For Each folder As String In Directory.GetDirectories(Dir)
+            CleanDirectories(folder, Progressbar)
             Try
+                If Progressbar.Value < Progressbar.Maximum Then
+                    Progressbar.Value += 1
+                End If
                 My.Computer.FileSystem.DeleteDirectory(folder, FileIO.DeleteDirectoryOption.ThrowIfDirectoryNonEmpty)
             Catch ex As Exception
                 Debug.Print(ex.Message)

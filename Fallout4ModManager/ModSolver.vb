@@ -192,11 +192,10 @@ Public Class ModSolver
         Return change
     End Function
 
-    Private Sub btn_install_Click(sender As Object, e As EventArgs) Handles btn_install.Click
-        writer = My.Computer.FileSystem.OpenTextFileWriter(Directories.Mods + "\" + path.Filename + ".txt", False)
+    Private Sub btn_install_Click(sender As Object, e As EventArgs) Handles btn_install.Click        
         extracter = New SevenZipExtractor(path)
         already_exist = New List(Of ExtractJob)
-        Preprocess(TreeView1.Nodes(0), Directories.Data)
+        Preprocess(TreeView1.Nodes(0), Directories.ModCache + "\" + path.Filename)
         Install()
     End Sub
 
@@ -264,11 +263,13 @@ Public Class ModSolver
                 If Not SubNode.ToolTipText = "Dir" Then
                     Dim filepath As String = Dir + "\" + SubNode.Text
 
-                    If My.Computer.FileSystem.FileExists(filepath) Then
-                        already_exist.Add(New ExtractJob(SubNode.Tag, filepath))
-                    Else
-                        extract_jobs.Add(New ExtractJob(SubNode.Tag, filepath))
-                    End If
+                    extract_jobs.Add(New ExtractJob(SubNode.Tag, filepath))
+
+                    'If My.Computer.FileSystem.FileExists(filepath) Then
+                    '    already_exist.Add(New ExtractJob(SubNode.Tag, filepath))
+                    'Else
+                    '    extract_jobs.Add(New ExtractJob(SubNode.Tag, filepath))
+                    'End If
 
                 Else
                     My.Computer.FileSystem.CreateDirectory(Dir + "\" + SubNode.Text)
@@ -289,8 +290,6 @@ Public Class ModSolver
         If already_exist.Count > 0 Then
             Dim overwrite As New OverwriteSolver(already_exist, overwrite_files)
             If overwrite.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
-                writer.Close()
-                My.Computer.FileSystem.DeleteFile(Directories.Mods + "\" + path.Filename + ".txt")
                 Exit Sub
             End If
         End If
@@ -298,7 +297,7 @@ Public Class ModSolver
         For Each job As ExtractJob In overwrite_files
             extract_jobs.Add(job)
         Next
-
+        writer = My.Computer.FileSystem.OpenTextFileWriter(Directories.ModCache + "\" + path.Filename + ".txt", False)
         ProcessExtractB()
     End Sub
 
@@ -333,7 +332,7 @@ Public Class ModSolver
                 ' Move
                 My.Computer.FileSystem.MoveFile(Directories.Temp + "\" + job.ArchivePath, job.ExtractPath, True)
                 ' Mod file
-                writer.WriteLine(Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.Data) - 1))
+                writer.WriteLine(Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.ModCache) - 1))
             Catch ex As Exception
                 MsgBox("Mod Manager doesn't have permission to write to folder """ + Directories.Temp + """.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Permission Error")
             End Try
