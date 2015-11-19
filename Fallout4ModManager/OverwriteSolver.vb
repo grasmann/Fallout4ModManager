@@ -40,4 +40,16 @@
         Icon = System.Drawing.Icon.FromHandle(My.Resources.install.GetHicon)
     End Sub
 
+    Private Sub OverwriteNoneToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OverwriteNoneToolStripMenuItem.Click
+        For Each Row As DataGridViewRow In DataGridView1.Rows
+            Row.Cells(0).Value = False
+        Next
+    End Sub
+
+    Private Sub BackupNoneToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BackupNoneToolStripMenuItem.Click
+        For Each Row As DataGridViewRow In DataGridView1.Rows
+            Row.Cells(4).Value = False
+        Next
+    End Sub
+
 End Class

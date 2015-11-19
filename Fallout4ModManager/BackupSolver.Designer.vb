@@ -102,20 +102,20 @@ Partial Class BackupSolver
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RestoreAllToolStripMenuItem, Me.DeleteAllToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(131, 48)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 70)
         '
         'RestoreAllToolStripMenuItem
         '
         Me.RestoreAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
         Me.RestoreAllToolStripMenuItem.Name = "RestoreAllToolStripMenuItem"
-        Me.RestoreAllToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.RestoreAllToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.RestoreAllToolStripMenuItem.Text = "Restore All"
         '
         'DeleteAllToolStripMenuItem
         '
         Me.DeleteAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
         Me.DeleteAllToolStripMenuItem.Name = "DeleteAllToolStripMenuItem"
-        Me.DeleteAllToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.DeleteAllToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.DeleteAllToolStripMenuItem.Text = "Delete All"
         '
         'Button1

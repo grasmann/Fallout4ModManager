@@ -51,6 +51,10 @@ Fallout4ModManager
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:Fallout4ModManager.My.Resources.Resources.none">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:Fallout4ModManager.My.Resources.Resources.ok">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.

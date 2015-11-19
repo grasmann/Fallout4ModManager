@@ -31,11 +31,14 @@ Partial Class OverwriteSolver
         Me.or_target_path = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.or_backup = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.OverwriteAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BackupAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.OverwriteNoneToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.OverwriteAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BackupAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BackupNoneToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -107,27 +110,13 @@ Partial Class OverwriteSolver
         Me.or_backup.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.or_backup.HeaderText = "Create Backup"
         Me.or_backup.Name = "or_backup"
-        Me.or_backup.Width = 84
+        Me.or_backup.Width = 76
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OverwriteAllToolStripMenuItem, Me.BackupAllToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OverwriteAllToolStripMenuItem, Me.OverwriteNoneToolStripMenuItem, Me.ToolStripSeparator1, Me.BackupAllToolStripMenuItem, Me.BackupNoneToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(143, 48)
-        '
-        'OverwriteAllToolStripMenuItem
-        '
-        Me.OverwriteAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
-        Me.OverwriteAllToolStripMenuItem.Name = "OverwriteAllToolStripMenuItem"
-        Me.OverwriteAllToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
-        Me.OverwriteAllToolStripMenuItem.Text = "Overwrite All"
-        '
-        'BackupAllToolStripMenuItem
-        '
-        Me.BackupAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.install
-        Me.BackupAllToolStripMenuItem.Name = "BackupAllToolStripMenuItem"
-        Me.BackupAllToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
-        Me.BackupAllToolStripMenuItem.Text = "Backup All"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(158, 98)
         '
         'Label1
         '
@@ -139,6 +128,18 @@ Partial Class OverwriteSolver
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "Some files already exist." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Please select files to overwrite."
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'OverwriteNoneToolStripMenuItem
+        '
+        Me.OverwriteNoneToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
+        Me.OverwriteNoneToolStripMenuItem.Name = "OverwriteNoneToolStripMenuItem"
+        Me.OverwriteNoneToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.OverwriteNoneToolStripMenuItem.Text = "Overwrite None"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(154, 6)
         '
         'Button2
         '
@@ -165,6 +166,27 @@ Partial Class OverwriteSolver
         Me.Button1.Text = "Ok"
         Me.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.Button1.UseVisualStyleBackColor = True
+        '
+        'OverwriteAllToolStripMenuItem
+        '
+        Me.OverwriteAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
+        Me.OverwriteAllToolStripMenuItem.Name = "OverwriteAllToolStripMenuItem"
+        Me.OverwriteAllToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.OverwriteAllToolStripMenuItem.Text = "Overwrite All"
+        '
+        'BackupAllToolStripMenuItem
+        '
+        Me.BackupAllToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.install
+        Me.BackupAllToolStripMenuItem.Name = "BackupAllToolStripMenuItem"
+        Me.BackupAllToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.BackupAllToolStripMenuItem.Text = "Backup All"
+        '
+        'BackupNoneToolStripMenuItem
+        '
+        Me.BackupNoneToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.none
+        Me.BackupNoneToolStripMenuItem.Name = "BackupNoneToolStripMenuItem"
+        Me.BackupNoneToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.BackupNoneToolStripMenuItem.Text = "Backup None"
         '
         'OverwriteSolver
         '
@@ -196,4 +218,7 @@ Partial Class OverwriteSolver
     Friend WithEvents or_extracted_path As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents or_target_path As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents or_backup As System.Windows.Forms.DataGridViewCheckBoxColumn
+    Friend WithEvents OverwriteNoneToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents BackupNoneToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

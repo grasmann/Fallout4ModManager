@@ -277,6 +277,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\55.png" />
     <None Include="Resources\134.png" />
     <None Include="Resources\7.png" />
     <None Include="Resources\142.png" />
