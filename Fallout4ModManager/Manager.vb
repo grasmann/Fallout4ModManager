@@ -18,6 +18,7 @@ Public Class Manager
           "Fallout4 - Startup.ba2", "Fallout4 - Voices.ba2"})
 
     Private exit_without_save As Boolean
+    Private listen_to_cell_changes As Boolean
 
     Private Sub Manager_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -115,6 +116,7 @@ Public Class Manager
         Dim ActiveMods As List(Of String) = Files.ActiveMods
         Dim InstalledMods As List(Of String) = Files.InstalledMods
         ' Mods
+        listen_to_cell_changes = False
         dgv_mods.Rows.Clear()
         Dim Name As String
         Dim Warning As String = "Reinstall to use deactivate feature!"
@@ -141,6 +143,7 @@ Public Class Manager
             End If
         Next
         If hide_warning Then dgv_mods.Columns("mods_warning").Visible = False
+        listen_to_cell_changes = True
 
     End Sub
 
@@ -262,8 +265,6 @@ Public Class Manager
                 '    UninstallMod(dgv_mods.SelectedRows(0).Cells("mod_txt").Value)
                 '    UpdateUI()
                 UninstallMod(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
-                ' Update
-                UpdateUI()
             End If
         End If        
     End Sub
@@ -351,6 +352,10 @@ Public Class Manager
             writer.WriteLine(Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.Data) - 1))
         Next
         writer.Close()
+        ' Save
+        Save()
+        ' Update
+        UpdateUI()
     End Sub
 
     Private Sub DeactivateMod(ByVal ModFile As String)
@@ -398,6 +403,10 @@ Public Class Manager
                 ProgressBar1.Value = 0
             End If            
         End If
+        ' Save
+        Save()
+        ' Update
+        UpdateUI()
     End Sub
 
     Private Sub UninstallMod(ByVal ModFile As String)
@@ -422,22 +431,22 @@ Public Class Manager
                 End Try
             End Try            
         End If
+        ' Save
+        Save()
+        ' Update
+        UpdateUI()
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles btn_activate.Click
         If dgv_mods.SelectedRows.Count > 0 Then
             ActivateMod(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
         End If
-        ' Update
-        UpdateUI()
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles btn_deactivate.Click
         If dgv_mods.SelectedRows.Count > 0 Then
             DeactivateMod(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
-        End If
-        ' Update
-        UpdateUI()
+        End If        
     End Sub
 
     Private Sub dgv_mods_SelectionChanged(sender As Object, e As EventArgs) Handles dgv_mods.SelectionChanged
@@ -457,6 +466,23 @@ Public Class Manager
                 btn_deinstall.Enabled = False
             End If
         End If        
+    End Sub
+
+    Private Sub dgv_mods_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_mods.CellValueChanged
+        If e.ColumnIndex = 0 And e.RowIndex > -1 And listen_to_cell_changes Then
+            Select Case dgv_mods.Rows(e.RowIndex).Cells("mods_active").Value
+                Case True
+                    ActivateMod(dgv_mods.Rows(e.RowIndex).Cells("mods_txt").Value)
+                Case Else
+                    DeactivateMod(dgv_mods.Rows(e.RowIndex).Cells("mods_txt").Value)
+            End Select
+        End If
+    End Sub
+
+    Private Sub dgv_mods_CellMouseUp(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgv_mods.CellMouseUp
+        If e.ColumnIndex = 0 And e.RowIndex > -1 And listen_to_cell_changes Then
+            dgv_mods.EndEdit()
+        End If
     End Sub
 
 End Class
