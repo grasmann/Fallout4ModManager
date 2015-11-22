@@ -1,5 +1,6 @@
 ﻿Imports SevenZip
 Imports System.IO
+Imports System.Xml
 Imports System.Security
 Imports System.Security.Permissions
 
@@ -8,16 +9,20 @@ Public Class ModSolver
     Private common_data_folders As New List(Of String) _
         ({"music", "textures", "interface", "video", "sound", "meshes", "programs", "materials", "lodsettings", "vis", "misc", "scripts", "shadersfx", "strings"})
     Private common_data_files As New List(Of String) _
-        ({"esp", "esm", "bsa", "ba2"})
+        ({"esp", "esm", "bsa", "ba2", "ini"})
     Private archive_data As New TreeNode("Data ( don't disable )")
     Private path As String
     Private extract_jobs As New List(Of ExtractJob)
     Private WithEvents extracter As SevenZipExtractor
-    Private writer As StreamWriter
+    'Private writer As StreamWriter
     Private extractor_working As Boolean
     Private add_folder_node As TreeNode
 
     Private already_exist As New List(Of ExtractJob)
+
+    Private _name As String
+    Private _version As String
+    Private _id As Integer
 
 #Region "Start"
 
@@ -192,7 +197,8 @@ Public Class ModSolver
         Return change
     End Function
 
-    Private Sub btn_install_Click(sender As Object, e As EventArgs) Handles btn_install.Click        
+    Private Sub btn_install_Click(sender As Object, e As EventArgs) Handles btn_install.Click
+        DialogResult = Windows.Forms.DialogResult.OK
         extracter = New SevenZipExtractor(path)
         already_exist = New List(Of ExtractJob)
         Preprocess(TreeView1.Nodes(0), Directories.ModCache + "\" + path.Filename)
@@ -253,6 +259,24 @@ Public Class ModSolver
                 MsgBox("The mod manager can't open file """ + path + """." + vbCrLf + "The file might be corrutped.")
             End Try
         End Using
+        Dim info As String = path + ".xml"
+        If My.Computer.FileSystem.FileExists(info) Then
+            Dim doc As New Xml.XmlDocument
+            Dim node As Xml.XmlNode
+            doc.Load(info)
+            Try
+                node = doc.GetElementsByTagName("Info")(0)
+                _name = node.Attributes("Name").Value
+                _version = node.Attributes("Version").Value
+                _id = Val(node.Attributes("ID").Value)
+                Exit Sub
+            Catch ex As Exception
+                MsgBox("The mod manager can't open file """ + info + """." + vbCrLf + "The file might be corrutped.")
+            End Try            
+        End If
+        _name = path.Filename
+        _version = "N/A"
+        _id = 0
     End Sub
 
     Private Sub Preprocess(ByVal Node As TreeNode, ByVal Dir As String)
@@ -296,8 +320,7 @@ Public Class ModSolver
         ' Add overwrite files
         For Each job As ExtractJob In overwrite_files
             extract_jobs.Add(job)
-        Next
-        writer = My.Computer.FileSystem.OpenTextFileWriter(Directories.ModCache + "\" + path.Filename + ".txt", False)
+        Next        
         ProcessExtractB()
     End Sub
 
@@ -321,6 +344,7 @@ Public Class ModSolver
     End Sub
 
     Private Sub extracter_ExtractionFinished(sender As Object, e As EventArgs) Handles extracter.ExtractionFinished
+        'Dim writer As StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(Directories.ModCache + "\" + path.Filename + ".txt", False)
         For Each job As ExtractJob In extract_jobs
             Try
                 ' Backup
@@ -332,17 +356,22 @@ Public Class ModSolver
                 ' Move
                 My.Computer.FileSystem.MoveFile(Directories.Temp + "\" + job.ArchivePath, job.ExtractPath, True)
                 ' Mod file
-                writer.WriteLine(Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.ModCache) - 1))
+                'writer.WriteLine(Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.ModCache) - 1))
             Catch ex As Exception
                 MsgBox("Mod Manager doesn't have permission to write to folder """ + Directories.Temp + """.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Permission Error")
             End Try
         Next
+        ' Release
+        extracter.Dispose()
+        ' Create mod file
+        CreateModFile(extract_jobs)
         ' Close
         extractor_working = False
-        writer.Close()
+        'writer.Close()
         ' Delete temp folder
         Try
             My.Computer.FileSystem.DeleteDirectory(Directories.Temp, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            DialogResult = Windows.Forms.DialogResult.OK
             Me.Close()
         Catch ex As Exception
             MsgBox("Mod Manager doesn't have permission to delete to folder """ + Directories.Temp + """.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Permission Error")
@@ -351,6 +380,31 @@ Public Class ModSolver
 
 #End Region
 
+    Private Sub CreateModFile(ByVal Files As List(Of ExtractJob))
+        Dim doc As New XmlDocument
+        Dim declaration As XmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
+
+        Dim root As XmlElement = doc.CreateElement("Mod")
+        doc.InsertBefore(declaration, doc.DocumentElement)
+        doc.AppendChild(root)
+
+        Dim info As XmlElement = doc.CreateElement("Info")
+        info.SetAttribute("Name", _name)
+        info.SetAttribute("ID", _id.ToString)
+        info.SetAttribute("Version", _version)
+        doc.DocumentElement.AppendChild(info)
+
+        Dim filelist As XmlElement = doc.CreateElement("Files")
+        doc.DocumentElement.AppendChild(filelist)
+        For Each job As ExtractJob In Files
+            Dim file As XmlElement = doc.CreateElement("File")
+            file.SetAttribute("Path", Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.ModCache) - 1))
+            filelist.AppendChild(file)
+        Next        
+
+        doc.Save(Directories.ModCache + "\" + path.Filename + ".xml")
+    End Sub
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim help As New ModSolverHelp
         help.ShowDialog()
@@ -358,6 +412,10 @@ Public Class ModSolver
 
     Private Sub ModSolver_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Icon = System.Drawing.Icon.FromHandle(My.Resources.install.GetHicon)
+    End Sub
+
+    Private Sub btn_cancel_Click(sender As Object, e As EventArgs) Handles btn_cancel.Click
+        DialogResult = Windows.Forms.DialogResult.Cancel
     End Sub
 
 End Class

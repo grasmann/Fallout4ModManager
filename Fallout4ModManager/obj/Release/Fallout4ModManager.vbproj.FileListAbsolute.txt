@@ -30,3 +30,6 @@ F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Release\Fallout4
 F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Release\Fallout4ModManager.IniSettings.resources
 F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Release\Fallout4ModManager.ModSolverHelp.resources
 F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Release\Fallout4ModManager.Options.resources
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\bin\Release\AdvancedDownloadClient.dll
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Release\Fallout4ModManager.EditModInfo.resources
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Release\Fallout4ModManager.Login.resources

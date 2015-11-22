@@ -19,6 +19,8 @@
         TextBox2.Text = My.Settings.InstallDir
         CheckBox1.Checked = My.Settings.SetiPresentInterval
         CheckBox2.Checked = My.Settings.CleanDirectories
+        TextBox3.Text = My.Settings.NexusUser
+        TextBox4.Text = My.Settings.NexusPassword
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -39,6 +41,8 @@
             My.Settings.sResourceDataDirsFinal = TextBox1.Text
             My.Settings.SetiPresentInterval = CheckBox1.Checked
             My.Settings.CleanDirectories = CheckBox2.Checked
+            My.Settings.NexusUser = TextBox3.Text
+            My.Settings.NexusPassword = TextBox4.Text
         End If        
     End Sub
 
@@ -61,6 +65,10 @@
         ProgressBar1.Maximum = Count
         Directories.CleanDirectories(Directories.Data, ProgressBar1)
         ProgressBar1.Value = 0
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        URLProtocol.Register()
     End Sub
 
 End Class

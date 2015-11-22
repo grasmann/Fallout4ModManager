@@ -113,6 +113,30 @@ Namespace My
                 Me("CleanDirectories") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property NexusUser() As String
+            Get
+                Return CType(Me("NexusUser"),String)
+            End Get
+            Set
+                Me("NexusUser") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property NexusPassword() As String
+            Get
+                Return CType(Me("NexusPassword"),String)
+            End Get
+            Set
+                Me("NexusPassword") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

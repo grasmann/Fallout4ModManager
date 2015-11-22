@@ -23,11 +23,11 @@ Partial Class ModSolver
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node1")
-        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node4")
-        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node3", New System.Windows.Forms.TreeNode() {TreeNode2})
-        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node2", New System.Windows.Forms.TreeNode() {TreeNode3})
-        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data", New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode4})
+        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node1")
+        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node4")
+        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node3", New System.Windows.Forms.TreeNode() {TreeNode12})
+        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node2", New System.Windows.Forms.TreeNode() {TreeNode13})
+        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data", New System.Windows.Forms.TreeNode() {TreeNode11, TreeNode14})
         Me.TreeView1 = New System.Windows.Forms.TreeView()
         Me.lbl_status_bad = New System.Windows.Forms.Label()
         Me.lbl_status_good = New System.Windows.Forms.Label()
@@ -36,6 +36,7 @@ Partial Class ModSolver
         Me.NewFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.btn_install = New System.Windows.Forms.Button()
+        Me.btn_cancel = New System.Windows.Forms.Button()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -49,17 +50,17 @@ Partial Class ModSolver
         Me.TreeView1.FullRowSelect = True
         Me.TreeView1.Location = New System.Drawing.Point(1, 36)
         Me.TreeView1.Name = "TreeView1"
-        TreeNode1.Name = "Node1"
-        TreeNode1.Text = "Node1"
-        TreeNode2.Name = "Node4"
-        TreeNode2.Text = "Node4"
-        TreeNode3.Name = "Node3"
-        TreeNode3.Text = "Node3"
-        TreeNode4.Name = "Node2"
-        TreeNode4.Text = "Node2"
-        TreeNode5.Name = "Node0"
-        TreeNode5.Text = "Data"
-        Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode5})
+        TreeNode11.Name = "Node1"
+        TreeNode11.Text = "Node1"
+        TreeNode12.Name = "Node4"
+        TreeNode12.Text = "Node4"
+        TreeNode13.Name = "Node3"
+        TreeNode13.Text = "Node3"
+        TreeNode14.Name = "Node2"
+        TreeNode14.Text = "Node2"
+        TreeNode15.Name = "Node0"
+        TreeNode15.Text = "Data"
+        Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode15})
         Me.TreeView1.Size = New System.Drawing.Size(560, 457)
         Me.TreeView1.TabIndex = 0
         '
@@ -95,9 +96,9 @@ Partial Class ModSolver
         '
         Me.ProgressBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProgressBar1.Location = New System.Drawing.Point(76, 1)
+        Me.ProgressBar1.Location = New System.Drawing.Point(151, 1)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(419, 34)
+        Me.ProgressBar1.Size = New System.Drawing.Size(344, 34)
         Me.ProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous
         Me.ProgressBar1.TabIndex = 4
         '
@@ -135,11 +136,24 @@ Partial Class ModSolver
         Me.btn_install.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btn_install.UseVisualStyleBackColor = True
         '
+        'btn_cancel
+        '
+        Me.btn_cancel.Image = Global.Fallout4ModManager.My.Resources.Resources.deactivate
+        Me.btn_cancel.Location = New System.Drawing.Point(75, 0)
+        Me.btn_cancel.Name = "btn_cancel"
+        Me.btn_cancel.Size = New System.Drawing.Size(75, 36)
+        Me.btn_cancel.TabIndex = 6
+        Me.btn_cancel.Text = "Cancel"
+        Me.btn_cancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.btn_cancel.UseVisualStyleBackColor = True
+        '
         'ModSolver
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(562, 535)
+        Me.ControlBox = False
+        Me.Controls.Add(Me.btn_cancel)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.btn_install)
@@ -162,4 +176,5 @@ Partial Class ModSolver
     Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents NewFolderToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents btn_cancel As System.Windows.Forms.Button
 End Class

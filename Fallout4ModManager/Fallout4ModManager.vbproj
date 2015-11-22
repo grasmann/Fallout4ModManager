@@ -67,6 +67,9 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdvancedDownloadClient">
+      <HintPath>.\AdvancedDownloadClient.dll</HintPath>
+    </Reference>
     <Reference Include="SevenZipSharp">
       <HintPath>..\..\SevenZipSharp.dll</HintPath>
     </Reference>
@@ -101,10 +104,21 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="Archive\InstalledArchive.vb" />
+    <Compile Include="Archive\InstalledArchives.vb" />
     <Compile Include="BackupSolver.Designer.vb">
       <DependentUpon>BackupSolver.vb</DependentUpon>
     </Compile>
     <Compile Include="BackupSolver.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CookieAwareWebClient.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EditModInfo\EditModInfo.Designer.vb">
+      <DependentUpon>EditModInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="EditModInfo\EditModInfo.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Extensions.vb" />
@@ -116,6 +130,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Log.vb" />
+    <Compile Include="Login.Designer.vb">
+      <DependentUpon>Login.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Login.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Manager.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -124,8 +144,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Directories.vb" />
-    <Compile Include="ModDownload.vb" />
-    <Compile Include="ModDownloads.vb" />
+    <Compile Include="Mod\InstalledMod.vb" />
+    <Compile Include="Download\ModDownload.vb" />
+    <Compile Include="Download\ModDownloads.vb" />
+    <Compile Include="Mod\ModHelper.vb" />
     <Compile Include="ModSolver.Designer.vb">
       <DependentUpon>ModSolver.vb</DependentUpon>
     </Compile>
@@ -138,6 +160,7 @@
     <Compile Include="ModSolverHelp.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Mod\InstalledMods.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -154,6 +177,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Files.vb" />
+    <Compile Include="NexusAPI.vb" />
     <Compile Include="Options.Designer.vb">
       <DependentUpon>Options.vb</DependentUpon>
     </Compile>
@@ -166,6 +190,8 @@
     <Compile Include="OverwriteSolver.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Plugin\InstalledPlugin.vb" />
+    <Compile Include="Plugin\InstalledPlugins.vb" />
     <Compile Include="Update.vb" />
     <Compile Include="URLProtocol.vb" />
   </ItemGroup>
@@ -176,8 +202,14 @@
     <EmbeddedResource Include="BackupSolver.resx">
       <DependentUpon>BackupSolver.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditModInfo\EditModInfo.resx">
+      <DependentUpon>EditModInfo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IniSettings.resx">
       <DependentUpon>IniSettings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager.resx">
       <DependentUpon>Manager.vb</DependentUpon>
@@ -277,6 +309,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\178.png" />
+    <None Include="Resources\107.png" />
     <None Include="Resources\55.png" />
     <None Include="Resources\134.png" />
     <None Include="Resources\7.png" />

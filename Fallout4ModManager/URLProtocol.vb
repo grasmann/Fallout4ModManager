@@ -6,10 +6,10 @@ Module URLProtocol
         Try
             Dim Key As RegistryKey = Registry.ClassesRoot.OpenSubKey("nxm")
             If Not IsNothing(Key) Then
-                Key = Key.OpenSubKey("DefaultIcon", True)
-                Key.SetValue("", Application.ExecutablePath + ",0")
-                Key = Key.OpenSubKey("shell\open\command", True)
-                Key.SetValue("", """" + Application.ExecutablePath + """" + """%1""")
+                Dim icon As RegistryKey = Key.OpenSubKey("DefaultIcon", True)
+                icon.SetValue("", Application.ExecutablePath + ",0")
+                Dim command As RegistryKey = Key.OpenSubKey("shell\open\command", True)
+                command.SetValue("", """" + Application.ExecutablePath + """" + """%1""")
             Else
                 Dim nxm As RegistryKey = Registry.ClassesRoot.CreateSubKey("nxm")
                 nxm.SetValue("", "URL:Nexus Mod")
