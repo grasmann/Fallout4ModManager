@@ -23,11 +23,11 @@ Partial Class ModSolver
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node1")
-        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node4")
-        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node3", New System.Windows.Forms.TreeNode() {TreeNode12})
-        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node2", New System.Windows.Forms.TreeNode() {TreeNode13})
-        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data", New System.Windows.Forms.TreeNode() {TreeNode11, TreeNode14})
+        Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node1")
+        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node4")
+        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node3", New System.Windows.Forms.TreeNode() {TreeNode7})
+        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node2", New System.Windows.Forms.TreeNode() {TreeNode8})
+        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data", New System.Windows.Forms.TreeNode() {TreeNode6, TreeNode9})
         Me.TreeView1 = New System.Windows.Forms.TreeView()
         Me.lbl_status_bad = New System.Windows.Forms.Label()
         Me.lbl_status_good = New System.Windows.Forms.Label()
@@ -37,7 +37,10 @@ Partial Class ModSolver
         Me.Button1 = New System.Windows.Forms.Button()
         Me.btn_install = New System.Windows.Forms.Button()
         Me.btn_cancel = New System.Windows.Forms.Button()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.ContextMenuStrip1.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'TreeView1
@@ -50,17 +53,17 @@ Partial Class ModSolver
         Me.TreeView1.FullRowSelect = True
         Me.TreeView1.Location = New System.Drawing.Point(1, 36)
         Me.TreeView1.Name = "TreeView1"
-        TreeNode11.Name = "Node1"
-        TreeNode11.Text = "Node1"
-        TreeNode12.Name = "Node4"
-        TreeNode12.Text = "Node4"
-        TreeNode13.Name = "Node3"
-        TreeNode13.Text = "Node3"
-        TreeNode14.Name = "Node2"
-        TreeNode14.Text = "Node2"
-        TreeNode15.Name = "Node0"
-        TreeNode15.Text = "Data"
-        Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode15})
+        TreeNode6.Name = "Node1"
+        TreeNode6.Text = "Node1"
+        TreeNode7.Name = "Node4"
+        TreeNode7.Text = "Node4"
+        TreeNode8.Name = "Node3"
+        TreeNode8.Text = "Node3"
+        TreeNode9.Name = "Node2"
+        TreeNode9.Text = "Node2"
+        TreeNode10.Name = "Node0"
+        TreeNode10.Text = "Data"
+        Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode10})
         Me.TreeView1.Size = New System.Drawing.Size(560, 457)
         Me.TreeView1.TabIndex = 0
         '
@@ -147,12 +150,33 @@ Partial Class ModSolver
         Me.btn_cancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btn_cancel.UseVisualStyleBackColor = True
         '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.Label1)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel1.Location = New System.Drawing.Point(0, 0)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(562, 535)
+        Me.Panel1.TabIndex = 7
+        '
+        'Label1
+        '
+        Me.Label1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(0, 0)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(562, 535)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Please wait while the archive is being scanned."
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'ModSolver
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(562, 535)
         Me.ControlBox = False
+        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.btn_cancel)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.ProgressBar1)
@@ -165,6 +189,7 @@ Partial Class ModSolver
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Mod Solver"
         Me.ContextMenuStrip1.ResumeLayout(False)
+        Me.Panel1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -177,4 +202,6 @@ Partial Class ModSolver
     Friend WithEvents NewFolderToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents btn_cancel As System.Windows.Forms.Button
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Label1 As System.Windows.Forms.Label
 End Class

@@ -32,13 +32,15 @@ Partial Class Manager
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Manager))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.btn_down = New System.Windows.Forms.Button()
+        Me.btn_up = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.dgv_plugins = New System.Windows.Forms.DataGridView()
         Me.esp_active = New System.Windows.Forms.DataGridViewCheckBoxColumn()
@@ -51,7 +53,37 @@ Partial Class Manager
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.btn_deinstall = New System.Windows.Forms.Button()
+        Me.btn_activate = New System.Windows.Forms.Button()
         Me.dgv_mods = New System.Windows.Forms.DataGridView()
+        Me.mods_context = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ActivateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeactivateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.UninstallToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.EditInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FixLegacyModToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.btn_deactivate = New System.Windows.Forms.Button()
+        Me.btn_dl_install = New System.Windows.Forms.Button()
+        Me.btn_dl_delete = New System.Windows.Forms.Button()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.dgv_downloads = New System.Windows.Forms.DataGridView()
+        Me.dls_context = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.InstallToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PauseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ResumeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.btn_resume = New System.Windows.Forms.Button()
+        Me.btn_pause = New System.Windows.Forms.Button()
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.btn_settings = New System.Windows.Forms.Button()
+        Me.btn_about = New System.Windows.Forms.Button()
+        Me.btn_play = New System.Windows.Forms.Button()
+        Me.btn_install = New System.Windows.Forms.Button()
+        Me.btn_fix_legacy = New System.Windows.Forms.Button()
         Me.mods_active = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.mods_name = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.mods_txt = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -59,41 +91,12 @@ Partial Class Manager
         Me.mods_warning = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.mods_id = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.mods_index = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.dgv_downloads = New System.Windows.Forms.DataGridView()
+        Me.mods_update = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.dls_name = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.dls_speed = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.dls_done = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.dls_path = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.dls_finished = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.dls_context = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.mods_context = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.btn_about = New System.Windows.Forms.Button()
-        Me.btn_play = New System.Windows.Forms.Button()
-        Me.btn_install = New System.Windows.Forms.Button()
-        Me.btn_down = New System.Windows.Forms.Button()
-        Me.btn_up = New System.Windows.Forms.Button()
-        Me.btn_deinstall = New System.Windows.Forms.Button()
-        Me.btn_activate = New System.Windows.Forms.Button()
-        Me.ActivateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DeactivateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.UninstallToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.btn_deactivate = New System.Windows.Forms.Button()
-        Me.btn_dl_install = New System.Windows.Forms.Button()
-        Me.btn_dl_delete = New System.Windows.Forms.Button()
-        Me.InstallToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PauseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ResumeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.btn_resume = New System.Windows.Forms.Button()
-        Me.btn_pause = New System.Windows.Forms.Button()
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.EditInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -109,9 +112,9 @@ Partial Class Manager
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
         CType(Me.dgv_mods, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.mods_context.SuspendLayout()
         CType(Me.dgv_downloads, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.dls_context.SuspendLayout()
-        Me.mods_context.SuspendLayout()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -154,6 +157,30 @@ Partial Class Manager
         Me.SplitContainer2.Size = New System.Drawing.Size(450, 462)
         Me.SplitContainer2.SplitterDistance = 328
         Me.SplitContainer2.TabIndex = 7
+        '
+        'btn_down
+        '
+        Me.btn_down.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_down.Enabled = False
+        Me.btn_down.Image = Global.Fallout4ModManager.My.Resources.Resources.down
+        Me.btn_down.Location = New System.Drawing.Point(411, 51)
+        Me.btn_down.Name = "btn_down"
+        Me.btn_down.Size = New System.Drawing.Size(36, 36)
+        Me.btn_down.TabIndex = 10
+        Me.ToolTip1.SetToolTip(Me.btn_down, "Move down in load order")
+        Me.btn_down.UseVisualStyleBackColor = True
+        '
+        'btn_up
+        '
+        Me.btn_up.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_up.Enabled = False
+        Me.btn_up.Image = Global.Fallout4ModManager.My.Resources.Resources.up
+        Me.btn_up.Location = New System.Drawing.Point(411, 15)
+        Me.btn_up.Name = "btn_up"
+        Me.btn_up.Size = New System.Drawing.Size(36, 36)
+        Me.btn_up.TabIndex = 9
+        Me.ToolTip1.SetToolTip(Me.btn_up, "Move up in load order")
+        Me.btn_up.UseVisualStyleBackColor = True
         '
         'Label2
         '
@@ -318,11 +345,12 @@ Partial Class Manager
         '
         'SplitContainer3.Panel1
         '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.btn_fix_legacy)
         Me.SplitContainer3.Panel1.Controls.Add(Me.Label1)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.btn_deinstall)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.btn_activate)
         Me.SplitContainer3.Panel1.Controls.Add(Me.dgv_mods)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.btn_activate)
         Me.SplitContainer3.Panel1.Controls.Add(Me.btn_deactivate)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.btn_deinstall)
         '
         'SplitContainer3.Panel2
         '
@@ -330,8 +358,8 @@ Partial Class Manager
         Me.SplitContainer3.Panel2.Controls.Add(Me.btn_dl_delete)
         Me.SplitContainer3.Panel2.Controls.Add(Me.Label4)
         Me.SplitContainer3.Panel2.Controls.Add(Me.dgv_downloads)
-        Me.SplitContainer3.Panel2.Controls.Add(Me.btn_resume)
         Me.SplitContainer3.Panel2.Controls.Add(Me.btn_pause)
+        Me.SplitContainer3.Panel2.Controls.Add(Me.btn_resume)
         Me.SplitContainer3.Size = New System.Drawing.Size(548, 462)
         Me.SplitContainer3.SplitterDistance = 328
         Me.SplitContainer3.TabIndex = 7
@@ -344,6 +372,30 @@ Partial Class Manager
         Me.Label1.Size = New System.Drawing.Size(75, 13)
         Me.Label1.TabIndex = 9
         Me.Label1.Text = "Installed Mods"
+        '
+        'btn_deinstall
+        '
+        Me.btn_deinstall.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_deinstall.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
+        Me.btn_deinstall.Location = New System.Drawing.Point(512, 51)
+        Me.btn_deinstall.Name = "btn_deinstall"
+        Me.btn_deinstall.Size = New System.Drawing.Size(36, 36)
+        Me.btn_deinstall.TabIndex = 8
+        Me.ToolTip1.SetToolTip(Me.btn_deinstall, "Uninstall mod")
+        Me.btn_deinstall.UseVisualStyleBackColor = True
+        Me.btn_deinstall.Visible = False
+        '
+        'btn_activate
+        '
+        Me.btn_activate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_activate.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
+        Me.btn_activate.Location = New System.Drawing.Point(512, 15)
+        Me.btn_activate.Name = "btn_activate"
+        Me.btn_activate.Size = New System.Drawing.Size(36, 36)
+        Me.btn_activate.TabIndex = 6
+        Me.ToolTip1.SetToolTip(Me.btn_activate, "Activate mod")
+        Me.btn_activate.UseVisualStyleBackColor = True
+        Me.btn_activate.Visible = False
         '
         'dgv_mods
         '
@@ -360,7 +412,7 @@ Partial Class Manager
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_mods.BackgroundColor = System.Drawing.SystemColors.Control
         Me.dgv_mods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgv_mods.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.mods_active, Me.mods_name, Me.mods_txt, Me.mods_version, Me.mods_warning, Me.mods_id, Me.mods_index})
+        Me.dgv_mods.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.mods_active, Me.mods_name, Me.mods_txt, Me.mods_version, Me.mods_warning, Me.mods_id, Me.mods_index, Me.mods_update})
         Me.dgv_mods.ContextMenuStrip = Me.mods_context
         DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control
@@ -391,63 +443,92 @@ Partial Class Manager
         Me.dgv_mods.Size = New System.Drawing.Size(510, 312)
         Me.dgv_mods.TabIndex = 4
         '
-        'mods_active
+        'mods_context
         '
-        Me.mods_active.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.mods_active.HeaderText = "Active"
-        Me.mods_active.Name = "mods_active"
-        Me.mods_active.Width = 43
+        Me.mods_context.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActivateToolStripMenuItem, Me.DeactivateToolStripMenuItem, Me.ToolStripSeparator2, Me.UninstallToolStripMenuItem, Me.ToolStripSeparator3, Me.EditInfoToolStripMenuItem, Me.FixLegacyModToolStripMenuItem})
+        Me.mods_context.Name = "mods_context"
+        Me.mods_context.Size = New System.Drawing.Size(157, 126)
         '
-        'mods_name
+        'ActivateToolStripMenuItem
         '
-        Me.mods_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.mods_name.HeaderText = "Name"
-        Me.mods_name.Name = "mods_name"
-        Me.mods_name.ReadOnly = True
-        Me.mods_name.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.mods_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.ActivateToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
+        Me.ActivateToolStripMenuItem.Name = "ActivateToolStripMenuItem"
+        Me.ActivateToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.ActivateToolStripMenuItem.Text = "Activate"
         '
-        'mods_txt
+        'DeactivateToolStripMenuItem
         '
-        Me.mods_txt.HeaderText = "Textfile"
-        Me.mods_txt.Name = "mods_txt"
-        Me.mods_txt.ReadOnly = True
-        Me.mods_txt.Visible = False
+        Me.DeactivateToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.deactivate
+        Me.DeactivateToolStripMenuItem.Name = "DeactivateToolStripMenuItem"
+        Me.DeactivateToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.DeactivateToolStripMenuItem.Text = "Deactivate"
         '
-        'mods_version
+        'ToolStripSeparator2
         '
-        Me.mods_version.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.mods_version.HeaderText = "Version"
-        Me.mods_version.Name = "mods_version"
-        Me.mods_version.ReadOnly = True
-        Me.mods_version.Width = 48
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(153, 6)
         '
-        'mods_warning
+        'UninstallToolStripMenuItem
         '
-        Me.mods_warning.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader
-        DataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle8.ForeColor = System.Drawing.Color.Red
-        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Red
-        Me.mods_warning.DefaultCellStyle = DataGridViewCellStyle8
-        Me.mods_warning.HeaderText = "Warning"
-        Me.mods_warning.Name = "mods_warning"
-        Me.mods_warning.ReadOnly = True
-        Me.mods_warning.Width = 5
+        Me.UninstallToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
+        Me.UninstallToolStripMenuItem.Name = "UninstallToolStripMenuItem"
+        Me.UninstallToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.UninstallToolStripMenuItem.Text = "Uninstall"
         '
-        'mods_id
+        'ToolStripSeparator3
         '
-        Me.mods_id.HeaderText = "ID"
-        Me.mods_id.Name = "mods_id"
-        Me.mods_id.ReadOnly = True
-        Me.mods_id.Visible = False
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(153, 6)
         '
-        'mods_index
+        'EditInfoToolStripMenuItem
         '
-        Me.mods_index.HeaderText = "Index"
-        Me.mods_index.Name = "mods_index"
-        Me.mods_index.ReadOnly = True
-        Me.mods_index.Visible = False
+        Me.EditInfoToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.info
+        Me.EditInfoToolStripMenuItem.Name = "EditInfoToolStripMenuItem"
+        Me.EditInfoToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.EditInfoToolStripMenuItem.Text = "Edit Info"
+        '
+        'FixLegacyModToolStripMenuItem
+        '
+        Me.FixLegacyModToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.clean
+        Me.FixLegacyModToolStripMenuItem.Name = "FixLegacyModToolStripMenuItem"
+        Me.FixLegacyModToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.FixLegacyModToolStripMenuItem.Text = "Fix Legacy Mod"
+        '
+        'btn_deactivate
+        '
+        Me.btn_deactivate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_deactivate.Image = Global.Fallout4ModManager.My.Resources.Resources.deactivate
+        Me.btn_deactivate.Location = New System.Drawing.Point(512, 16)
+        Me.btn_deactivate.Name = "btn_deactivate"
+        Me.btn_deactivate.Size = New System.Drawing.Size(36, 36)
+        Me.btn_deactivate.TabIndex = 7
+        Me.ToolTip1.SetToolTip(Me.btn_deactivate, "Deactivate mod")
+        Me.btn_deactivate.UseVisualStyleBackColor = True
+        Me.btn_deactivate.Visible = False
+        '
+        'btn_dl_install
+        '
+        Me.btn_dl_install.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_dl_install.Image = Global.Fallout4ModManager.My.Resources.Resources.install
+        Me.btn_dl_install.Location = New System.Drawing.Point(512, 16)
+        Me.btn_dl_install.Name = "btn_dl_install"
+        Me.btn_dl_install.Size = New System.Drawing.Size(36, 36)
+        Me.btn_dl_install.TabIndex = 10
+        Me.ToolTip1.SetToolTip(Me.btn_dl_install, "Install mod")
+        Me.btn_dl_install.UseVisualStyleBackColor = True
+        Me.btn_dl_install.Visible = False
+        '
+        'btn_dl_delete
+        '
+        Me.btn_dl_delete.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_dl_delete.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
+        Me.btn_dl_delete.Location = New System.Drawing.Point(512, 88)
+        Me.btn_dl_delete.Name = "btn_dl_delete"
+        Me.btn_dl_delete.Size = New System.Drawing.Size(36, 36)
+        Me.btn_dl_delete.TabIndex = 9
+        Me.ToolTip1.SetToolTip(Me.btn_dl_delete, "Delete download")
+        Me.btn_dl_delete.UseVisualStyleBackColor = True
+        Me.btn_dl_delete.Visible = False
         '
         'Label4
         '
@@ -504,57 +585,68 @@ Partial Class Manager
         Me.dgv_downloads.Size = New System.Drawing.Size(511, 114)
         Me.dgv_downloads.TabIndex = 7
         '
-        'dls_name
-        '
-        Me.dls_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.dls_name.HeaderText = "Name"
-        Me.dls_name.Name = "dls_name"
-        Me.dls_name.ReadOnly = True
-        Me.dls_name.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dls_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        '
-        'dls_speed
-        '
-        Me.dls_speed.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.dls_speed.HeaderText = "Speed"
-        Me.dls_speed.Name = "dls_speed"
-        Me.dls_speed.ReadOnly = True
-        Me.dls_speed.Width = 63
-        '
-        'dls_done
-        '
-        Me.dls_done.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.dls_done.HeaderText = "Done"
-        Me.dls_done.Name = "dls_done"
-        Me.dls_done.ReadOnly = True
-        Me.dls_done.Width = 58
-        '
-        'dls_path
-        '
-        Me.dls_path.HeaderText = "Path"
-        Me.dls_path.Name = "dls_path"
-        Me.dls_path.ReadOnly = True
-        Me.dls_path.Visible = False
-        '
-        'dls_finished
-        '
-        Me.dls_finished.HeaderText = "Finished"
-        Me.dls_finished.Name = "dls_finished"
-        Me.dls_finished.ReadOnly = True
-        Me.dls_finished.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dls_finished.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.dls_finished.Visible = False
-        '
         'dls_context
         '
         Me.dls_context.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InstallToolStripMenuItem, Me.PauseToolStripMenuItem, Me.ResumeToolStripMenuItem, Me.ToolStripSeparator1, Me.DeleteToolStripMenuItem})
         Me.dls_context.Name = "dls_context"
         Me.dls_context.Size = New System.Drawing.Size(117, 98)
         '
+        'InstallToolStripMenuItem
+        '
+        Me.InstallToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.install
+        Me.InstallToolStripMenuItem.Name = "InstallToolStripMenuItem"
+        Me.InstallToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.InstallToolStripMenuItem.Text = "Install"
+        '
+        'PauseToolStripMenuItem
+        '
+        Me.PauseToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.pause
+        Me.PauseToolStripMenuItem.Name = "PauseToolStripMenuItem"
+        Me.PauseToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.PauseToolStripMenuItem.Text = "Pause"
+        '
+        'ResumeToolStripMenuItem
+        '
+        Me.ResumeToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.play
+        Me.ResumeToolStripMenuItem.Name = "ResumeToolStripMenuItem"
+        Me.ResumeToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.ResumeToolStripMenuItem.Text = "Resume"
+        '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(113, 6)
+        '
+        'DeleteToolStripMenuItem
+        '
+        Me.DeleteToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
+        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.DeleteToolStripMenuItem.Text = "Delete"
+        '
+        'btn_resume
+        '
+        Me.btn_resume.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_resume.Image = Global.Fallout4ModManager.My.Resources.Resources.play
+        Me.btn_resume.Location = New System.Drawing.Point(512, 52)
+        Me.btn_resume.Name = "btn_resume"
+        Me.btn_resume.Size = New System.Drawing.Size(36, 36)
+        Me.btn_resume.TabIndex = 12
+        Me.ToolTip1.SetToolTip(Me.btn_resume, "Resume download")
+        Me.btn_resume.UseVisualStyleBackColor = True
+        Me.btn_resume.Visible = False
+        '
+        'btn_pause
+        '
+        Me.btn_pause.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_pause.Image = Global.Fallout4ModManager.My.Resources.Resources.pause
+        Me.btn_pause.Location = New System.Drawing.Point(512, 52)
+        Me.btn_pause.Name = "btn_pause"
+        Me.btn_pause.Size = New System.Drawing.Size(36, 36)
+        Me.btn_pause.TabIndex = 11
+        Me.ToolTip1.SetToolTip(Me.btn_pause, "Pause download")
+        Me.btn_pause.UseVisualStyleBackColor = True
+        Me.btn_pause.Visible = False
         '
         'ProgressBar1
         '
@@ -565,27 +657,16 @@ Partial Class Manager
         Me.ProgressBar1.Size = New System.Drawing.Size(714, 34)
         Me.ProgressBar1.TabIndex = 10
         '
-        'mods_context
+        'btn_settings
         '
-        Me.mods_context.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActivateToolStripMenuItem, Me.DeactivateToolStripMenuItem, Me.ToolStripSeparator2, Me.UninstallToolStripMenuItem, Me.ToolStripSeparator3, Me.EditInfoToolStripMenuItem})
-        Me.mods_context.Name = "mods_context"
-        Me.mods_context.Size = New System.Drawing.Size(153, 126)
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(149, 6)
-        '
-        'Button1
-        '
-        Me.Button1.Image = Global.Fallout4ModManager.My.Resources.Resources.settings
-        Me.Button1.Location = New System.Drawing.Point(132, 0)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(80, 36)
-        Me.Button1.TabIndex = 9
-        Me.Button1.Text = "Settings"
-        Me.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.btn_settings.Image = Global.Fallout4ModManager.My.Resources.Resources.settings
+        Me.btn_settings.Location = New System.Drawing.Point(132, 0)
+        Me.btn_settings.Name = "btn_settings"
+        Me.btn_settings.Size = New System.Drawing.Size(80, 36)
+        Me.btn_settings.TabIndex = 9
+        Me.btn_settings.Text = "Settings"
+        Me.btn_settings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.btn_settings.UseVisualStyleBackColor = True
         '
         'btn_about
         '
@@ -621,170 +702,124 @@ Partial Class Manager
         Me.btn_install.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btn_install.UseVisualStyleBackColor = True
         '
-        'btn_down
+        'btn_fix_legacy
         '
-        Me.btn_down.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_down.Enabled = False
-        Me.btn_down.Image = Global.Fallout4ModManager.My.Resources.Resources.down
-        Me.btn_down.Location = New System.Drawing.Point(411, 51)
-        Me.btn_down.Name = "btn_down"
-        Me.btn_down.Size = New System.Drawing.Size(36, 36)
-        Me.btn_down.TabIndex = 10
-        Me.ToolTip1.SetToolTip(Me.btn_down, "Move down in load order")
-        Me.btn_down.UseVisualStyleBackColor = True
+        Me.btn_fix_legacy.Image = Global.Fallout4ModManager.My.Resources.Resources.clean
+        Me.btn_fix_legacy.Location = New System.Drawing.Point(512, 87)
+        Me.btn_fix_legacy.Name = "btn_fix_legacy"
+        Me.btn_fix_legacy.Size = New System.Drawing.Size(36, 36)
+        Me.btn_fix_legacy.TabIndex = 10
+        Me.btn_fix_legacy.UseVisualStyleBackColor = True
+        Me.btn_fix_legacy.Visible = False
         '
-        'btn_up
+        'mods_active
         '
-        Me.btn_up.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_up.Enabled = False
-        Me.btn_up.Image = Global.Fallout4ModManager.My.Resources.Resources.up
-        Me.btn_up.Location = New System.Drawing.Point(411, 15)
-        Me.btn_up.Name = "btn_up"
-        Me.btn_up.Size = New System.Drawing.Size(36, 36)
-        Me.btn_up.TabIndex = 9
-        Me.ToolTip1.SetToolTip(Me.btn_up, "Move up in load order")
-        Me.btn_up.UseVisualStyleBackColor = True
+        Me.mods_active.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.mods_active.HeaderText = "Active"
+        Me.mods_active.Name = "mods_active"
+        Me.mods_active.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.mods_active.Width = 62
         '
-        'btn_deinstall
+        'mods_name
         '
-        Me.btn_deinstall.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_deinstall.Enabled = False
-        Me.btn_deinstall.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
-        Me.btn_deinstall.Location = New System.Drawing.Point(512, 53)
-        Me.btn_deinstall.Name = "btn_deinstall"
-        Me.btn_deinstall.Size = New System.Drawing.Size(36, 36)
-        Me.btn_deinstall.TabIndex = 8
-        Me.ToolTip1.SetToolTip(Me.btn_deinstall, "Uninstall mod")
-        Me.btn_deinstall.UseVisualStyleBackColor = True
+        Me.mods_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.mods_name.HeaderText = "Name"
+        Me.mods_name.Name = "mods_name"
+        Me.mods_name.ReadOnly = True
+        Me.mods_name.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
         '
-        'btn_activate
+        'mods_txt
         '
-        Me.btn_activate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_activate.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
-        Me.btn_activate.Location = New System.Drawing.Point(512, 15)
-        Me.btn_activate.Name = "btn_activate"
-        Me.btn_activate.Size = New System.Drawing.Size(36, 36)
-        Me.btn_activate.TabIndex = 6
-        Me.ToolTip1.SetToolTip(Me.btn_activate, "Activate mod")
-        Me.btn_activate.UseVisualStyleBackColor = True
+        Me.mods_txt.HeaderText = "Textfile"
+        Me.mods_txt.Name = "mods_txt"
+        Me.mods_txt.ReadOnly = True
+        Me.mods_txt.Visible = False
         '
-        'ActivateToolStripMenuItem
+        'mods_version
         '
-        Me.ActivateToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
-        Me.ActivateToolStripMenuItem.Name = "ActivateToolStripMenuItem"
-        Me.ActivateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.ActivateToolStripMenuItem.Text = "Activate"
+        Me.mods_version.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.mods_version.HeaderText = "Version"
+        Me.mods_version.Name = "mods_version"
+        Me.mods_version.ReadOnly = True
+        Me.mods_version.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.mods_version.Width = 67
         '
-        'DeactivateToolStripMenuItem
+        'mods_warning
         '
-        Me.DeactivateToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.deactivate
-        Me.DeactivateToolStripMenuItem.Name = "DeactivateToolStripMenuItem"
-        Me.DeactivateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.DeactivateToolStripMenuItem.Text = "Deactivate"
+        Me.mods_warning.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader
+        DataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle8.ForeColor = System.Drawing.Color.Red
+        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Red
+        Me.mods_warning.DefaultCellStyle = DataGridViewCellStyle8
+        Me.mods_warning.HeaderText = "Warning"
+        Me.mods_warning.Name = "mods_warning"
+        Me.mods_warning.ReadOnly = True
+        Me.mods_warning.Visible = False
+        Me.mods_warning.Width = 5
         '
-        'UninstallToolStripMenuItem
+        'mods_id
         '
-        Me.UninstallToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
-        Me.UninstallToolStripMenuItem.Name = "UninstallToolStripMenuItem"
-        Me.UninstallToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.UninstallToolStripMenuItem.Text = "Uninstall"
+        Me.mods_id.HeaderText = "ID"
+        Me.mods_id.Name = "mods_id"
+        Me.mods_id.ReadOnly = True
+        Me.mods_id.Visible = False
         '
-        'btn_deactivate
+        'mods_index
         '
-        Me.btn_deactivate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_deactivate.Image = Global.Fallout4ModManager.My.Resources.Resources.deactivate
-        Me.btn_deactivate.Location = New System.Drawing.Point(512, 16)
-        Me.btn_deactivate.Name = "btn_deactivate"
-        Me.btn_deactivate.Size = New System.Drawing.Size(36, 36)
-        Me.btn_deactivate.TabIndex = 7
-        Me.ToolTip1.SetToolTip(Me.btn_deactivate, "Deactivate mod")
-        Me.btn_deactivate.UseVisualStyleBackColor = True
+        Me.mods_index.HeaderText = "Index"
+        Me.mods_index.Name = "mods_index"
+        Me.mods_index.ReadOnly = True
+        Me.mods_index.Visible = False
         '
-        'btn_dl_install
+        'mods_update
         '
-        Me.btn_dl_install.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_dl_install.Enabled = False
-        Me.btn_dl_install.Image = Global.Fallout4ModManager.My.Resources.Resources.install
-        Me.btn_dl_install.Location = New System.Drawing.Point(512, 16)
-        Me.btn_dl_install.Name = "btn_dl_install"
-        Me.btn_dl_install.Size = New System.Drawing.Size(36, 36)
-        Me.btn_dl_install.TabIndex = 10
-        Me.ToolTip1.SetToolTip(Me.btn_dl_install, "Install mod")
-        Me.btn_dl_install.UseVisualStyleBackColor = True
+        Me.mods_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.mods_update.HeaderText = "Update"
+        Me.mods_update.Name = "mods_update"
+        Me.mods_update.ReadOnly = True
+        Me.mods_update.Visible = False
+        Me.mods_update.Width = 67
         '
-        'btn_dl_delete
+        'dls_name
         '
-        Me.btn_dl_delete.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_dl_delete.Enabled = False
-        Me.btn_dl_delete.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
-        Me.btn_dl_delete.Location = New System.Drawing.Point(512, 88)
-        Me.btn_dl_delete.Name = "btn_dl_delete"
-        Me.btn_dl_delete.Size = New System.Drawing.Size(36, 36)
-        Me.btn_dl_delete.TabIndex = 9
-        Me.ToolTip1.SetToolTip(Me.btn_dl_delete, "Delete download")
-        Me.btn_dl_delete.UseVisualStyleBackColor = True
+        Me.dls_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.dls_name.HeaderText = "Name"
+        Me.dls_name.Name = "dls_name"
+        Me.dls_name.ReadOnly = True
+        Me.dls_name.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
         '
-        'InstallToolStripMenuItem
+        'dls_speed
         '
-        Me.InstallToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.install
-        Me.InstallToolStripMenuItem.Name = "InstallToolStripMenuItem"
-        Me.InstallToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
-        Me.InstallToolStripMenuItem.Text = "Install"
+        Me.dls_speed.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.dls_speed.HeaderText = "Speed"
+        Me.dls_speed.Name = "dls_speed"
+        Me.dls_speed.ReadOnly = True
+        Me.dls_speed.Width = 63
         '
-        'PauseToolStripMenuItem
+        'dls_done
         '
-        Me.PauseToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.pause
-        Me.PauseToolStripMenuItem.Name = "PauseToolStripMenuItem"
-        Me.PauseToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
-        Me.PauseToolStripMenuItem.Text = "Pause"
+        Me.dls_done.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.dls_done.HeaderText = "Done"
+        Me.dls_done.Name = "dls_done"
+        Me.dls_done.ReadOnly = True
+        Me.dls_done.Width = 58
         '
-        'ResumeToolStripMenuItem
+        'dls_path
         '
-        Me.ResumeToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.play
-        Me.ResumeToolStripMenuItem.Name = "ResumeToolStripMenuItem"
-        Me.ResumeToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
-        Me.ResumeToolStripMenuItem.Text = "Resume"
+        Me.dls_path.HeaderText = "Path"
+        Me.dls_path.Name = "dls_path"
+        Me.dls_path.ReadOnly = True
+        Me.dls_path.Visible = False
         '
-        'DeleteToolStripMenuItem
+        'dls_finished
         '
-        Me.DeleteToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
-        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
-        Me.DeleteToolStripMenuItem.Text = "Delete"
-        '
-        'btn_resume
-        '
-        Me.btn_resume.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_resume.Image = Global.Fallout4ModManager.My.Resources.Resources.play
-        Me.btn_resume.Location = New System.Drawing.Point(512, 52)
-        Me.btn_resume.Name = "btn_resume"
-        Me.btn_resume.Size = New System.Drawing.Size(36, 36)
-        Me.btn_resume.TabIndex = 12
-        Me.ToolTip1.SetToolTip(Me.btn_resume, "Resume download")
-        Me.btn_resume.UseVisualStyleBackColor = True
-        '
-        'btn_pause
-        '
-        Me.btn_pause.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_pause.Image = Global.Fallout4ModManager.My.Resources.Resources.pause
-        Me.btn_pause.Location = New System.Drawing.Point(512, 52)
-        Me.btn_pause.Name = "btn_pause"
-        Me.btn_pause.Size = New System.Drawing.Size(36, 36)
-        Me.btn_pause.TabIndex = 11
-        Me.ToolTip1.SetToolTip(Me.btn_pause, "Pause download")
-        Me.btn_pause.UseVisualStyleBackColor = True
-        '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(149, 6)
-        '
-        'EditInfoToolStripMenuItem
-        '
-        Me.EditInfoToolStripMenuItem.Image = Global.Fallout4ModManager.My.Resources.Resources.info
-        Me.EditInfoToolStripMenuItem.Name = "EditInfoToolStripMenuItem"
-        Me.EditInfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.EditInfoToolStripMenuItem.Text = "Edit Info"
+        Me.dls_finished.HeaderText = "Finished"
+        Me.dls_finished.Name = "dls_finished"
+        Me.dls_finished.ReadOnly = True
+        Me.dls_finished.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dls_finished.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.dls_finished.Visible = False
         '
         'Manager
         '
@@ -792,7 +827,7 @@ Partial Class Manager
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1004, 520)
         Me.Controls.Add(Me.ProgressBar1)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.btn_settings)
         Me.Controls.Add(Me.btn_about)
         Me.Controls.Add(Me.btn_play)
         Me.Controls.Add(Me.btn_install)
@@ -821,9 +856,9 @@ Partial Class Manager
         CType(Me.SplitContainer3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer3.ResumeLayout(False)
         CType(Me.dgv_mods, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.mods_context.ResumeLayout(False)
         CType(Me.dgv_downloads, System.ComponentModel.ISupportInitialize).EndInit()
         Me.dls_context.ResumeLayout(False)
-        Me.mods_context.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -844,7 +879,7 @@ Partial Class Manager
     Friend WithEvents DataGridViewTextBoxColumn2 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn3 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents btn_settings As System.Windows.Forms.Button
     Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar
     Friend WithEvents SplitContainer3 As System.Windows.Forms.SplitContainer
     Friend WithEvents dgv_mods As System.Windows.Forms.DataGridView
@@ -857,18 +892,6 @@ Partial Class Manager
     Friend WithEvents btn_dl_delete As System.Windows.Forms.Button
     Friend WithEvents btn_dl_install As System.Windows.Forms.Button
     Friend WithEvents btn_pause As System.Windows.Forms.Button
-    Friend WithEvents dls_name As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents dls_speed As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents dls_done As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents dls_path As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents dls_finished As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents mods_active As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents mods_name As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents mods_txt As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents mods_version As System.Windows.Forms.DataGridViewLinkColumn
-    Friend WithEvents mods_warning As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents mods_id As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents mods_index As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents dls_context As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents PauseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ResumeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -884,5 +907,20 @@ Partial Class Manager
     Friend WithEvents UninstallToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents EditInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FixLegacyModToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents btn_fix_legacy As System.Windows.Forms.Button
+    Friend WithEvents mods_active As System.Windows.Forms.DataGridViewCheckBoxColumn
+    Friend WithEvents mods_name As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents mods_txt As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents mods_version As System.Windows.Forms.DataGridViewLinkColumn
+    Friend WithEvents mods_warning As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents mods_id As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents mods_index As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents mods_update As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents dls_name As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents dls_speed As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents dls_done As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents dls_path As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents dls_finished As System.Windows.Forms.DataGridViewCheckBoxColumn
 
 End Class

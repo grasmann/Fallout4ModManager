@@ -1,5 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports System.Xml
+Imports System.IO
 
 Public Class InstalledMod
 
@@ -78,7 +79,7 @@ Public Class InstalledMod
 
     ' ##### ACTIONS ###############################################################################################
 
-    Public Sub Activate()
+    Public Function Activate() As Boolean
         Dim files As New List(Of ExtractJob)
         Dim exist As New List(Of ExtractJob)
         Dim overwrite As New List(Of ExtractJob)
@@ -106,7 +107,7 @@ Public Class InstalledMod
         If exist.Count > 0 Then
             Dim overwrite_solver As New OverwriteSolver(exist, overwrite)
             If overwrite_solver.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
-                Exit Sub
+                Return False
             End If
             For Each File As ExtractJob In overwrite
                 files.Add(File)
@@ -131,7 +132,8 @@ Public Class InstalledMod
         _active = True
         ' Event
         RaiseEvent Changed(Me)
-    End Sub
+        Return True
+    End Function
 
     Public Function Deactivate() As Boolean
         Dim backups As New List(Of String)
@@ -205,7 +207,8 @@ Public Class InstalledMod
         End If        
     End Sub
 
-    Private Sub CreateModFile(ByVal Type As ModFileType, ByVal Files As List(Of ExtractJob))
+    Private Sub CreateModFile(ByVal Type As ModFileType, ByVal Files As List(Of ExtractJob), _
+                              Optional ByVal FixName As String = "")
         Dim doc As New XmlDocument
         Dim declaration As XmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
         ' create root and decleration
@@ -223,9 +226,16 @@ Public Class InstalledMod
         doc.DocumentElement.AppendChild(filelist)
         For Each job As ExtractJob In Files
             Dim file As XmlElement = doc.CreateElement("File")
-            file.SetAttribute("Path", Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.Data) - 1))
+            Select Case Type
+                Case ModFileType.Installed
+                    file.SetAttribute("Path", Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.ModCache) - 1))
+                Case ModFileType.Activated
+                    file.SetAttribute("Path", Microsoft.VisualBasic.Right(job.ExtractPath, Len(job.ExtractPath) - Len(Directories.Data) - 1))
+            End Select            
             filelist.AppendChild(file)
         Next
+        ' Fix
+        If Not String.IsNullOrEmpty(FixName) Then _info = FixName
         ' save file
         Dim Path As String
         Select Case Type
@@ -237,6 +247,45 @@ Public Class InstalledMod
                 Path = Directories.ModCache + "/" + _info
         End Select
         doc.Save(Path)
+    End Sub
+
+    Public Sub FixLegacy()
+        If MsgBox("Mod Manager will now attempt to convert the mod """ + _name + """.", MsgBoxStyle.OkCancel + MsgBoxStyle.Information, "Converting Mod") = MsgBoxResult.Ok Then
+            Try
+                Dim Files As List(Of ExtractJob)
+                Dim Line As String
+                Dim OrigName As String = _info
+                Dim FixName As String = Left(_info, Len(_info) - 3) + "xml"
+                ' Install
+                Files = New List(Of ExtractJob)
+                Using fs As New StreamReader(Directories.ModCache + "\" + OrigName)
+                    While Not fs.EndOfStream
+                        Line = fs.ReadLine
+                        Files.Add(New ExtractJob(Line, Directories.ModCache + "\" + Line))
+                    End While
+                End Using
+                CreateModFile(ModFileType.Installed, Files, FixName)
+                My.Computer.FileSystem.DeleteFile(Directories.ModCache + "\" + OrigName)
+                ' Active
+                If _active Then
+                    Files = New List(Of ExtractJob)
+                    Using fs As New StreamReader(Directories.Mods + "\" + OrigName)
+                        While Not fs.EndOfStream
+                            Line = fs.ReadLine
+                            Files.Add(New ExtractJob(Line, Directories.Data + "\" + Line))
+                        End While
+                    End Using
+                    CreateModFile(ModFileType.Activated, Files, FixName)
+                    My.Computer.FileSystem.DeleteFile(Directories.Mods + "\" + OrigName)
+                End If
+                ' Info file
+                _info = Left(_info, Len(_info) - 3) + "xml"
+                ' Message
+                MsgBox("Mod was successfully converted.", MsgBoxStyle.OkOnly + MsgBoxStyle.Information, "Success")
+            Catch ex As Exception
+                Debug.Print(ex.Message)
+            End Try
+        End If        
     End Sub
 
     ' ##### CHECK FOR UPDATE ###############################################################################################

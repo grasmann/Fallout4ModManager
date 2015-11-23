@@ -29,7 +29,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
@@ -177,7 +177,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Files.vb" />
-    <Compile Include="NexusAPI.vb" />
+    <Compile Include="Internet\NexusAPI.vb" />
     <Compile Include="Options.Designer.vb">
       <DependentUpon>Options.vb</DependentUpon>
     </Compile>
@@ -192,8 +192,8 @@
     </Compile>
     <Compile Include="Plugin\InstalledPlugin.vb" />
     <Compile Include="Plugin\InstalledPlugins.vb" />
-    <Compile Include="Update.vb" />
-    <Compile Include="URLProtocol.vb" />
+    <Compile Include="Internet\Update.vb" />
+    <Compile Include="Internet\URLProtocol.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="About.resx">

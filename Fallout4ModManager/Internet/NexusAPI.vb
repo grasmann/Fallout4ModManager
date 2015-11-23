@@ -15,7 +15,9 @@ Public Class NexusAPI
 
     ' File Infos
     Private Const _nexus_files_url As String = "http://www.nexusmods.com/fallout4/ajax/modfiles/?id=%ID%"
-    Private Const _version_pattern As String = "files-tab-files-list\s|.+?href=""http://www.nexusmods.com/fallout4/download/%ID%\s|.+?version (.+?)</"
+    Private Const _version_pattern As String = "(?s)files-tab-files-list.+?href=""http://www.nexusmods.com/fallout4/download/%ID%"".+?class=""version"".+?version (.+?)</"
+    'Private Const _version_pattern As String = "(?s)files-tab-files-list.+?href=""http://www.nexusmods.com/fallout4/download/%ID%"".+?version (.+?)</"
+    'Private Const _version_pattern As String = "files-tab-files-list\s|.+?href=""http://www.nexusmods.com/fallout4/download/%ID%\s|.+?version (.+?)</"
 
     ' Download Infos
     Private Const _download_url As String = "http://www.nexusmods.com/fallout4/ajax/downloadfile?id=%ID%&continueDL=true&skipdonate"
@@ -64,7 +66,7 @@ Public Class NexusAPI
     Public Sub New(ByVal ID As Integer)
         _id = ID
         While login_open
-            Threading.Thread.Sleep(1000)
+            Threading.Thread.Sleep(1)
         End While
         login_open = True
         Login()
@@ -86,7 +88,10 @@ Public Class NexusAPI
         ' File infos
         Dim FileData As String = _client.DownloadString(_nexus_files_url.Replace("%ID%", _id.ToString))
         ' Version
+        'Dim test As String = "(?s)files-tab-files-list.+?href=""http://www.nexusmods.com/fallout4/download/%ID%"".+?class=""version"".+?version (.+?)</".Replace("%ID%", ID.ToString)
         _current_version = Regex.Match(FileData, _version_pattern.Replace("%ID%", ID.ToString)).Groups(1).Value
+        'Dim matches As MatchCollection = Regex.Matches(FileData, test)
+        '_current_version = Regex.Match(FileData, test).Groups(1).Value
 
         ' Download infos        
         Dim DLData As String = _client.DownloadString(_download_url.Replace("%ID%", ID.ToString))

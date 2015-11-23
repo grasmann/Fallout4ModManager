@@ -82,14 +82,13 @@ Public Class InstalledMods
         Dim InstalledLegacyMods As List(Of String) = Files.InstalledLegacyMods
         Dim ActiveLegacyMods As List(Of String) = Files.FindActiveLegacyMods
         For Each InsMod As String In InstalledLegacyMods
-            If Not ActiveLegacyMods.Contains(InsMod) Then
-                Name = Microsoft.VisualBasic.Left(InsMod, InStrRev(InsMod, ".", Len(InsMod) - 4) - 1)
-                Active = ActiveLegacyMods.Contains(InsMod)
-                ' Add
-                InstalledMod = New InstalledMod(Name, 0, "N/A", Active, InsMod, True)
-                ' Event
-                RaiseEvent ModFound(InstalledMod)
-            End If
+            Name = Microsoft.VisualBasic.Left(InsMod, InStrRev(InsMod, ".", Len(InsMod) - 4) - 1)
+            Active = ActiveLegacyMods.Contains(InsMod)
+            ' Add
+            InstalledMod = New InstalledMod(Name, 0, "N/A", Active, InsMod, True)
+            Me.Add(InstalledMod)
+            ' Event
+            RaiseEvent ModFound(InstalledMod)
         Next
     End Sub
 

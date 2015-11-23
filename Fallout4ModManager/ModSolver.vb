@@ -3,6 +3,7 @@ Imports System.IO
 Imports System.Xml
 Imports System.Security
 Imports System.Security.Permissions
+Imports System.ComponentModel
 
 Public Class ModSolver
 
@@ -20,9 +21,15 @@ Public Class ModSolver
 
     Private already_exist As New List(Of ExtractJob)
 
+    Private WithEvents _scan_worker As New BackgroundWorker
+    Private WithEvents _install_worker As New BackgroundWorker
+
+    Private _archive As String
     Private _name As String
     Private _version As String
     Private _id As Integer
+
+    Private _in_progress As Boolean
 
 #Region "Start"
 
@@ -33,18 +40,23 @@ Public Class ModSolver
 
         ' Add any initialization after the InitializeComponent() call.
 
-        ScanArchive(Archive)
+        '_scan_worker.RunWorkerAsync(Archive)
+        'ScanArchive(Archive)
+        _archive = Archive
 
     End Sub
 
     Private Sub ModSolver_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        TreeView1.Nodes.Clear()
-        archive_data.Checked = True
-        archive_data.ForeColor = SystemColors.InactiveCaptionText
-        TreeView1.Nodes.Add(archive_data)
-        TreeView1.ExpandAll()
-        ' Check structure
-        CheckStructure()
+        ' Scan
+        _scan_worker.RunWorkerAsync(_archive)
+        '' UI
+        'TreeView1.Nodes.Clear()
+        'archive_data.Checked = True
+        'archive_data.ForeColor = SystemColors.InactiveCaptionText
+        'TreeView1.Nodes.Add(archive_data)
+        'TreeView1.ExpandAll()
+        '' Check structure
+        'CheckStructure()
     End Sub
 
 #End Region
@@ -198,11 +210,13 @@ Public Class ModSolver
     End Function
 
     Private Sub btn_install_Click(sender As Object, e As EventArgs) Handles btn_install.Click
+        btn_install.Enabled = False
         DialogResult = Windows.Forms.DialogResult.OK
-        extracter = New SevenZipExtractor(path)
+        'extracter = New SevenZipExtractor(path)
         already_exist = New List(Of ExtractJob)
         Preprocess(TreeView1.Nodes(0), Directories.ModCache + "\" + path.Filename)
-        Install()
+        'Install()
+        _install_worker.RunWorkerAsync()
     End Sub
 
     Private Sub TreeView1_NodeMouseClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles TreeView1.NodeMouseClick
@@ -226,38 +240,56 @@ Public Class ModSolver
 
 #Region "Scan and Preprocess"
 
+    Private Sub _scan_worker_DoWork(sender As Object, e As DoWorkEventArgs) Handles _scan_worker.DoWork
+        ScanArchive(e.Argument)
+    End Sub
+
+    Private Sub _scan_worker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _scan_worker.RunWorkerCompleted
+        ' Wait
+        Panel1.Visible = False
+        ' UI
+        TreeView1.Nodes.Clear()
+        archive_data.Checked = True
+        archive_data.ForeColor = SystemColors.InactiveCaptionText
+        TreeView1.Nodes.Add(archive_data)
+        TreeView1.ExpandAll()
+        ' Check structure
+        CheckStructure()
+    End Sub
+
     Private Sub ScanArchive(ByVal Archive As String)
         path = Archive
         Using fs As Stream = File.OpenRead(path)
             Try
-                Using ext As New SevenZipExtractor(path)
-                    If ext.Check Then
-                        For Each Item As ArchiveFileInfo In ext.ArchiveFileData
-                            Dim Name As String = Item.FileName
-                            Debug.Print(Name)
-                            If Not Item.IsDirectory Then
-                                Dim parent As TreeNode = archive_data
-                                Dim seperate As List(Of String) = Name.Split("\").ToList
-                                For i = 0 To seperate.Count - 1
-                                    Dim node = seperate(i)
-                                    If Not parent.Nodes.ContainsKey(node) Then
-                                        Dim newnode As TreeNode = parent.Nodes.Add(node, node)
-                                        newnode.Tag = Name
-                                        If i < seperate.Count - 1 Then
-                                            newnode.ToolTipText = "Dir"
-                                        End If
-                                        parent = newnode
-                                    Else
-                                        parent = archive_data.Nodes.Find(node, True)(0)
+                Dim ext As New SevenZipExtractor(fs)
+                If ext.Check Then
+                    For Each Item As ArchiveFileInfo In ext.ArchiveFileData
+                        Dim Name As String = Item.FileName
+                        If Not Item.IsDirectory Then
+                            Dim parent As TreeNode = archive_data
+                            Dim seperate As List(Of String) = Name.Split("\").ToList
+                            For i = 0 To seperate.Count - 1
+                                Dim node = seperate(i)
+                                If Not parent.Nodes.ContainsKey(node) Then
+                                    Dim newnode As TreeNode = parent.Nodes.Add(node, node)
+                                    newnode.Tag = Name
+                                    If i < seperate.Count - 1 Then
+                                        newnode.ToolTipText = "Dir"
                                     End If
-                                Next
-                            End If
-                        Next
-                    End If
-                End Using
+                                    parent = newnode
+                                Else
+                                    parent = archive_data.Nodes.Find(node, True)(0)
+                                End If
+                            Next
+                        End If
+                    Next
+                End If
+                ext.Dispose()
+                ext = Nothing
             Catch ex As Exception
                 MsgBox("The mod manager can't open file """ + path + """." + vbCrLf + "The file might be corrutped.")
             End Try
+            fs.Close()
         End Using
         Dim info As String = path + ".xml"
         If My.Computer.FileSystem.FileExists(info) Then
@@ -283,23 +315,13 @@ Public Class ModSolver
         For Each SubNode As TreeNode In Node.Nodes
             Dim ExtractFile As Boolean = True
             If SubNode.Checked Then
-
                 If Not SubNode.ToolTipText = "Dir" Then
                     Dim filepath As String = Dir + "\" + SubNode.Text
-
                     extract_jobs.Add(New ExtractJob(SubNode.Tag, filepath))
-
-                    'If My.Computer.FileSystem.FileExists(filepath) Then
-                    '    already_exist.Add(New ExtractJob(SubNode.Tag, filepath))
-                    'Else
-                    '    extract_jobs.Add(New ExtractJob(SubNode.Tag, filepath))
-                    'End If
-
                 Else
                     My.Computer.FileSystem.CreateDirectory(Dir + "\" + SubNode.Text)
                     If SubNode.Nodes.Count > 0 Then Preprocess(SubNode, Dir + "\" + SubNode.Text)
                 End If
-
             End If
         Next
     End Sub
@@ -308,19 +330,28 @@ Public Class ModSolver
 
 #Region "Install and Extract"
 
+    Private Sub _install_worker_DoWork(sender As Object, e As DoWorkEventArgs) Handles _install_worker.DoWork
+        Install()
+    End Sub
+
+    Private Sub _install_worker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _install_worker.RunWorkerCompleted
+
+    End Sub
+
     Private Sub Install()
         ' Evaluate overwrite
         Dim overwrite_files As New List(Of ExtractJob)
         If already_exist.Count > 0 Then
             Dim overwrite As New OverwriteSolver(already_exist, overwrite_files)
             If overwrite.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
+                'extracter.Dispose()
                 Exit Sub
             End If
         End If
         ' Add overwrite files
         For Each job As ExtractJob In overwrite_files
             extract_jobs.Add(job)
-        Next        
+        Next
         ProcessExtractB()
     End Sub
 
@@ -333,6 +364,7 @@ Public Class ModSolver
             filenames.Add(job.ArchivePath)
         Next
         Try
+            extracter = New SevenZipExtractor(path)
             extracter.BeginExtractFiles(Directories.Temp, filenames.ToArray)
         Catch ex As Exception
             MsgBox("Mod Manager doesn't have permission to write to folder """ + Directories.Temp + """.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Permission Error")
@@ -340,7 +372,13 @@ Public Class ModSolver
     End Sub
 
     Private Sub extracter_Extracting(sender As Object, e As ProgressEventArgs) Handles extracter.Extracting
-        ProgressBar1.Value = e.PercentDone
+        If ProgressBar1.InvokeRequired Then
+            ProgressBar1.Invoke(Sub()
+                                    ProgressBar1.Value = e.PercentDone
+                                End Sub)
+        Else
+            ProgressBar1.Value = e.PercentDone
+        End If
     End Sub
 
     Private Sub extracter_ExtractionFinished(sender As Object, e As EventArgs) Handles extracter.ExtractionFinished

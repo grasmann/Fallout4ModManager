@@ -100,7 +100,7 @@ Public Class ModDownload
             nexus = New NexusAPI(_mod_id)
             nexus.FetchFileInfo(_file_id)
 
-            _name = nexus.Name
+            _name = nexus.Name + " " + nexus.Version
 
             ' Paths
             _path = Directories.Downloads + "\" + nexus.Filename
@@ -136,11 +136,11 @@ Public Class ModDownload
         If Not _finished Then
             Abort()
         Else
-            If My.Computer.FileSystem.FileExists(_path + ".xml") Then
-                My.Computer.FileSystem.DeleteFile(_path + ".xml")
-            End If
             If My.Computer.FileSystem.FileExists(_path) Then
                 My.Computer.FileSystem.DeleteFile(_path)
+            End If
+            If My.Computer.FileSystem.FileExists(_path + ".xml") Then
+                My.Computer.FileSystem.DeleteFile(_path + ".xml")
             End If
         End If
         RaiseEvent Remove(Me)
@@ -159,10 +159,7 @@ Public Class ModDownload
                     My.Computer.FileSystem.DeleteFile(_path)
                     My.Computer.FileSystem.DeleteFile(_path + ".xml")
                     RaiseEvent Remove(Me)
-                    'dgv_downloads.Rows.Remove(dgv_downloads.SelectedRows(0))
                 End If
-                'Update
-                'ReloadMods()
                 Return True
             End If
         End If

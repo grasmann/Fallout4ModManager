@@ -77,7 +77,7 @@ Public Class ModDownloads
                     modfile = New Xml.XmlDocument
                     modfile.Load(Directories.Downloads + "\" + dl)
                     node = modfile.GetElementsByTagName("Info")(0)
-                    Name = node.Attributes("Name").Value
+                    Name = node.Attributes("Name").Value + " " + node.Attributes("Version").Value
                     ModDownload = New ModDownload(Name, 100, archive)
                     AddHandler ModDownload.Update, AddressOf Updated
                     AddHandler ModDownload.Finished, AddressOf WasFinished

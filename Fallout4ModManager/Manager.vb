@@ -11,6 +11,8 @@ Public Class Manager
     Public WithEvents InstalledArchives As New InstalledArchives
 
     Public Shared CreateLog As Boolean
+    Private legacy_message_shown As Boolean
+    Private legacy_mods_found As Boolean
 
     Private Const sResourceDataDirsFinal_Default As String = _
         "STRINGS\, TEXTURES\, INTERFACE\, SOUND\, MUSIC\, VIDEO\, MESHES\, PROGRAMS\, MATERIALS\, LODSETTINGS\, VIS\, MISC\, SCRIPTS\, SHADERSFX\"
@@ -56,226 +58,31 @@ Public Class Manager
         InstalledPlugins.Reload()
         InstalledArchives.Reload()
         Downloads.FindFinishedDownloads()
-        ' Update UI
-        UpdateUI()
         ' sResourceDataDirsFinal
         If String.IsNullOrEmpty(My.Settings.sResourceDataDirsFinal) Then _
             My.Settings.sResourceDataDirsFinal = sResourceDataDirsFinal_Default
         ' Check for update
         Fallout4ModManager.Update.CheckUpdate()
+        ' Legacy Mods
+        If legacy_mods_found Then ShowFixMessage()
     End Sub
 
-    ' ##### UI UPDATES ###################################################################################
-
-    Private Sub UpdateUI()
-        ' Downloads
-        'ListDownloads()
-        ' Plugins
-        'ListPlugins()
-        ' Archives
-        'ListArchives()
-        ' Mods
-        'ListMods()
+    Private Sub ShowFixMessage()
+        If Not legacy_message_shown Then
+            MsgBox("Some of your mods were installed by an earlier mod manager version." + vbCrLf + _
+               "Since mods are stored in a different structure now you'll have to reinstall or fix those mods." + vbCrLf + _
+               "To fix them double click on them or right click them and select" + vbCrLf + "'Fix Legacy Mod'.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, _
+               "Legacy Mods detected")
+            legacy_message_shown = True
+        End If        
     End Sub
 
-    'Private Sub ListMods()
-    '    Dim ActiveMods As List(Of String) = Files.FindActiveMods
-    '    Dim InstalledMods As List(Of String) = Files.InstalledMods
-    '    Dim modfile As Xml.XmlDocument
-    '    Dim node As Xml.XmlNode
-    '    Dim Name As String
-    '    Dim Version As String
-    '    Dim ID As String
-    '    listen_to_cell_changes = False
-    '    ' Clear
-    '    dgv_mods.Rows.Clear()
-    '    Dim Warning As String = "Please reinstall the mod!"
-    '    ' Active mods
-    '    For Each ActMod As String In ActiveMods
-    '        Try
-    '            ' Open xml
-    '            modfile = New Xml.XmlDocument
-    '            modfile.Load(Directories.ModCache + "/" + ActMod)
-    '            ' Read
-    '            node = modfile.GetElementsByTagName("Info")(0)
-    '            Name = node.Attributes("Name").Value
-    '            Version = node.Attributes("Version").Value
-    '            ID = node.Attributes("ID").Value                
-    '            ' Add row
-    '            dgv_mods.Rows.Add(True, Name, ActMod, Version, "", ID)
-    '            dgv_mods.Rows(dgv_mods.Rows.Count - 1).Cells("mods_version").Tag = ID
-    '        Catch ex As Exception
-    '            Debug.Print("List Mods 1: " + ex.Message)
-    '        End Try
-    '    Next
-    '    ' Installed mods
-    '    For Each InsMod As String In InstalledMods
-    '        If Not ActiveMods.Contains(InsMod) Then
-    '            Try
-    '                ' Open xml
-    '                modfile = New Xml.XmlDocument
-    '                modfile.Load(Directories.ModCache + "/" + InsMod)
-    '                ' Read
-    '                node = modfile.GetElementsByTagName("Info")(0)
-    '                Name = node.Attributes("Name").Value
-    '                Version = node.Attributes("Version").Value
-    '                ID = node.Attributes("ID").Value
-    '                ' Add row
-    '                dgv_mods.Rows.Add(False, Name, InsMod, Version, "", ID)
-    '                dgv_mods.Rows(dgv_mods.Rows.Count - 1).Cells("mods_version").Tag = ID
-    '            Catch ex As Exception
-    '                Debug.Print("List Mods 2: " + ex.Message)
-    '            End Try
-    '        End If
-    '    Next
-    '    ' Legacy Mods
-    '    Dim InstalledLegacyMods As List(Of String) = Files.InstalledLegacyMods
-    '    Dim ActiveLegacyMods As List(Of String) = Files.FindActiveLegacyMods
-    '    ' Active
-    '    For Each ActMod As String In ActiveLegacyMods
-    '        Name = Microsoft.VisualBasic.Left(ActMod, InStrRev(ActMod, ".", Len(ActMod) - 4) - 1)
-    '        dgv_mods.Rows.Add(True, Name, ActMod, "N/A", Warning, "0")
-    '    Next
-    '    ' Installed
-    '    For Each InsMod As String In InstalledLegacyMods
-    '        If Not ActiveLegacyMods.Contains(InsMod) Then
-    '            Name = Microsoft.VisualBasic.Left(InsMod, InStrRev(InsMod, ".", Len(InsMod) - 4) - 1)
-    '            dgv_mods.Rows.Add(False, Name, InsMod, "N/A", Warning, "0")
-    '        End If
-    '    Next
-    '    ' Post process
-    '    Dim hide_warning As Boolean = True
-    '    'For Each Row As DataGridViewRow In dgv_mods.Rows
-    '    '    Row.Cells("mods_warning").Style.ForeColor = Color.Red
-    '    '    If hide_warning Then
-    '    '        If Not String.IsNullOrEmpty(Row.Cells("mods_warning").Value) Then hide_warning = False
-    '    '    End If
-    '    'Next
-    '    If hide_warning Then dgv_mods.Columns("mods_warning").Visible = False
-    '    listen_to_cell_changes = True
-    'End Sub
+    ' ##### CLOSE ###################################################################################
 
-    ' List Archives
-    'Private Sub ListArchives()
-    '    Dim Archives As List(Of String) = Files.FindArchives
-    '    Dim ActiveArchvies As List(Of String) = Files.ActiveArchives
-    '    ' Clear
-    '    DataGridView3.Rows.Clear()
-    '    ' Iterate
-    '    For Each Archive As String In Archives
-    '        If Not archives_default.Contains(Archive.Filename) Then
-    '            DataGridView3.Rows.Add(ActiveArchives.Contains(Archive.Filename), Archive.Filename)
-    '        End If
-    '    Next
-    'End Sub
-
-    ' List Plugins
-    'Private Sub ListPlugins()
-    '    Dim Plugins As List(Of String) = Files.FindPlugins
-    '    Dim ActivePlugins As List(Of String) = Files.GetActivePlugins
-    '    ' Clear
-    '    dgv_plugins.Rows.Clear()
-    '    ' Iterate Active
-    '    For Each Esp As String In ActivePlugins
-    '        If EspsContain(Plugins, Esp) Or Esp.ToLower = "fallout4.esm" Then
-    '            dgv_plugins.Rows.Add(True, Esp.Filename, Esp)
-    '            ' Fallout 4 esm
-    '            If Esp.Filename.ToLower = "fallout4.esm" Then
-    '                Dim Row As DataGridViewRow = dgv_plugins.Rows(dgv_plugins.Rows.Count - 1)
-    '                Row.ReadOnly = True
-    '                Row.Cells(0).Style.BackColor = SystemColors.InactiveCaption
-    '                Row.Cells(1).Style.BackColor = SystemColors.InactiveCaption
-    '            End If
-    '        End If
-    '    Next
-    '    ' Non-Active
-    '    For Each Esp As String In Plugins
-    '        If Not ListContains(Esp.Filename) Then
-    '            dgv_plugins.Rows.Add(False, Esp.Filename, Esp)
-    '        End If
-    '    Next
-    'End Sub
-
-    ' List downloads
-    'Private Sub ListDownloads()
-    '    Dim dls As List(Of String) = Files.FindDownloads
-    '    Dim modfile As Xml.XmlDocument
-    '    Dim node As Xml.XmlNode
-    '    ' Clear
-    '    dgv_downloads.Rows.Clear()
-    '    ' Iterate downloads
-    '    For Each dl As String In dls
-    '        Dim archive As String = Directories.Downloads + "/" + Microsoft.VisualBasic.Left(dl, Len(dl) - 4)
-    '        If My.Computer.FileSystem.FileExists(archive) Then
-    '            Try
-    '                modfile = New Xml.XmlDocument
-    '                modfile.Load(Directories.Downloads + "/" + dl)
-    '                node = modfile.GetElementsByTagName("Info")(0)
-    '                Name = node.Attributes("Name").Value
-    '                dgv_downloads.Rows.Add(Name, "", "100%", archive, True)
-    '            Catch ex As Exception
-    '                Debug.Print("List Downloads: " + ex.Message)
-    '            End Try
-    '        End If
-    '    Next
-    'End Sub
-
-    ' ##### UI UPDATES ###################################################################################
-
-    'Private Sub update_worker_DoWork(sender As Object, e As DoWorkEventArgs) Handles update_worker.DoWork
-    '    For Each Row As DataGridViewRow In dgv_mods.Rows
-    '        Dim ID As String = Row.Cells("mods_id").Value
-    '        Dim Version As String = Row.Cells("mods_version").Value
-    '        ' Check version            
-    '        If Not Version = "N/A" Then
-    '            Dim nexus As New NexusAPI(Val(ID))
-    '            If update_worker.CancellationPending Then
-    '                e.Cancel = True
-    '                Exit Sub
-    '            End If
-    '            If Not nexus.Latest = Version Then
-    '                Version += " > " + nexus.Latest
-    '                If dgv_downloads.InvokeRequired Then
-    '                    dgv_downloads.Invoke(Sub()
-    '                                             Row.Cells("mods_version").Value = Version
-    '                                             Row.Cells("mods_version").Style.BackColor = Color.Red
-    '                                         End Sub)
-    '                End If
-    '            End If
-    '        End If            
-    '    Next
-    'End Sub
-
-    ' ##### UI UPDATES ###################################################################################
-
-    'Private Function ListContains(ByVal Esp As String) As Boolean
-    '    For Each Row As DataGridViewRow In dgv_plugins.Rows
-    '        If Row.Cells(1).Value = Esp Then Return True
-    '    Next
-    '    Return False
-    'End Function
-
-    'Private Function EspsContain(ByVal Esps As List(Of String), ByVal Esp As String) As Boolean
-    '    For Each e As String In Esps
-    '        If e.Filename = Esp Then
-    '            Return True
-    '        End If
-    '    Next
-    '    Return False
-    'End Function
-
-
-
-
-
-    Private Sub btn_play_Click(sender As Object, e As EventArgs) Handles btn_play.Click
-        Save()
-        ' Start
-        If My.Computer.FileSystem.FileExists(Directories.Install + "\Fallout4Launcher.exe") Then
-            Process.Start(Directories.Install + "\Fallout4Launcher.exe")
-        ElseIf My.Computer.FileSystem.FileExists(Directories.Install + "\Fallout4.exe") Then
-            Process.Start(Directories.Install + "\Fallout4.exe")
-        End If
+    Private Sub Manager_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If Not exit_without_save Then Save()
+        ' Cancel downloads
+        Downloads.AbortAll()
     End Sub
 
     Private Sub Save()
@@ -306,51 +113,15 @@ Public Class Manager
         My.Settings.Save()
     End Sub
 
-    Private Sub btn_up_Click(sender As Object, e As EventArgs) Handles btn_up.Click
-        If dgv_plugins.SelectedRows.Count > 0 Then
-            Dim Index As Integer = dgv_plugins.SelectedRows(0).Index
-            If Index > 1 Then
-                For i = 0 To dgv_plugins.Columns.Count - 1
-                    Dim val As Object = dgv_plugins.Rows(Index - 1).Cells(i).Value
-                    dgv_plugins.Rows(Index - 1).Cells(i).Value = dgv_plugins.Rows(Index).Cells(i).Value
-                    dgv_plugins.Rows(Index).Cells(i).Value = val
-                Next
-                dgv_plugins.Rows(Index - 1).Selected = True
-            End If
-        End If
-    End Sub
+    ' ##### BUTTONS ###################################################################################
 
-    Private Sub btn_down_Click(sender As Object, e As EventArgs) Handles btn_down.Click
-        If dgv_plugins.SelectedRows.Count > 0 Then
-            Dim Index As Integer = dgv_plugins.SelectedRows(0).Index
-            If Index > 0 And Index < dgv_plugins.Rows.Count - 1 Then
-                For i = 0 To dgv_plugins.Columns.Count - 1
-                    Dim val As Object = dgv_plugins.Rows(Index + 1).Cells(i).Value
-                    dgv_plugins.Rows(Index + 1).Cells(i).Value = dgv_plugins.Rows(Index).Cells(i).Value
-                    dgv_plugins.Rows(Index).Cells(i).Value = val
-                Next
-                dgv_plugins.Rows(Index + 1).Selected = True
-            End If
-        End If
-    End Sub
-
-    Private Sub DataGridView1_RowStateChanged(sender As Object, e As DataGridViewRowStateChangedEventArgs) Handles dgv_plugins.RowStateChanged
-        If e.StateChanged = DataGridViewElementStates.Selected Then
-            If e.Row.Index = 0 Then
-                btn_down.Enabled = False
-                btn_up.Enabled = False
-            Else
-                If e.Row.Index = 1 Then
-                    btn_up.Enabled = False
-                Else
-                    btn_up.Enabled = True
-                End If
-                If e.Row.Index = dgv_plugins.Rows.Count - 1 Then
-                    btn_down.Enabled = False
-                Else
-                    btn_down.Enabled = True
-                End If
-            End If
+    Private Sub btn_play_Click(sender As Object, e As EventArgs) Handles btn_play.Click
+        Save()
+        ' Start
+        If My.Computer.FileSystem.FileExists(Directories.Install + "\Fallout4Launcher.exe") Then
+            Process.Start(Directories.Install + "\Fallout4Launcher.exe")
+        ElseIf My.Computer.FileSystem.FileExists(Directories.Install + "\Fallout4.exe") Then
+            Process.Start(Directories.Install + "\Fallout4.exe")
         End If
     End Sub
 
@@ -376,15 +147,6 @@ Public Class Manager
                 Debug.Print(ex.Message)
             End Try
         End If
-        UpdateUI()
-    End Sub
-
-    
-
-    Private Sub Manager_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        If Not exit_without_save Then Save()
-        ' Cancel downloads
-        Downloads.AbortAll()
     End Sub
 
     Private Sub btn_about_Click(sender As Object, e As EventArgs) Handles btn_about.Click
@@ -392,57 +154,10 @@ Public Class Manager
         about.ShowDialog()
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub btn_settings_Click(sender As Object, e As EventArgs) Handles btn_settings.Click
         Dim options As New Options
         options.ShowDialog()
     End Sub
-
-    'Private Sub ActivateMod(ByVal ModFile As String)
-    '    ModHelper.ActivateMod(ModFile)
-    '    ' Save
-    '    Save()
-    '    ' Update
-    '    UpdateUI()
-    'End Sub
-
-    'Private Sub DeactivateMod(ByVal ModFile As String)
-    '    If ModHelper.DeactivateMod(ModFile) Then
-    '        ' Clean Directories
-    '        If My.Settings.CleanDirectories Then
-    '            Dim Count As Integer
-    '            Directories.DirectoryCount(Directories.Data, Count)
-    '            ProgressBar1.Maximum = Count
-    '            Directories.CleanDirectories(Directories.Data, ProgressBar1)
-    '            ProgressBar1.Value = 0
-    '        End If
-    '    End If
-    '    ' Save
-    '    Save()
-    '    ' Update
-    '    UpdateUI()
-    'End Sub
-
-    'Private Sub UninstallMod(ByVal ModFile As String)
-    '    ModHelper.UninstallMod(ModFile)
-    '    ' Save
-    '    Save()
-    '    ' Update
-    '    UpdateUI()
-    'End Sub
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     ' ##### MOD UPDATES ############################################################################################################
     
@@ -450,21 +165,24 @@ Public Class Manager
         Dim Warning As String
         With InstalledMod
             If .Legacy Then
-                Warning = "!Legacy - Please reinstall!"
+                legacy_mods_found = True
+                Warning = " ( Legacy - Reinstall or Right Click to fix )"
             Else
                 Warning = String.Empty
             End If
             listen_to_cell_changes = False
             If dgv_mods.InvokeRequired Then
                 dgv_mods.Invoke(Sub()
-                                    dgv_mods.Rows.Add(.Active, .Name, .Info, .Version, Warning, .ID.ToString)
+                                    dgv_mods.Rows.Add(.Active, .Name + Warning, .Info, .Version, "", .ID.ToString)
+                                    If .Legacy Then dgv_mods.Rows(dgv_mods.Rows.Count - 1).Cells("mods_active").ReadOnly = True
                                 End Sub)
             Else
-                dgv_mods.Rows.Add(.Active, .Name, .Info, .Version, Warning, .ID.ToString)
+                dgv_mods.Rows.Add(.Active, .Name + Warning, .Info, .Version, "", .ID.ToString)
+                If .Legacy Then dgv_mods.Rows(dgv_mods.Rows.Count - 1).Cells("mods_active").ReadOnly = True
             End If
             listen_to_cell_changes = True
         End With
-        CheckModWarnings()
+        'CheckModWarnings()
     End Sub
 
     Private Sub InstalledMods_ModChanged(InstalledMod As InstalledMod) Handles InstalledMods.ModChanged
@@ -481,32 +199,66 @@ Public Class Manager
     Private Sub InstalledMods_UpdateFound(InstalledMod As InstalledMod) Handles InstalledMods.UpdateFound
         With InstalledMod
             For Each Row As DataGridViewRow In dgv_mods.Rows
-                If Row.Cells("mods_id").Value = .ID.ToString Then
+                If Row.Cells("mods_id").Value = .ID.ToString And Row.Cells("mods_version").Value = .Version Then
                     If dgv_mods.InvokeRequired Then
                         dgv_mods.Invoke(Sub()
-                                            Row.Cells("mods_version").Value = .Version + " > " + .Latest
+                                            'Row.Cells("mods_version").Value = .Version + " > " + .Latest
+                                            Row.Cells("mods_update").Value = .Latest
                                             Row.Cells("mods_version").Style.BackColor = Color.Red
                                         End Sub)
                     Else
-                        Row.Cells("mods_version").Value = .Version + " > " + .Latest
+                        'Row.Cells("mods_version").Value = .Version + " > " + .Latest
+                        Row.Cells("mods_update").Value = .Latest
                         Row.Cells("mods_version").Style.BackColor = Color.Red
                     End If
                 End If
             Next
-        End With        
+        End With
+        CheckModUpdates()
     End Sub
 
-    Private Sub CheckModWarnings()
+    Private Sub CheckModUpdates()
+        Dim updates_available As Boolean
         For Each InstalledMod As InstalledMod In InstalledMods
-            If InstalledMod.Legacy Then
-                dgv_mods.Columns("mods_warning").Visible = True
-                Exit Sub
+            If Not InstalledMod.Version = InstalledMod.Latest Then
+                updates_available = True
+                Exit For
             End If
         Next
-        dgv_mods.Columns("mods_warning").Visible = False
+        If updates_available Then
+            If dgv_mods.InvokeRequired Then
+                dgv_mods.Invoke(Sub()
+                                    dgv_mods.Columns("mods_update").Visible = True
+                                End Sub)
+            Else
+                dgv_mods.Columns("mods_update").Visible = True
+            End If
+        End If
     End Sub
 
+    'Private Sub CheckModWarnings()
+    '    For Each InstalledMod As InstalledMod In InstalledMods
+    '        If InstalledMod.Legacy Then
+    '            dgv_mods.Columns("mods_warning").Visible = True
+    '            Exit Sub
+    '        End If
+    '    Next
+    '    dgv_mods.Columns("mods_warning").Visible = False
+    'End Sub
+
     ' ##### MOD CONTROLS ############################################################################################################
+
+    Private Sub btn_fix_legacy_Click(sender As Object, e As EventArgs) Handles btn_fix_legacy.Click
+        If dgv_mods.SelectedRows.Count > 0 Then
+            Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
+            If Not IsNothing(InstalledMod) Then
+                If InstalledMod.Legacy Then
+                    InstalledMod.FixLegacy()
+                    ReloadMods()
+                End If
+            End If
+        End If
+    End Sub
 
     Private Sub dgv_mods_CellMouseDown(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgv_mods.CellMouseDown
         If e.Button = Windows.Forms.MouseButtons.Right Then
@@ -522,11 +274,12 @@ Public Class Manager
 
     Private Sub ReloadMods()
         dgv_mods.Rows.Clear()
+        dgv_mods.Columns("mods_update").Visible = False
         Me.InstalledMods.Reload()
     End Sub
 
     Private Sub dgv_mods_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_mods.CellContentClick
-        If e.ColumnIndex = dgv_mods.Columns("mods_version").Index Then
+        If e.ColumnIndex = dgv_mods.Columns("mods_version").Index And e.RowIndex > -1 Then
             If Not String.IsNullOrEmpty(dgv_mods.Rows(e.RowIndex).Cells("mods_id").Value) Then
                 Process.Start(NexusAPI.ModUrl.Replace("%ID%", dgv_mods.Rows(e.RowIndex).Cells("mods_id").Value))
             End If
@@ -555,6 +308,13 @@ Public Class Manager
         If dgv_mods.SelectedRows.Count > 0 Then
             Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
             If Not IsNothing(InstalledMod) Then
+                ' Legacy
+                If InstalledMod.Legacy Then
+                    InstalledMod.FixLegacy()
+                    ReloadMods()
+                    Exit Sub
+                End If
+
                 InstalledMod.Activate()
                 EvaluateModSelection()
                 listen_to_cell_changes = False
@@ -568,6 +328,13 @@ Public Class Manager
         If dgv_mods.SelectedRows.Count > 0 Then
             Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
             If Not IsNothing(InstalledMod) Then
+                ' Legacy
+                If InstalledMod.Legacy Then
+                    InstalledMod.FixLegacy()
+                    ReloadMods()
+                    Exit Sub
+                End If
+
                 InstalledMod.Deactivate()
                 EvaluateModSelection()
                 listen_to_cell_changes = False
@@ -594,11 +361,22 @@ Public Class Manager
             Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(dgv_mods.Rows(e.RowIndex).Cells("mods_txt").Value)
             If Not IsNothing(InstalledMod) Then
                 With InstalledMod
+                    ' Legacy
+                    If .Legacy Then
+                        InstalledMod.FixLegacy()
+                        ReloadMods()
+                        Exit Sub
+                    End If
+
                     If .Active Then
                         .Deactivate()
                     Else
-                        .Activate()
-                    End If                    
+                        If Not .Activate() Then
+                            listen_to_cell_changes = False
+                            dgv_mods.Rows(e.RowIndex).Cells("mods_active").Value = False
+                            listen_to_cell_changes = True
+                        End If
+                    End If
                 End With
             End If
             EvaluateModSelection()
@@ -609,13 +387,20 @@ Public Class Manager
         If dgv_mods.SelectedRows.Count > 0 Then
             Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
             If Not IsNothing(InstalledMod) Then
-                If Not InstalledMod.Legacy Then
-                    With InstalledMod
-                        btn_deactivate.Visible = .Active
-                        btn_activate.Visible = Not .Active
-                        btn_deinstall.Enabled = True                        
-                    End With                    
-                End If
+                With InstalledMod
+                    If .Legacy Then
+                        btn_deactivate.Visible = False
+                        btn_activate.Visible = False
+                        btn_deinstall.Visible = False
+                        btn_fix_legacy.Visible = True
+                        Exit Sub
+                    End If
+
+                    btn_fix_legacy.Visible = False
+                    btn_deactivate.Visible = .Active
+                    btn_activate.Visible = Not .Active
+                    btn_deinstall.Visible = True
+                End With
             End If
         End If
     End Sub
@@ -626,6 +411,19 @@ Public Class Manager
         If dgv_mods.SelectedRows.Count > 0 Then
             Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
             If Not IsNothing(InstalledMod) Then
+                ' Legacy
+                If InstalledMod.Legacy Then
+                    ActivateToolStripMenuItem.Visible = False
+                    DeactivateToolStripMenuItem.Visible = False
+                    ToolStripSeparator2.Visible = False
+                    ToolStripSeparator3.Visible = False
+                    UninstallToolStripMenuItem.Visible = False
+                    EditInfoToolStripMenuItem.Visible = False
+                    FixLegacyModToolStripMenuItem.Visible = True
+                    Exit Sub
+                End If
+
+                ' Normal
                 If InstalledMod.Active Then
                     ActivateToolStripMenuItem.Visible = False
                     DeactivateToolStripMenuItem.Visible = True
@@ -633,6 +431,21 @@ Public Class Manager
                     ActivateToolStripMenuItem.Visible = True
                     DeactivateToolStripMenuItem.Visible = False
                 End If
+                ToolStripSeparator2.Visible = True
+                ToolStripSeparator3.Visible = True
+                UninstallToolStripMenuItem.Visible = True
+                EditInfoToolStripMenuItem.Visible = True
+                FixLegacyModToolStripMenuItem.Visible = False
+            End If
+        End If
+    End Sub
+
+    Private Sub FixLegacyModToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FixLegacyModToolStripMenuItem.Click
+        If dgv_mods.SelectedRows.Count > 0 Then
+            Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
+            If Not IsNothing(InstalledMod) Then
+                InstalledMod.FixLegacy()
+                ReloadMods()
             End If
         End If
     End Sub
@@ -650,9 +463,16 @@ Public Class Manager
     End Sub
 
     Private Sub dgv_mods_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_mods.CellDoubleClick
-        If dgv_mods.SelectedRows.Count > 0 Then
+        If dgv_mods.SelectedRows.Count > 0 And e.RowIndex > -1 Then
             Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
             If Not IsNothing(InstalledMod) Then
+                ' Legacy
+                If InstalledMod.Legacy Then
+                    InstalledMod.FixLegacy()
+                    ReloadMods()
+                    Exit Sub
+                End If
+
                 If InstalledMod.Active Then
                     DeactivateMod()
                 Else
@@ -695,6 +515,26 @@ Public Class Manager
 
     ' ##### PLUGIN CONTROLS ############################################################################################################
 
+    Private Sub dgv_plugins_RowStateChanged(sender As Object, e As DataGridViewRowStateChangedEventArgs) Handles dgv_plugins.RowStateChanged
+        If e.StateChanged = DataGridViewElementStates.Selected Then
+            If e.Row.Index = 0 Then
+                btn_down.Enabled = False
+                btn_up.Enabled = False
+            Else
+                If e.Row.Index = 1 Then
+                    btn_up.Enabled = False
+                Else
+                    btn_up.Enabled = True
+                End If
+                If e.Row.Index = dgv_plugins.Rows.Count - 1 Then
+                    btn_down.Enabled = False
+                Else
+                    btn_down.Enabled = True
+                End If
+            End If
+        End If
+    End Sub
+
     Private Sub dgv_plugins_CellMouseDown(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgv_plugins.CellMouseDown
         If e.Button = Windows.Forms.MouseButtons.Right Then
             dgv_plugins.Rows(e.RowIndex).Selected = True
@@ -705,6 +545,34 @@ Public Class Manager
         If dgv_plugins.SelectedRows.Count > 0 Then
             dgv_plugins.SelectedRows(0).Cells("esp_active").Value = _
                 Not dgv_plugins.SelectedRows(0).Cells("esp_active").Value
+        End If
+    End Sub
+
+    Private Sub btn_up_Click(sender As Object, e As EventArgs) Handles btn_up.Click
+        If dgv_plugins.SelectedRows.Count > 0 Then
+            Dim Index As Integer = dgv_plugins.SelectedRows(0).Index
+            If Index > 1 Then
+                For i = 0 To dgv_plugins.Columns.Count - 1
+                    Dim val As Object = dgv_plugins.Rows(Index - 1).Cells(i).Value
+                    dgv_plugins.Rows(Index - 1).Cells(i).Value = dgv_plugins.Rows(Index).Cells(i).Value
+                    dgv_plugins.Rows(Index).Cells(i).Value = val
+                Next
+                dgv_plugins.Rows(Index - 1).Selected = True
+            End If
+        End If
+    End Sub
+
+    Private Sub btn_down_Click(sender As Object, e As EventArgs) Handles btn_down.Click
+        If dgv_plugins.SelectedRows.Count > 0 Then
+            Dim Index As Integer = dgv_plugins.SelectedRows(0).Index
+            If Index > 0 And Index < dgv_plugins.Rows.Count - 1 Then
+                For i = 0 To dgv_plugins.Columns.Count - 1
+                    Dim val As Object = dgv_plugins.Rows(Index + 1).Cells(i).Value
+                    dgv_plugins.Rows(Index + 1).Cells(i).Value = dgv_plugins.Rows(Index).Cells(i).Value
+                    dgv_plugins.Rows(Index).Cells(i).Value = val
+                Next
+                dgv_plugins.Rows(Index + 1).Selected = True
+            End If
         End If
     End Sub
 
@@ -777,7 +645,7 @@ Public Class Manager
             Dim ModDownload As ModDownload = Downloads.FindDownloadByName(dgv_downloads.SelectedRows(0).Cells("dls_name").Value)
             If Not IsNothing(ModDownload) Then
                 If ModDownload.IsFinished Then
-                    btn_dl_install.Enabled = True
+                    btn_dl_install.Visible = True
                     btn_pause.Visible = False
                     btn_resume.Visible = False
                 Else
@@ -788,13 +656,13 @@ Public Class Manager
                         btn_resume.Visible = False
                         btn_pause.Visible = True
                     End If
-                    btn_dl_install.Enabled = False
+                    btn_dl_install.Visible = False
                 End If
             End If
-            btn_dl_delete.Enabled = True
+            btn_dl_delete.Visible = True
         Else
-            btn_dl_install.Enabled = False
-            btn_dl_delete.Enabled = False
+            btn_dl_install.Visible = False
+            btn_dl_delete.Visible = False
             btn_pause.Visible = False
             btn_resume.Visible = False
         End If
@@ -837,12 +705,15 @@ Public Class Manager
     End Sub
 
     Private Sub dgv_downloads_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_downloads.CellDoubleClick
-        Dim ModDownload As ModDownload = Downloads.FindDownloadByName(dgv_downloads.Rows(e.RowIndex).Cells("dls_name").Value)
-        If Not IsNothing(ModDownload) Then
-            ModDownload.Install()
-            'Update
-            ReloadMods()
-        End If
+        If e.RowIndex > -1 Then
+            Dim ModDownload As ModDownload = Downloads.FindDownloadByName(dgv_downloads.Rows(e.RowIndex).Cells("dls_name").Value)
+            If Not IsNothing(ModDownload) Then
+                If ModDownload.Install() Then
+                    'Update
+                    ReloadMods()
+                End If
+            End If
+        End If        
     End Sub
 
     Private Sub btn_dl_delete_Click(sender As Object, e As EventArgs) Handles btn_dl_delete.Click
