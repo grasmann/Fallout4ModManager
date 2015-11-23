@@ -26,7 +26,8 @@ Public Class Manager
     '      "Fallout4 - Startup.ba2", "Fallout4 - Voices.ba2"})
 
     Private exit_without_save As Boolean
-    Private listen_to_cell_changes As Boolean
+    Private listen_to_mod_cell_changes As Boolean
+    Private listen_to_plugin_cell_changes As Boolean
 
     ' ##### INIT ###################################################################################
 
@@ -170,7 +171,7 @@ Public Class Manager
             Else
                 Warning = String.Empty
             End If
-            listen_to_cell_changes = False
+            listen_to_mod_cell_changes = False
             If dgv_mods.InvokeRequired Then
                 dgv_mods.Invoke(Sub()
                                     dgv_mods.Rows.Add(.Active, .Name + Warning, .Info, .Version, "", .ID.ToString)
@@ -180,7 +181,7 @@ Public Class Manager
                 dgv_mods.Rows.Add(.Active, .Name + Warning, .Info, .Version, "", .ID.ToString)
                 If .Legacy Then dgv_mods.Rows(dgv_mods.Rows.Count - 1).Cells("mods_active").ReadOnly = True
             End If
-            listen_to_cell_changes = True
+            listen_to_mod_cell_changes = True
         End With
         'CheckModWarnings()
     End Sub
@@ -267,7 +268,7 @@ Public Class Manager
     End Sub
 
     Private Sub dgv_mods_CellMouseUp(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgv_mods.CellMouseUp
-        If e.ColumnIndex = 0 And e.RowIndex > -1 And listen_to_cell_changes Then
+        If e.ColumnIndex = 0 And e.RowIndex > -1 And listen_to_mod_cell_changes Then
             dgv_mods.EndEdit()
         End If
     End Sub
@@ -317,9 +318,9 @@ Public Class Manager
 
                 InstalledMod.Activate()
                 EvaluateModSelection()
-                listen_to_cell_changes = False
+                listen_to_mod_cell_changes = False
                 dgv_mods.SelectedRows(0).Cells("mods_active").Value = True
-                listen_to_cell_changes = True
+                listen_to_mod_cell_changes = True
             End If
         End If
     End Sub
@@ -337,9 +338,9 @@ Public Class Manager
 
                 InstalledMod.Deactivate()
                 EvaluateModSelection()
-                listen_to_cell_changes = False
+                listen_to_mod_cell_changes = False
                 dgv_mods.SelectedRows(0).Cells("mods_active").Value = False
-                listen_to_cell_changes = True
+                listen_to_mod_cell_changes = True
             End If
         End If
     End Sub
@@ -357,7 +358,7 @@ Public Class Manager
     End Sub
 
     Private Sub dgv_mods_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_mods.CellValueChanged
-        If e.ColumnIndex = 0 And e.RowIndex > -1 And listen_to_cell_changes Then
+        If e.ColumnIndex = 0 And e.RowIndex > -1 And listen_to_mod_cell_changes Then
             Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(dgv_mods.Rows(e.RowIndex).Cells("mods_txt").Value)
             If Not IsNothing(InstalledMod) Then
                 With InstalledMod
@@ -372,9 +373,9 @@ Public Class Manager
                         .Deactivate()
                     Else
                         If Not .Activate() Then
-                            listen_to_cell_changes = False
+                            listen_to_mod_cell_changes = False
                             dgv_mods.Rows(e.RowIndex).Cells("mods_active").Value = False
-                            listen_to_cell_changes = True
+                            listen_to_mod_cell_changes = True
                         End If
                     End If
                 End With
@@ -503,17 +504,35 @@ Public Class Manager
 
     Private Sub InstalledPlugins_PluginFound(InstalledPlugin As InstalledPlugin) Handles InstalledPlugins.PluginFound
         With InstalledPlugin
+            listen_to_plugin_cell_changes = False
             If dgv_mods.InvokeRequired Then
                 dgv_mods.Invoke(Sub()
                                     dgv_plugins.Rows.Add(.Active, .Name)
+                                    If .Name.ToLower = "fallout4.esm" Then
+                                        dgv_plugins.Rows(dgv_plugins.Rows.Count - 1).DefaultCellStyle.BackColor = SystemColors.InactiveCaption
+                                        dgv_plugins.Rows(dgv_plugins.Rows.Count - 1).ReadOnly = True
+                                    End If
                                 End Sub)
             Else
                 dgv_plugins.Rows.Add(.Active, .Name)
+                If .Name.ToLower = "fallout4.esm" Then
+                    dgv_plugins.Rows(dgv_plugins.Rows.Count - 1).DefaultCellStyle.BackColor = SystemColors.InactiveCaption
+                    dgv_plugins.Rows(dgv_plugins.Rows.Count - 1).ReadOnly = True
+                End If
             End If
+            Save()
+            listen_to_plugin_cell_changes = True
         End With
     End Sub
 
     ' ##### PLUGIN CONTROLS ############################################################################################################
+
+    Private Sub dgv_plugins_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_plugins.CellValueChanged
+        If e.ColumnIndex = 0 And listen_to_plugin_cell_changes Then
+            dgv_plugins.EndEdit()
+            Save()
+        End If
+    End Sub
 
     Private Sub dgv_plugins_RowStateChanged(sender As Object, e As DataGridViewRowStateChangedEventArgs) Handles dgv_plugins.RowStateChanged
         If e.StateChanged = DataGridViewElementStates.Selected Then
@@ -543,8 +562,11 @@ Public Class Manager
 
     Private Sub dgv_plugins_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_plugins.CellDoubleClick
         If dgv_plugins.SelectedRows.Count > 0 Then
-            dgv_plugins.SelectedRows(0).Cells("esp_active").Value = _
+            If Not dgv_plugins.SelectedRows(0).Cells("esp_active").ReadOnly Then
+                dgv_plugins.SelectedRows(0).Cells("esp_active").Value = _
                 Not dgv_plugins.SelectedRows(0).Cells("esp_active").Value
+                Save()
+            End If            
         End If
     End Sub
 
