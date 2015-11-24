@@ -114,7 +114,7 @@ Partial Class Login
         Me.MinimizeBox = False
         Me.Name = "Login"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "Login"
+        Me.Text = "Nexus Login"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

@@ -19,6 +19,8 @@ Public Class ModSolver
     Private extractor_working As Boolean
     Private add_folder_node As TreeNode
 
+    Public Event ModInstalled(ByVal InstalledMod As InstalledMod)
+
     Private already_exist As New List(Of ExtractJob)
 
     Private WithEvents _scan_worker As New BackgroundWorker
@@ -28,8 +30,11 @@ Public Class ModSolver
     Private _name As String
     Private _version As String
     Private _id As Integer
+    Private _info As String
 
     Private _in_progress As Boolean
+
+    Private _test As Integer
 
 #Region "Start"
 
@@ -215,6 +220,10 @@ Public Class ModSolver
         'extracter = New SevenZipExtractor(path)
         already_exist = New List(Of ExtractJob)
         Preprocess(TreeView1.Nodes(0), Directories.ModCache + "\" + path.Filename)
+        ' Values
+        _name = txt_name.Text
+        _version = txt_version.Text
+        _id = Val(txt_id.Text)
         'Install()
         _install_worker.RunWorkerAsync()
     End Sub
@@ -245,13 +254,17 @@ Public Class ModSolver
     End Sub
 
     Private Sub _scan_worker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _scan_worker.RunWorkerCompleted
+        ' Values
+        txt_name.Text = _name
+        txt_version.Text = _version
+        txt_id.Text = _id.ToString
         ' Wait
         Panel1.Visible = False
         ' UI
         TreeView1.Nodes.Clear()
-        archive_data.Checked = True
-        archive_data.ForeColor = SystemColors.InactiveCaptionText
+        archive_data.Checked = True        
         TreeView1.Nodes.Add(archive_data)
+        archive_data.ForeColor = SystemColors.InactiveCaptionText
         TreeView1.ExpandAll()
         ' Check structure
         CheckStructure()
@@ -263,8 +276,11 @@ Public Class ModSolver
             Try
                 Dim ext As New SevenZipExtractor(fs)
                 If ext.Check Then
-                    For Each Item As ArchiveFileInfo In ext.ArchiveFileData
+                    Dim Items As List(Of ArchiveFileInfo) = ext.ArchiveFileData.ToList
+                    Items = Items.OrderBy(Function(x) x.FileName).ToList
+                    For Each Item As ArchiveFileInfo In Items 'ext.ArchiveFileData
                         Dim Name As String = Item.FileName
+                        Debug.Print(Name)
                         If Not Item.IsDirectory Then
                             Dim parent As TreeNode = archive_data
                             Dim seperate As List(Of String) = Name.Split("\").ToList
@@ -273,29 +289,38 @@ Public Class ModSolver
                                 If Not parent.Nodes.ContainsKey(node) Then
                                     Dim newnode As TreeNode = parent.Nodes.Add(node, node)
                                     newnode.Tag = Name
+                                    If common_data_folders.Contains(node.ToLower) Or common_data_files.Contains(Microsoft.VisualBasic.Right(node.ToLower, 3)) Then
+                                        newnode.ForeColor = Color.Green
+                                    ElseIf parent.ForeColor = Color.Green Then
+                                        newnode.ForeColor = Color.Green
+                                    End If
                                     If i < seperate.Count - 1 Then
                                         newnode.ToolTipText = "Dir"
+                                        parent = newnode
                                     End If
-                                    parent = newnode
+                                    'parent = newnode
                                 Else
-                                    parent = archive_data.Nodes.Find(node, True)(0)
+                                    Dim nodes() As TreeNode = archive_data.Nodes.Find(node, True)
+                                    parent = nodes(nodes.Count - 1)
                                 End If
                             Next
+                            'parent = archive_data
                         End If
                     Next
                 End If
                 ext.Dispose()
                 ext = Nothing
             Catch ex As Exception
+                Debug.Print(ex.Message)
                 MsgBox("The mod manager can't open file """ + path + """." + vbCrLf + "The file might be corrutped.")
             End Try
             fs.Close()
         End Using
-        Dim info As String = path + ".xml"
-        If My.Computer.FileSystem.FileExists(info) Then
+        _info = path + ".xml"
+        If My.Computer.FileSystem.FileExists(_info) Then
             Dim doc As New Xml.XmlDocument
             Dim node As Xml.XmlNode
-            doc.Load(info)
+            doc.Load(_info)
             Try
                 node = doc.GetElementsByTagName("Info")(0)
                 _name = node.Attributes("Name").Value
@@ -303,8 +328,8 @@ Public Class ModSolver
                 _id = Val(node.Attributes("ID").Value)
                 Exit Sub
             Catch ex As Exception
-                MsgBox("The mod manager can't open file """ + info + """." + vbCrLf + "The file might be corrutped.")
-            End Try            
+                MsgBox("The mod manager can't open file """ + _info + """." + vbCrLf + "The file might be corrutped.")
+            End Try
         End If
         _name = path.Filename
         _version = "N/A"
@@ -335,10 +360,13 @@ Public Class ModSolver
     End Sub
 
     Private Sub _install_worker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _install_worker.RunWorkerCompleted
-
+        ' Event
+        Dim Info As String = Microsoft.VisualBasic.Right(_info, Len(_info) - Len(Directories.Downloads) - 1)
+        Dim InstalledMod As New InstalledMod(_name, _id, _version, False, Info)
+        RaiseEvent ModInstalled(InstalledMod)
     End Sub
 
-    Private Sub Install()
+    Private Sub Install()        
         ' Evaluate overwrite
         Dim overwrite_files As New List(Of ExtractJob)
         If already_exist.Count > 0 Then
@@ -413,7 +441,7 @@ Public Class ModSolver
             Me.Close()
         Catch ex As Exception
             MsgBox("Mod Manager doesn't have permission to delete to folder """ + Directories.Temp + """.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Permission Error")
-        End Try
+        End Try        
     End Sub
 
 #End Region
@@ -454,6 +482,44 @@ Public Class ModSolver
 
     Private Sub btn_cancel_Click(sender As Object, e As EventArgs) Handles btn_cancel.Click
         DialogResult = Windows.Forms.DialogResult.Cancel
+    End Sub
+
+    Private Sub TreeView1_BeforeCheck(sender As Object, e As TreeViewCancelEventArgs) Handles TreeView1.BeforeCheck
+        If Not ignore_changes And e.Node.Handle = TreeView1.Nodes(0).Handle Then
+            e.Cancel = True
+            '_test += 1
+            'Debug.Print("Check " + _test.ToString)
+        End If
+    End Sub
+
+    'Private Sub TreeView1_MouseMove(sender As Object, e As MouseEventArgs) Handles TreeView1.MouseMove
+    '    If TreeView1.Nodes.Count > 0 Then
+    '        If Not TreeView1.Nodes(0).Checked Then
+    '            ignore_changes = True
+    '            TreeView1.Nodes(0).Checked = True
+    '            ignore_changes = False
+    '        End If
+    '    End If
+    '    _test += 1
+    '    Debug.Print("Check " + _test.ToString)
+    'End Sub
+
+    'Private Sub TreeView1_MouseUp(sender As Object, e As MouseEventArgs) Handles TreeView1.MouseUp
+    '    If TreeView1.Nodes.Count > 0 Then
+    '        ignore_changes = True
+    '        TreeView1.Nodes(0).Checked = True
+    '        ignore_changes = False
+    '    End If
+    '    _test += 1
+    '    Debug.Print("MUp " + _test.ToString)
+    'End Sub
+
+    Private Sub TreeView1_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles TreeView1.MouseDoubleClick
+        Dim localPosition As Point = TreeView1.PointToClient(e.Location)
+        Dim hitTestInfo As TreeViewHitTestInfo = TreeView1.HitTest(localPosition)
+        If hitTestInfo.Location = TreeViewHitTestLocations.StateImage Then
+            Exit Sub
+        End If
     End Sub
 
 End Class

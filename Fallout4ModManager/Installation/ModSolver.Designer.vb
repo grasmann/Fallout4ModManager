@@ -23,12 +23,11 @@ Partial Class ModSolver
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node1")
-        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node4")
-        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node3", New System.Windows.Forms.TreeNode() {TreeNode12})
-        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node2", New System.Windows.Forms.TreeNode() {TreeNode13})
-        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data", New System.Windows.Forms.TreeNode() {TreeNode11, TreeNode14})
-        Me.TreeView1 = New System.Windows.Forms.TreeView()
+        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node1")
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node4")
+        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node3", New System.Windows.Forms.TreeNode() {TreeNode2})
+        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Node2", New System.Windows.Forms.TreeNode() {TreeNode3})
+        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data", New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode4})
         Me.lbl_status_bad = New System.Windows.Forms.Label()
         Me.lbl_status_good = New System.Windows.Forms.Label()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
@@ -39,33 +38,16 @@ Partial Class ModSolver
         Me.btn_cancel = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.lbl_name = New System.Windows.Forms.Label()
+        Me.txt_name = New System.Windows.Forms.TextBox()
+        Me.txt_version = New System.Windows.Forms.TextBox()
+        Me.txt_id = New System.Windows.Forms.TextBox()
+        Me.lbl_version = New System.Windows.Forms.Label()
+        Me.lbl_id = New System.Windows.Forms.Label()
+        Me.TreeView1 = New Fallout4ModManager.CustomTreeview()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'TreeView1
-        '
-        Me.TreeView1.AllowDrop = True
-        Me.TreeView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TreeView1.CheckBoxes = True
-        Me.TreeView1.FullRowSelect = True
-        Me.TreeView1.Location = New System.Drawing.Point(1, 36)
-        Me.TreeView1.Name = "TreeView1"
-        TreeNode11.Name = "Node1"
-        TreeNode11.Text = "Node1"
-        TreeNode12.Name = "Node4"
-        TreeNode12.Text = "Node4"
-        TreeNode13.Name = "Node3"
-        TreeNode13.Text = "Node3"
-        TreeNode14.Name = "Node2"
-        TreeNode14.Text = "Node2"
-        TreeNode15.Name = "Node0"
-        TreeNode15.Text = "Data"
-        Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode15})
-        Me.TreeView1.Size = New System.Drawing.Size(560, 457)
-        Me.TreeView1.TabIndex = 0
         '
         'lbl_status_bad
         '
@@ -171,12 +153,89 @@ Partial Class ModSolver
         Me.Label1.Text = "Please wait while the archive is being scanned."
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'lbl_name
+        '
+        Me.lbl_name.AutoSize = True
+        Me.lbl_name.Location = New System.Drawing.Point(1, 40)
+        Me.lbl_name.Name = "lbl_name"
+        Me.lbl_name.Size = New System.Drawing.Size(35, 13)
+        Me.lbl_name.TabIndex = 8
+        Me.lbl_name.Text = "Name"
+        '
+        'txt_name
+        '
+        Me.txt_name.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txt_name.Location = New System.Drawing.Point(42, 37)
+        Me.txt_name.Name = "txt_name"
+        Me.txt_name.Size = New System.Drawing.Size(252, 20)
+        Me.txt_name.TabIndex = 8
+        '
+        'txt_version
+        '
+        Me.txt_version.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txt_version.Location = New System.Drawing.Point(345, 37)
+        Me.txt_version.Name = "txt_version"
+        Me.txt_version.Size = New System.Drawing.Size(100, 20)
+        Me.txt_version.TabIndex = 8
+        '
+        'txt_id
+        '
+        Me.txt_id.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txt_id.Location = New System.Drawing.Point(496, 37)
+        Me.txt_id.Name = "txt_id"
+        Me.txt_id.Size = New System.Drawing.Size(64, 20)
+        Me.txt_id.TabIndex = 8
+        '
+        'lbl_version
+        '
+        Me.lbl_version.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lbl_version.AutoSize = True
+        Me.lbl_version.Location = New System.Drawing.Point(300, 40)
+        Me.lbl_version.Name = "lbl_version"
+        Me.lbl_version.Size = New System.Drawing.Size(42, 13)
+        Me.lbl_version.TabIndex = 8
+        Me.lbl_version.Text = "Version"
+        '
+        'lbl_id
+        '
+        Me.lbl_id.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lbl_id.AutoSize = True
+        Me.lbl_id.Location = New System.Drawing.Point(451, 40)
+        Me.lbl_id.Name = "lbl_id"
+        Me.lbl_id.Size = New System.Drawing.Size(42, 13)
+        Me.lbl_id.TabIndex = 8
+        Me.lbl_id.Text = "Mod ID"
+        '
+        'TreeView1
+        '
+        Me.TreeView1.AllowDrop = True
+        Me.TreeView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TreeView1.CheckBoxes = True
+        Me.TreeView1.FullRowSelect = True
+        Me.TreeView1.Location = New System.Drawing.Point(1, 59)
+        Me.TreeView1.Name = "TreeView1"
+        TreeNode1.Name = "Node1"
+        TreeNode1.Text = "Node1"
+        TreeNode2.Name = "Node4"
+        TreeNode2.Text = "Node4"
+        TreeNode3.Name = "Node3"
+        TreeNode3.Text = "Node3"
+        TreeNode4.Name = "Node2"
+        TreeNode4.Text = "Node2"
+        TreeNode5.Name = "Node0"
+        TreeNode5.Text = "Data"
+        Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode5})
+        Me.TreeView1.Size = New System.Drawing.Size(560, 434)
+        Me.TreeView1.TabIndex = 0
+        '
         'ModSolver
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(562, 535)
-        Me.ControlBox = False
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.btn_cancel)
         Me.Controls.Add(Me.Button1)
@@ -185,6 +244,12 @@ Partial Class ModSolver
         Me.Controls.Add(Me.TreeView1)
         Me.Controls.Add(Me.lbl_status_good)
         Me.Controls.Add(Me.lbl_status_bad)
+        Me.Controls.Add(Me.lbl_name)
+        Me.Controls.Add(Me.txt_name)
+        Me.Controls.Add(Me.lbl_version)
+        Me.Controls.Add(Me.txt_version)
+        Me.Controls.Add(Me.lbl_id)
+        Me.Controls.Add(Me.txt_id)
         Me.Name = "ModSolver"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
@@ -192,9 +257,10 @@ Partial Class ModSolver
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
-    Friend WithEvents TreeView1 As System.Windows.Forms.TreeView
+    Friend WithEvents TreeView1 As Fallout4ModManager.CustomTreeview
     Friend WithEvents btn_install As System.Windows.Forms.Button
     Friend WithEvents lbl_status_bad As System.Windows.Forms.Label
     Friend WithEvents lbl_status_good As System.Windows.Forms.Label
@@ -205,4 +271,10 @@ Partial Class ModSolver
     Friend WithEvents btn_cancel As System.Windows.Forms.Button
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents txt_name As System.Windows.Forms.TextBox
+    Friend WithEvents lbl_name As System.Windows.Forms.Label
+    Friend WithEvents lbl_id As System.Windows.Forms.Label
+    Friend WithEvents lbl_version As System.Windows.Forms.Label
+    Friend WithEvents txt_id As System.Windows.Forms.TextBox
+    Friend WithEvents txt_version As System.Windows.Forms.TextBox
 End Class

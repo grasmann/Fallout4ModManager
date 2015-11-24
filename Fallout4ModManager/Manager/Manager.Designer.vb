@@ -52,6 +52,7 @@ Partial Class Manager
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.btn_refresh = New System.Windows.Forms.Button()
         Me.btn_fix_legacy = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.dgv_mods = New System.Windows.Forms.DataGridView()
@@ -132,8 +133,8 @@ Partial Class Manager
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer3)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1002, 462)
-        Me.SplitContainer1.SplitterDistance = 450
+        Me.SplitContainer1.Size = New System.Drawing.Size(979, 472)
+        Me.SplitContainer1.SplitterDistance = 439
         Me.SplitContainer1.TabIndex = 2
         '
         'SplitContainer2
@@ -154,8 +155,8 @@ Partial Class Manager
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.Label3)
         Me.SplitContainer2.Panel2.Controls.Add(Me.dgv_archives)
-        Me.SplitContainer2.Size = New System.Drawing.Size(450, 462)
-        Me.SplitContainer2.SplitterDistance = 328
+        Me.SplitContainer2.Size = New System.Drawing.Size(439, 472)
+        Me.SplitContainer2.SplitterDistance = 335
         Me.SplitContainer2.TabIndex = 7
         '
         'btn_down
@@ -163,7 +164,7 @@ Partial Class Manager
         Me.btn_down.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_down.Enabled = False
         Me.btn_down.Image = Global.Fallout4ModManager.My.Resources.Resources.down
-        Me.btn_down.Location = New System.Drawing.Point(411, 51)
+        Me.btn_down.Location = New System.Drawing.Point(400, 51)
         Me.btn_down.Name = "btn_down"
         Me.btn_down.Size = New System.Drawing.Size(36, 36)
         Me.btn_down.TabIndex = 10
@@ -175,7 +176,7 @@ Partial Class Manager
         Me.btn_up.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_up.Enabled = False
         Me.btn_up.Image = Global.Fallout4ModManager.My.Resources.Resources.up
-        Me.btn_up.Location = New System.Drawing.Point(411, 15)
+        Me.btn_up.Location = New System.Drawing.Point(400, 15)
         Me.btn_up.Name = "btn_up"
         Me.btn_up.Size = New System.Drawing.Size(36, 36)
         Me.btn_up.TabIndex = 9
@@ -233,7 +234,7 @@ Partial Class Manager
         Me.dgv_plugins.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight
         Me.dgv_plugins.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.ControlText
         Me.dgv_plugins.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_plugins.Size = New System.Drawing.Size(411, 312)
+        Me.dgv_plugins.Size = New System.Drawing.Size(400, 319)
         Me.dgv_plugins.TabIndex = 7
         '
         'esp_active
@@ -310,7 +311,7 @@ Partial Class Manager
         Me.dgv_archives.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight
         Me.dgv_archives.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.ControlText
         Me.dgv_archives.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_archives.Size = New System.Drawing.Size(450, 114)
+        Me.dgv_archives.Size = New System.Drawing.Size(439, 117)
         Me.dgv_archives.TabIndex = 6
         '
         'DataGridViewCheckBoxColumn1
@@ -345,6 +346,7 @@ Partial Class Manager
         '
         'SplitContainer3.Panel1
         '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.btn_refresh)
         Me.SplitContainer3.Panel1.Controls.Add(Me.btn_fix_legacy)
         Me.SplitContainer3.Panel1.Controls.Add(Me.Label1)
         Me.SplitContainer3.Panel1.Controls.Add(Me.dgv_mods)
@@ -360,18 +362,30 @@ Partial Class Manager
         Me.SplitContainer3.Panel2.Controls.Add(Me.dgv_downloads)
         Me.SplitContainer3.Panel2.Controls.Add(Me.btn_pause)
         Me.SplitContainer3.Panel2.Controls.Add(Me.btn_resume)
-        Me.SplitContainer3.Size = New System.Drawing.Size(548, 462)
-        Me.SplitContainer3.SplitterDistance = 328
+        Me.SplitContainer3.Size = New System.Drawing.Size(536, 472)
+        Me.SplitContainer3.SplitterDistance = 335
         Me.SplitContainer3.TabIndex = 7
+        '
+        'btn_refresh
+        '
+        Me.btn_refresh.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_refresh.Image = Global.Fallout4ModManager.My.Resources.Resources.refresh
+        Me.btn_refresh.Location = New System.Drawing.Point(500, 123)
+        Me.btn_refresh.Name = "btn_refresh"
+        Me.btn_refresh.Size = New System.Drawing.Size(36, 36)
+        Me.btn_refresh.TabIndex = 11
+        Me.ToolTip1.SetToolTip(Me.btn_refresh, "Refresh mod list")
+        Me.btn_refresh.UseVisualStyleBackColor = True
         '
         'btn_fix_legacy
         '
         Me.btn_fix_legacy.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_fix_legacy.Image = Global.Fallout4ModManager.My.Resources.Resources.clean
-        Me.btn_fix_legacy.Location = New System.Drawing.Point(512, 87)
+        Me.btn_fix_legacy.Location = New System.Drawing.Point(500, 87)
         Me.btn_fix_legacy.Name = "btn_fix_legacy"
         Me.btn_fix_legacy.Size = New System.Drawing.Size(36, 36)
         Me.btn_fix_legacy.TabIndex = 10
+        Me.ToolTip1.SetToolTip(Me.btn_fix_legacy, "Fix legacy mod")
         Me.btn_fix_legacy.UseVisualStyleBackColor = True
         Me.btn_fix_legacy.Visible = False
         '
@@ -427,7 +441,7 @@ Partial Class Manager
         Me.dgv_mods.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight
         Me.dgv_mods.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.ControlText
         Me.dgv_mods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_mods.Size = New System.Drawing.Size(510, 312)
+        Me.dgv_mods.Size = New System.Drawing.Size(498, 319)
         Me.dgv_mods.TabIndex = 4
         '
         'mods_active
@@ -552,7 +566,7 @@ Partial Class Manager
         '
         Me.btn_activate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_activate.Image = Global.Fallout4ModManager.My.Resources.Resources.ok
-        Me.btn_activate.Location = New System.Drawing.Point(512, 15)
+        Me.btn_activate.Location = New System.Drawing.Point(500, 15)
         Me.btn_activate.Name = "btn_activate"
         Me.btn_activate.Size = New System.Drawing.Size(36, 36)
         Me.btn_activate.TabIndex = 6
@@ -564,7 +578,7 @@ Partial Class Manager
         '
         Me.btn_deactivate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_deactivate.Image = Global.Fallout4ModManager.My.Resources.Resources.deactivate
-        Me.btn_deactivate.Location = New System.Drawing.Point(512, 16)
+        Me.btn_deactivate.Location = New System.Drawing.Point(500, 16)
         Me.btn_deactivate.Name = "btn_deactivate"
         Me.btn_deactivate.Size = New System.Drawing.Size(36, 36)
         Me.btn_deactivate.TabIndex = 7
@@ -576,7 +590,7 @@ Partial Class Manager
         '
         Me.btn_deinstall.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_deinstall.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
-        Me.btn_deinstall.Location = New System.Drawing.Point(512, 51)
+        Me.btn_deinstall.Location = New System.Drawing.Point(500, 51)
         Me.btn_deinstall.Name = "btn_deinstall"
         Me.btn_deinstall.Size = New System.Drawing.Size(36, 36)
         Me.btn_deinstall.TabIndex = 8
@@ -588,7 +602,7 @@ Partial Class Manager
         '
         Me.btn_dl_install.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_dl_install.Image = Global.Fallout4ModManager.My.Resources.Resources.install
-        Me.btn_dl_install.Location = New System.Drawing.Point(512, 16)
+        Me.btn_dl_install.Location = New System.Drawing.Point(500, 16)
         Me.btn_dl_install.Name = "btn_dl_install"
         Me.btn_dl_install.Size = New System.Drawing.Size(36, 36)
         Me.btn_dl_install.TabIndex = 10
@@ -600,7 +614,7 @@ Partial Class Manager
         '
         Me.btn_dl_delete.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_dl_delete.Image = Global.Fallout4ModManager.My.Resources.Resources.deinstall
-        Me.btn_dl_delete.Location = New System.Drawing.Point(512, 88)
+        Me.btn_dl_delete.Location = New System.Drawing.Point(500, 88)
         Me.btn_dl_delete.Name = "btn_dl_delete"
         Me.btn_dl_delete.Size = New System.Drawing.Size(36, 36)
         Me.btn_dl_delete.TabIndex = 9
@@ -660,7 +674,7 @@ Partial Class Manager
         Me.dgv_downloads.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight
         Me.dgv_downloads.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.ControlText
         Me.dgv_downloads.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_downloads.Size = New System.Drawing.Size(511, 114)
+        Me.dgv_downloads.Size = New System.Drawing.Size(499, 117)
         Me.dgv_downloads.TabIndex = 7
         '
         'dls_name
@@ -746,7 +760,7 @@ Partial Class Manager
         '
         Me.btn_pause.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_pause.Image = Global.Fallout4ModManager.My.Resources.Resources.pause
-        Me.btn_pause.Location = New System.Drawing.Point(512, 52)
+        Me.btn_pause.Location = New System.Drawing.Point(500, 52)
         Me.btn_pause.Name = "btn_pause"
         Me.btn_pause.Size = New System.Drawing.Size(36, 36)
         Me.btn_pause.TabIndex = 11
@@ -758,7 +772,7 @@ Partial Class Manager
         '
         Me.btn_resume.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_resume.Image = Global.Fallout4ModManager.My.Resources.Resources.play
-        Me.btn_resume.Location = New System.Drawing.Point(512, 52)
+        Me.btn_resume.Location = New System.Drawing.Point(500, 52)
         Me.btn_resume.Name = "btn_resume"
         Me.btn_resume.Size = New System.Drawing.Size(36, 36)
         Me.btn_resume.TabIndex = 12
@@ -772,7 +786,7 @@ Partial Class Manager
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProgressBar1.Location = New System.Drawing.Point(213, 1)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(714, 34)
+        Me.ProgressBar1.Size = New System.Drawing.Size(691, 34)
         Me.ProgressBar1.TabIndex = 10
         '
         'btn_settings
@@ -784,18 +798,20 @@ Partial Class Manager
         Me.btn_settings.TabIndex = 9
         Me.btn_settings.Text = "Settings"
         Me.btn_settings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ToolTip1.SetToolTip(Me.btn_settings, "Change program settings")
         Me.btn_settings.UseVisualStyleBackColor = True
         '
         'btn_about
         '
         Me.btn_about.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_about.Image = Global.Fallout4ModManager.My.Resources.Resources.info
-        Me.btn_about.Location = New System.Drawing.Point(928, 0)
+        Me.btn_about.Location = New System.Drawing.Point(905, 0)
         Me.btn_about.Name = "btn_about"
         Me.btn_about.Size = New System.Drawing.Size(75, 36)
         Me.btn_about.TabIndex = 8
         Me.btn_about.Text = "About"
         Me.btn_about.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ToolTip1.SetToolTip(Me.btn_about, "Open about dialog")
         Me.btn_about.UseVisualStyleBackColor = True
         '
         'btn_play
@@ -807,6 +823,7 @@ Partial Class Manager
         Me.btn_play.TabIndex = 4
         Me.btn_play.Text = "Play"
         Me.btn_play.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ToolTip1.SetToolTip(Me.btn_play, "Start Fallout 4")
         Me.btn_play.UseVisualStyleBackColor = True
         '
         'btn_install
@@ -818,13 +835,14 @@ Partial Class Manager
         Me.btn_install.TabIndex = 3
         Me.btn_install.Text = "Install"
         Me.btn_install.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ToolTip1.SetToolTip(Me.btn_install, "Install mod from file")
         Me.btn_install.UseVisualStyleBackColor = True
         '
         'Manager
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1004, 520)
+        Me.ClientSize = New System.Drawing.Size(981, 530)
         Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.btn_settings)
         Me.Controls.Add(Me.btn_about)
@@ -832,6 +850,7 @@ Partial Class Manager
         Me.Controls.Add(Me.btn_install)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MinimumSize = New System.Drawing.Size(611, 307)
         Me.Name = "Manager"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -921,5 +940,6 @@ Partial Class Manager
     Friend WithEvents dls_done As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents dls_path As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents dls_finished As System.Windows.Forms.DataGridViewCheckBoxColumn
+    Friend WithEvents btn_refresh As System.Windows.Forms.Button
 
 End Class

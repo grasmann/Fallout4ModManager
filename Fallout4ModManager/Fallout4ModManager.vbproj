@@ -66,6 +66,29 @@
   <PropertyGroup>
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Fallout4ModManager.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Fallout4ModManager.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdvancedDownloadClient">
       <HintPath>.\AdvancedDownloadClient.dll</HintPath>
@@ -97,19 +120,25 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.Designer.vb">
+    <Compile Include="CustomTreeview.Designer.vb">
+      <DependentUpon>CustomTreeview.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomTreeview.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Manager\About.Designer.vb">
       <DependentUpon>About.vb</DependentUpon>
     </Compile>
-    <Compile Include="About.vb">
+    <Compile Include="Manager\About.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="Archive\InstalledArchive.vb" />
     <Compile Include="Archive\InstalledArchives.vb" />
-    <Compile Include="BackupSolver.Designer.vb">
+    <Compile Include="Installation\BackupSolver.Designer.vb">
       <DependentUpon>BackupSolver.vb</DependentUpon>
     </Compile>
-    <Compile Include="BackupSolver.vb">
+    <Compile Include="Installation\BackupSolver.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CookieAwareWebClient.vb">
@@ -121,43 +150,37 @@
     <Compile Include="EditModInfo\EditModInfo.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Extensions.vb" />
-    <Compile Include="ExtractJob.vb" />
-    <Compile Include="IniSettings.Designer.vb">
-      <DependentUpon>IniSettings.vb</DependentUpon>
-    </Compile>
-    <Compile Include="IniSettings.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Log.vb" />
-    <Compile Include="Login.Designer.vb">
+    <Compile Include="Common\Extensions.vb" />
+    <Compile Include="Installation\ExtractJob.vb" />
+    <Compile Include="Common\Log.vb" />
+    <Compile Include="Internet\Login.Designer.vb">
       <DependentUpon>Login.vb</DependentUpon>
     </Compile>
-    <Compile Include="Login.vb">
+    <Compile Include="Internet\Login.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Manager.vb">
+    <Compile Include="Manager\Manager.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Manager.Designer.vb">
+    <Compile Include="Manager\Manager.Designer.vb">
       <DependentUpon>Manager.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Directories.vb" />
+    <Compile Include="Common\Directories.vb" />
     <Compile Include="Mod\InstalledMod.vb" />
     <Compile Include="Download\ModDownload.vb" />
     <Compile Include="Download\ModDownloads.vb" />
     <Compile Include="Mod\ModHelper.vb" />
-    <Compile Include="ModSolver.Designer.vb">
+    <Compile Include="Installation\ModSolver.Designer.vb">
       <DependentUpon>ModSolver.vb</DependentUpon>
     </Compile>
-    <Compile Include="ModSolver.vb">
+    <Compile Include="Installation\ModSolver.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ModSolverHelp.Designer.vb">
+    <Compile Include="Installation\ModSolverHelp.Designer.vb">
       <DependentUpon>ModSolverHelp.vb</DependentUpon>
     </Compile>
-    <Compile Include="ModSolverHelp.vb">
+    <Compile Include="Installation\ModSolverHelp.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Mod\InstalledMods.vb" />
@@ -176,18 +199,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Files.vb" />
+    <Compile Include="Common\Files.vb" />
     <Compile Include="Internet\NexusAPI.vb" />
-    <Compile Include="Options.Designer.vb">
+    <Compile Include="Manager\Options.Designer.vb">
       <DependentUpon>Options.vb</DependentUpon>
     </Compile>
-    <Compile Include="Options.vb">
+    <Compile Include="Manager\Options.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OverwriteSolver.Designer.vb">
+    <Compile Include="Installation\OverwriteSolver.Designer.vb">
       <DependentUpon>OverwriteSolver.vb</DependentUpon>
     </Compile>
-    <Compile Include="OverwriteSolver.vb">
+    <Compile Include="Installation\OverwriteSolver.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Plugin\InstalledPlugin.vb" />
@@ -196,28 +219,25 @@
     <Compile Include="Internet\URLProtocol.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="About.resx">
+    <EmbeddedResource Include="Manager\About.resx">
       <DependentUpon>About.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BackupSolver.resx">
+    <EmbeddedResource Include="Installation\BackupSolver.resx">
       <DependentUpon>BackupSolver.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditModInfo\EditModInfo.resx">
       <DependentUpon>EditModInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="IniSettings.resx">
-      <DependentUpon>IniSettings.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Login.resx">
+    <EmbeddedResource Include="Internet\Login.resx">
       <DependentUpon>Login.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Manager.resx">
+    <EmbeddedResource Include="Manager\Manager.resx">
       <DependentUpon>Manager.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ModSolver.resx">
+    <EmbeddedResource Include="Installation\ModSolver.resx">
       <DependentUpon>ModSolver.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ModSolverHelp.resx">
+    <EmbeddedResource Include="Installation\ModSolverHelp.resx">
       <DependentUpon>ModSolverHelp.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -226,10 +246,10 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Options.resx">
+    <EmbeddedResource Include="Manager\Options.resx">
       <DependentUpon>Options.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OverwriteSolver.resx">
+    <EmbeddedResource Include="Installation\OverwriteSolver.resx">
       <DependentUpon>OverwriteSolver.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -309,6 +329,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\186.png" />
     <None Include="Resources\178.png" />
     <None Include="Resources\107.png" />
     <None Include="Resources\55.png" />

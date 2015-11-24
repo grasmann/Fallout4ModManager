@@ -1,0 +1,12 @@
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\bin\x86\Debug\Fallout4ModManager.exe.config
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\x86\Debug\Fallout4ModManager.About.resources
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\x86\Debug\Fallout4ModManager.BackupSolver.resources
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\x86\Debug\Fallout4ModManager.EditModInfo.resources
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\x86\Debug\Fallout4ModManager.Login.resources
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\x86\Debug\Fallout4ModManager.Manager.resources
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\x86\Debug\Fallout4ModManager.ModSolver.resources
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\x86\Debug\Fallout4ModManager.ModSolverHelp.resources
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\x86\Debug\Fallout4ModManager.Resources.resources
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\x86\Debug\Fallout4ModManager.Options.resources
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\x86\Debug\Fallout4ModManager.OverwriteSolver.resources
+F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\x86\Debug\Fallout4ModManager.vbproj.GenerateResource.Cache

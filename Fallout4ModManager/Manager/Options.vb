@@ -21,6 +21,7 @@
         CheckBox2.Checked = My.Settings.CleanDirectories
         TextBox3.Text = My.Settings.NexusUser
         TextBox4.Text = My.Settings.NexusPassword
+        chk_start_f4se.Checked = Not My.Settings.DontStartF4SE
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -43,6 +44,7 @@
             My.Settings.CleanDirectories = CheckBox2.Checked
             My.Settings.NexusUser = TextBox3.Text
             My.Settings.NexusPassword = TextBox4.Text
+            My.Settings.DontStartF4SE = Not chk_start_f4se.Checked
         End If        
     End Sub
 

@@ -119,10 +119,26 @@ Public Class Manager
     Private Sub btn_play_Click(sender As Object, e As EventArgs) Handles btn_play.Click
         Save()
         ' Start
-        If My.Computer.FileSystem.FileExists(Directories.Install + "\Fallout4Launcher.exe") Then
-            Process.Start(Directories.Install + "\Fallout4Launcher.exe")
-        ElseIf My.Computer.FileSystem.FileExists(Directories.Install + "\Fallout4.exe") Then
-            Process.Start(Directories.Install + "\Fallout4.exe")
+        Dim p As Process
+        If My.Computer.FileSystem.FileExists(Directories.Install + "\f4se_loader.exe") And Not My.Settings.DontStartF4SE Then
+            p = New Process
+            p.StartInfo.FileName = Directories.Install + "\f4se_loader.exe"
+            'Process.Start(Directories.Install + "\f4se_loader.exe")
+        Else
+            If My.Computer.FileSystem.FileExists(Directories.Install + "\Fallout4Launcher.exe") Then
+                p = New Process
+                p.StartInfo.FileName = Directories.Install + "\Fallout4Launcher.exe"
+                'Process.Start(Directories.Install + "\Fallout4Launcher.exe")
+            ElseIf My.Computer.FileSystem.FileExists(Directories.Install + "\Fallout4.exe") Then
+                p = New Process
+                p.StartInfo.FileName = Directories.Install + "\Fallout4.exe"
+                'Process.Start(Directories.Install + "\Fallout4.exe")
+            End If
+        End If
+        If Not IsNothing(p) Then
+            p.StartInfo.WorkingDirectory = Directories.Install
+            p.StartInfo.UseShellExecute = False
+            p.Start()
         End If
     End Sub
 
@@ -142,8 +158,9 @@ Public Class Manager
                 If My.Computer.FileSystem.DirectoryExists(openFileDialog1.FileName.Folder) Then
                     My.Settings.FileDirectory = openFileDialog1.FileName.Folder
                 End If
-                Dim solve As New ModSolver(openFileDialog1.FileName)
-                solve.ShowDialog()
+                'Dim solve As New ModSolver(openFileDialog1.FileName)
+                'solve.ShowDialog()
+                InstalledMods.InstallMod(openFileDialog1.FileName)
             Catch ex As Exception
                 Debug.Print(ex.Message)
             End Try
@@ -194,7 +211,14 @@ Public Class Manager
     End Sub
 
     Private Sub InstalledMods_ModUninstalled(InstalledMod As InstalledMod) Handles InstalledMods.ModUninstalled
-        'InstalledPlugins.Reload()
+        With InstalledMod
+            For Each Row As DataGridViewRow In dgv_mods.Rows
+                If Row.Cells("mods_id").Value = .ID.ToString And Row.Cells("mods_version").Value = .Version Then
+                    dgv_mods.Rows.Remove(Row)
+                    Exit Sub
+                End If
+            Next
+        End With        
     End Sub
 
     Private Sub InstalledMods_UpdateFound(InstalledMod As InstalledMod) Handles InstalledMods.UpdateFound
@@ -294,8 +318,8 @@ Public Class Manager
                 If MsgBox("Do you really want to uninstall the mod" + vbCrLf + """" + dgv_mods.SelectedRows(0).Cells("mods_name").Value + """?",
                       MsgBoxStyle.YesNo + MsgBoxStyle.Question, "Uninstall?") = MsgBoxResult.Yes Then
                     InstalledMod.Uninstall()
-                    ' Update
-                    ReloadMods()
+                    '' Update
+                    'ReloadMods()
                 End If
             End If
         End If
@@ -343,6 +367,10 @@ Public Class Manager
                 listen_to_mod_cell_changes = True
             End If
         End If
+    End Sub
+
+    Private Sub btn_refresh_Click(sender As Object, e As EventArgs) Handles btn_refresh.Click
+        ReloadMods()
     End Sub
 
     Private Sub btn_activate_Click(sender As Object, e As EventArgs) Handles btn_activate.Click
@@ -645,6 +673,15 @@ Public Class Manager
         End If
     End Sub
 
+    Private Sub Downloads_Removed(Download As ModDownload) Handles Downloads.Removed
+        For Each Row As DataGridViewRow In dgv_downloads.Rows
+            If Row.Cells("dls_path").Value = Download.Path Then
+                dgv_downloads.Rows.Remove(Row)
+                Exit Sub
+            End If
+        Next
+    End Sub
+
     Private Sub Downloads_Update(ByVal Download As ModDownload) Handles Downloads.Update
         For Each Row As DataGridViewRow In dgv_downloads.Rows
             If Row.Cells("dls_path").Value = Download.Path Then
@@ -655,6 +692,29 @@ Public Class Manager
     End Sub
 
     ' ##### DOWNLOAD CONTROLS ############################################################################################################
+
+    Public Function InstallDownload(ByVal ModDownload As ModDownload) As Boolean
+        With ModDownload
+            If .IsFinished Then
+                'Dim Path As String = dgv_downloads.SelectedRows(0).Cells("dls_path").Value
+                'Dim Info As String = Path + ".xml"
+                ' Install
+                'Dim mod_solver As New ModSolver(.Path)
+                If InstalledMods.InstallMod(.Path) = Windows.Forms.DialogResult.OK Then
+                    If MsgBox("Do you want to delete the """ + .Path + """ from the download directory?", _
+                              MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Delete file?") = MsgBoxResult.Yes Then
+                        Files.SetAttributes(Directories.Downloads)
+                        My.Computer.FileSystem.DeleteFile(.Path)
+                        My.Computer.FileSystem.DeleteFile(.Path + ".xml")
+                        Downloads.Remove(ModDownload)
+                        'RaiseEvent Remove(Me)
+                    End If
+                    Return True
+                End If
+            End If
+            Return False
+        End With        
+    End Function
 
     Private Sub dgv_downloads_RowStateChanged(sender As Object, e As DataGridViewRowStateChangedEventArgs) Handles dgv_downloads.RowStateChanged
         If e.StateChanged = DataGridViewElementStates.Selected Then
@@ -694,10 +754,10 @@ Public Class Manager
         If dgv_downloads.SelectedRows.Count > 0 Then
             Dim ModDownload As ModDownload = Downloads.FindDownloadByName(dgv_downloads.SelectedRows(0).Cells("dls_name").Value)
             If Not IsNothing(ModDownload) Then
-                If ModDownload.Install() Then
-                    'Update
-                    ReloadMods()
-                End If                
+                If InstallDownload(ModDownload) Then
+                    ''Update
+                    'ReloadMods()
+                End If
             End If
         End If
     End Sub
@@ -730,12 +790,12 @@ Public Class Manager
         If e.RowIndex > -1 Then
             Dim ModDownload As ModDownload = Downloads.FindDownloadByName(dgv_downloads.Rows(e.RowIndex).Cells("dls_name").Value)
             If Not IsNothing(ModDownload) Then
-                If ModDownload.Install() Then
-                    'Update
-                    ReloadMods()
+                If InstallDownload(ModDownload) Then
+                    ''Update
+                    'ReloadMods()
                 End If
             End If
-        End If        
+        End If
     End Sub
 
     Private Sub btn_dl_delete_Click(sender As Object, e As EventArgs) Handles btn_dl_delete.Click

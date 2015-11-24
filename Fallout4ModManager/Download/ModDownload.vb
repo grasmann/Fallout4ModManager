@@ -146,25 +146,25 @@ Public Class ModDownload
         RaiseEvent Remove(Me)
     End Sub
 
-    Public Function Install() As Boolean
-        If _finished Then
-            'Dim Path As String = dgv_downloads.SelectedRows(0).Cells("dls_path").Value
-            'Dim Info As String = Path + ".xml"
-            ' Install
-            Dim mod_solver As New ModSolver(_path)
-            If mod_solver.ShowDialog() = Windows.Forms.DialogResult.OK Then
-                If MsgBox("Do you want to delete the """ + _path + """ from the download directory?", _
-                          MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Delete file?") = MsgBoxResult.Yes Then
-                    Files.SetAttributes(Directories.Downloads)
-                    My.Computer.FileSystem.DeleteFile(_path)
-                    My.Computer.FileSystem.DeleteFile(_path + ".xml")
-                    RaiseEvent Remove(Me)
-                End If
-                Return True
-            End If
-        End If
-        Return False
-    End Function
+    'Public Function Install() As Boolean
+    '    If _finished Then
+    '        'Dim Path As String = dgv_downloads.SelectedRows(0).Cells("dls_path").Value
+    '        'Dim Info As String = Path + ".xml"
+    '        ' Install
+    '        Dim mod_solver As New ModSolver(_path)
+    '        If mod_solver.ShowDialog() = Windows.Forms.DialogResult.OK Then
+    '            If MsgBox("Do you want to delete the """ + _path + """ from the download directory?", _
+    '                      MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Delete file?") = MsgBoxResult.Yes Then
+    '                Files.SetAttributes(Directories.Downloads)
+    '                My.Computer.FileSystem.DeleteFile(_path)
+    '                My.Computer.FileSystem.DeleteFile(_path + ".xml")
+    '                RaiseEvent Remove(Me)
+    '            End If
+    '            Return True
+    '        End If
+    '    End If
+    '    Return False
+    'End Function
 
     ' ##### DOWNLOAD ##########################################################################################
 

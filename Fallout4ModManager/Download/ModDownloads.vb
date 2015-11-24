@@ -6,6 +6,7 @@ Public Class ModDownloads
     Public Event Added(ByVal Download As ModDownload)
     Public Event Update(ByVal Download As ModDownload)
     Public Event Finished(ByVal Download As ModDownload)
+    Public Event Removed(ByVal Download As ModDownload)
 
     Public Sub AbortAll()
         For i = Me.Count - 1 To 0 Step -1
@@ -47,6 +48,7 @@ Public Class ModDownloads
     End Sub
 
     Private Sub WasRemoved(ByVal Download As ModDownload)
+        RaiseEvent Removed(Download)
         Me.Remove(Download)
     End Sub
 

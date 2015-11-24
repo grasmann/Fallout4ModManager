@@ -137,6 +137,18 @@ Namespace My
                 Me("NexusPassword") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property DontStartF4SE() As Boolean
+            Get
+                Return CType(Me("DontStartF4SE"),Boolean)
+            End Get
+            Set
+                Me("DontStartF4SE") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

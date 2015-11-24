@@ -35,7 +35,6 @@ F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Debug\Fallout4Mo
 F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Debug\Fallout4ModManager.OverwriteSolver.resources
 F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Debug\Fallout4ModManager.vbproj.GenerateResource.Cache
 F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Debug\Fallout4ModManager.BackupSolver.resources
-F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Debug\Fallout4ModManager.IniSettings.resources
 F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Debug\Fallout4ModManager.ModSolverHelp.resources
 F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\obj\Debug\Fallout4ModManager.Options.resources
 F:\Work\Anderes\Fallout4ModManager\trunk\Fallout4ModManager\bin\Debug\AdvancedDownloadClient.dll

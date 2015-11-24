@@ -4,6 +4,8 @@ Imports System.ComponentModel
 Public Class InstalledMods
     Inherits List(Of InstalledMod)
 
+    Private WithEvents mod_solver As ModSolver
+
     Public Event ModFound(ByVal InstalledMod As InstalledMod)
     Public Event ModChanged(ByVal InstalledMod As InstalledMod)
     Public Event ModUninstalled(ByVal InstalledMod As InstalledMod)
@@ -11,8 +13,20 @@ Public Class InstalledMods
 
     ' ##### FUNCTIONS ##########################################################################################
 
+    Public Function InstallMod(ByVal Archive As String) As Windows.Forms.DialogResult
+        mod_solver = New ModSolver(Archive)
+        Return mod_solver.ShowDialog()
+    End Function
+
+    Private Sub mod_solver_ModInstalled(InstalledMod As InstalledMod) Handles mod_solver.ModInstalled
+        AddMod(InstalledMod)
+    End Sub
+
     Public Sub AddMod(ByVal InstalledMod As InstalledMod)
         Me.Add(InstalledMod)
+        AddHandler InstalledMod.UpdateFound, AddressOf ModUpdateFound
+        AddHandler InstalledMod.Changed, AddressOf ModWasChanged
+        AddHandler InstalledMod.Uninstalled, AddressOf ModWasUninstalled
         RaiseEvent ModFound(InstalledMod)
     End Sub
 
@@ -40,6 +54,7 @@ Public Class InstalledMods
 
     Private Sub ModWasUninstalled(ByVal InstalledMod As InstalledMod)
         RaiseEvent ModUninstalled(InstalledMod)
+        Me.Remove(InstalledMod)
     End Sub
 
     ' ##### LOAD ##########################################################################################
