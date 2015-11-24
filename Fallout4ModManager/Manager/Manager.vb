@@ -119,7 +119,7 @@ Public Class Manager
     Private Sub btn_play_Click(sender As Object, e As EventArgs) Handles btn_play.Click
         Save()
         ' Start
-        Dim p As Process
+        Dim p As Process = Nothing
         If My.Computer.FileSystem.FileExists(Directories.Install + "\f4se_loader.exe") And Not My.Settings.DontStartF4SE Then
             p = New Process
             p.StartInfo.FileName = Directories.Install + "\f4se_loader.exe"
@@ -706,7 +706,8 @@ Public Class Manager
                         Files.SetAttributes(Directories.Downloads)
                         My.Computer.FileSystem.DeleteFile(.Path)
                         My.Computer.FileSystem.DeleteFile(.Path + ".xml")
-                        Downloads.Remove(ModDownload)
+                        ModDownload.Delete()
+                        'Downloads.RemoveDownload(ModDownload)
                         'RaiseEvent Remove(Me)
                     End If
                     Return True
@@ -777,7 +778,7 @@ Public Class Manager
             Dim ModDownload As ModDownload = Downloads.FindDownloadByName(dgv_downloads.SelectedRows(0).Cells("dls_name").Value)
             If Not IsNothing(ModDownload) Then
                 ModDownload.Delete()
-                dgv_downloads.Rows.Remove(dgv_downloads.SelectedRows(0))
+                'dgv_downloads.Rows.Remove(dgv_downloads.SelectedRows(0))
             End If
         End If
     End Sub

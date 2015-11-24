@@ -39,6 +39,10 @@ Public Class ModDownloads
         End If        
     End Sub
 
+    'Public Sub RemoveDownload(ByVal Download As ModDownload)
+    '    WasRemoved(Download)
+    'End Sub
+
     Private Sub Updated(ByVal Download As ModDownload)
         RaiseEvent Update(Download)
     End Sub
