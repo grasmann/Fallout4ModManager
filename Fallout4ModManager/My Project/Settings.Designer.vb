@@ -149,6 +149,114 @@ Namespace My
                 Me("DontStartF4SE") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property DontAskDeleteDownloads() As Boolean
+            Get
+                Return CType(Me("DontAskDeleteDownloads"),Boolean)
+            End Get
+            Set
+                Me("DontAskDeleteDownloads") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property PluginArchiveSplitter() As Integer
+            Get
+                Return CType(Me("PluginArchiveSplitter"),Integer)
+            End Get
+            Set
+                Me("PluginArchiveSplitter") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property ModDownloadSplitter() As Integer
+            Get
+                Return CType(Me("ModDownloadSplitter"),Integer)
+            End Get
+            Set
+                Me("ModDownloadSplitter") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property MainSplitter() As Integer
+            Get
+                Return CType(Me("MainSplitter"),Integer)
+            End Get
+            Set
+                Me("MainSplitter") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0, 0")>  _
+        Public Property WindowPosition() As Global.System.Drawing.Point
+            Get
+                Return CType(Me("WindowPosition"),Global.System.Drawing.Point)
+            End Get
+            Set
+                Me("WindowPosition") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0, 0")>  _
+        Public Property WindowSize() As Global.System.Drawing.Size
+            Get
+                Return CType(Me("WindowSize"),Global.System.Drawing.Size)
+            End Get
+            Set
+                Me("WindowSize") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property WindowMaximized() As Boolean
+            Get
+                Return CType(Me("WindowMaximized"),Boolean)
+            End Get
+            Set
+                Me("WindowMaximized") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property SortColumn() As String
+            Get
+                Return CType(Me("SortColumn"),String)
+            End Get
+            Set
+                Me("SortColumn") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property SortDirection() As Integer
+            Get
+                Return CType(Me("SortDirection"),Integer)
+            End Get
+            Set
+                Me("SortDirection") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

@@ -9,6 +9,7 @@ Public Class InstalledMod
         Activated
     End Enum
 
+    Private _category As String
     Private _name As String
     Private _id As Integer
     Private _version As String
@@ -20,6 +21,7 @@ Public Class InstalledMod
 
     Public Event UpdateFound(ByVal InstalledMod As InstalledMod)
     Public Event Changed(ByVal InstalledMod As InstalledMod)
+    Public Event Update(ByVal InstalledMod As InstalledMod)
     Public Event Uninstalled(ByVal InstalledMod As InstalledMod)
 
     Public ReadOnly Property Name As String
@@ -64,20 +66,40 @@ Public Class InstalledMod
         End Get
     End Property
 
+    Public ReadOnly Property Category As String
+        Get
+            Return _category
+        End Get
+    End Property
+
     ' ##### INIT ###############################################################################################
 
     Public Sub New(ByVal Name As String, ByVal ID As Integer, ByVal Version As String, ByVal Active As Boolean, _
-                   ByVal Info As String, Optional ByVal Legacy As Boolean = False)        
+                   ByVal Info As String, Optional ByVal Legacy As Boolean = False, Optional ByVal Category As String = "")
         _name = Name
         _id = ID
         _version = Version
         _active = Active
         _legacy = Legacy
         _info = Info
+        _category = Category
         _worker.RunWorkerAsync()
     End Sub
 
     ' ##### ACTIONS ###############################################################################################
+
+    Public Sub UpdateInfo(ByVal Name As String, ByVal ID As Integer, ByVal Version As String, ByVal Category As String)
+        _name = Name
+        _id = ID
+        _version = Version
+        _category = Category
+    End Sub
+
+    Public Sub RecheckUpdate()
+        If Not _worker.IsBusy Then
+            _worker.RunWorkerAsync()
+        End If
+    End Sub
 
     Public Function Activate() As Boolean
         Dim files As New List(Of ExtractJob)
@@ -149,14 +171,16 @@ Public Class InstalledMod
             For Each Node As Xml.XmlNode In nodes
                 Dim Line As String = Node.Attributes("Path").Value
                 If My.Computer.FileSystem.FileExists(Directories.Data + "\" + Line) Then
-                    My.Computer.FileSystem.DeleteFile(Directories.Data + "\" + Line)
+                    'My.Computer.FileSystem.DeleteFile(Directories.Data + "\" + Line)
+                    DeleteJobs.DeleteFile(Directories.Data + "\" + Line)
                     If My.Computer.FileSystem.FileExists(Directories.Data + "\" + Line + ".bak") Then
                         backups.Add(Directories.Data + "\" + Line)
                     End If
                 End If
             Next
             ' Delete Mod file
-            My.Computer.FileSystem.DeleteFile(Path)
+            'My.Computer.FileSystem.DeleteFile(Path)
+            DeleteJobs.DeleteFile(Path)
             ' Backups
             If backups.Count > 0 Then
                 Dim backup As New BackupSolver(backups, restore_backups, delete_backups)
@@ -167,14 +191,14 @@ Public Class InstalledMod
                 Next
                 ' Delete
                 For Each File As String In delete_backups
-                    My.Computer.FileSystem.DeleteFile(File + ".bak")
+                    'My.Computer.FileSystem.DeleteFile(File + ".bak")
+                    DeleteJobs.DeleteFile(File + ".bak")
                 Next
             End If
             ' Value
             _active = False
             ' Event
             RaiseEvent Changed(Me)
-
             Return True
         End If
         Return False
@@ -184,13 +208,15 @@ Public Class InstalledMod
         If Deactivate() Then
             Dim File As String = Directories.ModCache + "\" + _info
             If My.Computer.FileSystem.FileExists(File) Then
-                My.Computer.FileSystem.DeleteFile(File)
+                'My.Computer.FileSystem.DeleteFile(File)
+                DeleteJobs.DeleteFile(File)
             End If
             Dim Folder As String = Directories.ModCache + "\" + Microsoft.VisualBasic.Left(_info, Len(_info) - 4)
             If My.Computer.FileSystem.DirectoryExists(Folder) Then
                 Try
                     Files.SetAttributes(Folder)
-                    My.Computer.FileSystem.DeleteDirectory(Folder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    'My.Computer.FileSystem.DeleteDirectory(Folder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    DeleteJobs.DeleteDirectory(Folder)
                 Catch ex As Exception
                     Debug.Print(ex.Message)
                     Try
@@ -220,6 +246,7 @@ Public Class InstalledMod
         info.SetAttribute("Name", Name)
         info.SetAttribute("ID", ID)
         info.SetAttribute("Version", Version)
+        info.SetAttribute("Category", Category)
         doc.DocumentElement.AppendChild(info)
         ' list files
         Dim filelist As XmlElement = doc.CreateElement("Files")
@@ -249,6 +276,46 @@ Public Class InstalledMod
         doc.Save(Path)
     End Sub
 
+    Public Sub UpdateInfoFiles(ByVal Name As String, ByVal ID As Integer, ByVal Version As String, ByVal Category As String)
+        Dim xmldoc As New Xml.XmlDocument
+        Dim node As Xml.XmlNode
+
+        ' Edit modcache file
+        Dim Path As String = Directories.ModCache + "\" + _info
+        xmldoc.Load(Path)
+        node = xmldoc.GetElementsByTagName("Info")(0)
+        node.Attributes("Name").Value = Name
+        node.Attributes("Version").Value = Version
+        node.Attributes("ID").Value = ID.ToString
+        If node.Attributes.ItemOf("Category") Is Nothing Then
+            Dim attr As XmlAttribute = xmldoc.CreateAttribute("Category")
+            attr.Value = Category
+            node.Attributes.Append(attr)
+        Else
+            node.Attributes("Category").Value = Category
+        End If
+        xmldoc.Save(Path)
+        ' Edit mod file
+        Path = Directories.Mods + "/" + _info
+        If My.Computer.FileSystem.FileExists(Path) Then
+            xmldoc.Load(Path)
+            node = xmldoc.GetElementsByTagName("Info")(0)
+            node.Attributes("Name").Value = Name
+            node.Attributes("Version").Value = Version
+            node.Attributes("ID").Value = ID.ToString
+            If node.Attributes.ItemOf("Category") Is Nothing Then
+                Dim attr As XmlAttribute = xmldoc.CreateAttribute("Category")
+                attr.Value = Category
+                node.Attributes.Append(attr)
+            Else
+                node.Attributes("Category").Value = Category
+            End If
+            xmldoc.Save(Path)
+        End If
+
+        UpdateInfo(Name, ID, Version, Category)
+    End Sub
+
     Public Sub FixLegacy()
         If MsgBox("Mod Manager will now attempt to convert the mod """ + _name + """.", MsgBoxStyle.OkCancel + MsgBoxStyle.Information, "Converting Mod") = MsgBoxResult.Ok Then
             Try
@@ -265,7 +332,8 @@ Public Class InstalledMod
                     End While
                 End Using
                 CreateModFile(ModFileType.Installed, Files, FixName)
-                My.Computer.FileSystem.DeleteFile(Directories.ModCache + "\" + OrigName)
+                'My.Computer.FileSystem.DeleteFile(Directories.ModCache + "\" + OrigName)
+                DeleteJobs.DeleteFile(Directories.ModCache + "\" + OrigName)
                 ' Active
                 If _active Then
                     Files = New List(Of ExtractJob)
@@ -276,10 +344,12 @@ Public Class InstalledMod
                         End While
                     End Using
                     CreateModFile(ModFileType.Activated, Files, FixName)
-                    My.Computer.FileSystem.DeleteFile(Directories.Mods + "\" + OrigName)
+                    'My.Computer.FileSystem.DeleteFile(Directories.Mods + "\" + OrigName)
+                    DeleteJobs.DeleteFile(Directories.Mods + "\" + OrigName)
                 End If
                 ' Info file
                 _info = Left(_info, Len(_info) - 3) + "xml"
+                RaiseEvent Changed(Me)
                 ' Message
                 MsgBox("Mod was successfully converted.", MsgBoxStyle.OkOnly + MsgBoxStyle.Information, "Success")
             Catch ex As Exception
@@ -295,7 +365,11 @@ Public Class InstalledMod
     Private Sub _worker_DoWork(sender As Object, e As DoWorkEventArgs) Handles _worker.DoWork
         If Not Version = "N/A" Then
             Dim nexus As New NexusAPI(_id)
-            If Not nexus.Latest = Version Then
+            If String.IsNullOrEmpty(_category) And Not nexus.Category = _category Then
+                UpdateInfoFiles(_name, _id, _version, nexus.Category)
+                RaiseEvent Update(Me)
+            End If
+            If Not nexus.Latest = Version Then                
                 _latest = nexus.Latest
                 RaiseEvent UpdateFound(Me)
             End If

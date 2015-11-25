@@ -217,7 +217,7 @@ Public Class ModSolver
     Private Sub btn_install_Click(sender As Object, e As EventArgs) Handles btn_install.Click
         btn_install.Enabled = False
         DialogResult = Windows.Forms.DialogResult.OK
-        'extracter = New SevenZipExtractor(path)
+        extracter = New SevenZipExtractor(path)
         already_exist = New List(Of ExtractJob)
         Preprocess(TreeView1.Nodes(0), Directories.ModCache + "\" + path.Filename)
         ' Values
@@ -361,7 +361,7 @@ Public Class ModSolver
 
     Private Sub _install_worker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _install_worker.RunWorkerCompleted
         ' Event
-        Dim Info As String = Microsoft.VisualBasic.Right(_info, Len(_info) - Len(Directories.Downloads) - 1)
+        Dim Info As String = Microsoft.VisualBasic.Right(_info, Len(_info) - Len(_info.Folder))
         Dim InstalledMod As New InstalledMod(_name, _id, _version, False, Info)
         RaiseEvent ModInstalled(InstalledMod)
     End Sub
@@ -372,7 +372,7 @@ Public Class ModSolver
         If already_exist.Count > 0 Then
             Dim overwrite As New OverwriteSolver(already_exist, overwrite_files)
             If overwrite.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
-                'extracter.Dispose()
+                extracter.Dispose()
                 Exit Sub
             End If
         End If
@@ -392,7 +392,7 @@ Public Class ModSolver
             filenames.Add(job.ArchivePath)
         Next
         Try
-            extracter = New SevenZipExtractor(path)
+            'extracter = New SevenZipExtractor(path)
             extracter.BeginExtractFiles(Directories.Temp, filenames.ToArray)
         Catch ex As Exception
             MsgBox("Mod Manager doesn't have permission to write to folder """ + Directories.Temp + """.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Permission Error")
@@ -436,7 +436,8 @@ Public Class ModSolver
         'writer.Close()
         ' Delete temp folder
         Try
-            My.Computer.FileSystem.DeleteDirectory(Directories.Temp, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            'My.Computer.FileSystem.DeleteDirectory(Directories.Temp, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            DeleteJobs.DeleteDirectory(Directories.Temp)
             DialogResult = Windows.Forms.DialogResult.OK
             Me.Close()
         Catch ex As Exception

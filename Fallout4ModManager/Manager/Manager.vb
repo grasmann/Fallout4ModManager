@@ -29,7 +29,31 @@ Public Class Manager
     Private listen_to_mod_cell_changes As Boolean
     Private listen_to_plugin_cell_changes As Boolean
 
+    Private _mods_binding As New BindingSource
+    Private _mods_table As New DataTable
+    Private _mods_sort_order As SortOrder
+
+    'Private Class ModRow
+    '    Public mods_active As Boolean
+    '    Public mods_name As String
+    '    Public mods_txt As String
+    '    Public mods_version As String
+    '    Public mods_update As String
+    '    Public mods_id As String
+    '    Public Sub New(ByVal Active As Boolean, ByVal Name As String, ByVal Info As String, _
+    '                   ByVal Version As String, ByVal Update As String, ByVal ID As String)
+    '        mods_active = Active
+    '        mods_name = Name
+    '        mods_txt = Info
+    '        mods_version = Version
+    '        mods_update = Update
+    '        mods_id = ID
+    '    End Sub
+    'End Class
+
     ' ##### INIT ###################################################################################
+
+#Region "Form"
 
     Private Sub Manager_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If CreateLog Then Log.CreateWriter()
@@ -39,10 +63,85 @@ Public Class Manager
         Else
             If CreateLog Then Log.Log("Attempting to load 7z.dll")
             SevenZipExtractor.SetLibraryPath(Application.StartupPath + "\7z.dll")
-        End If        
+        End If
+        ' Mods        
+        _mods_table.Columns.Add("mods_active")
+        _mods_table.Columns.Add("mods_name")
+        _mods_table.Columns.Add("mods_category")
+        _mods_table.Columns.Add("mods_txt")
+        _mods_table.Columns.Add("mods_version")
+        _mods_table.Columns.Add("mods_update")
+        _mods_table.Columns.Add("mods_id")
+        _mods_table.Columns.Add("mods_update_found")
+        _mods_table.Columns.Add("mods_legacy")
+        _mods_binding.DataSource = _mods_table
+        dgv_mods.Columns.Clear()
+        dgv_mods.AutoGenerateColumns = True
+        dgv_mods.DataSource = _mods_binding
+        ' Columns
+        dgv_mods.Columns.Remove("mods_active")
+        Dim chk As New DataGridViewCheckBoxColumn
+        chk.Name = "mods_active"
+        chk.DataPropertyName = "mods_active"
+        chk.HeaderText = "Active"
+        chk.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        chk.SortMode = DataGridViewColumnSortMode.Programmatic
+        chk.ReadOnly = True
+        dgv_mods.Columns.Insert(0, chk)
+        'dgv_mods.Columns("mods_active").HeaderText = "Active"
+        'dgv_mods.Columns("mods_active").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        dgv_mods.Columns("mods_name").HeaderText = "Name"
+        dgv_mods.Columns("mods_name").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        dgv_mods.Columns("mods_name").SortMode = DataGridViewColumnSortMode.Programmatic
+        dgv_mods.Columns("mods_name").ReadOnly = True
+        dgv_mods.Columns("mods_category").HeaderText = "Category"
+        dgv_mods.Columns("mods_category").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        dgv_mods.Columns("mods_category").SortMode = DataGridViewColumnSortMode.Programmatic
+        dgv_mods.Columns("mods_category").ReadOnly = True
+        dgv_mods.Columns.Remove("mods_version")
+        Dim lnk As New DataGridViewLinkColumn
+        lnk.Name = "mods_version"
+        lnk.DataPropertyName = "mods_version"
+        lnk.HeaderText = "Version"
+        lnk.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        lnk.SortMode = DataGridViewColumnSortMode.Programmatic
+        lnk.ReadOnly = True
+        dgv_mods.Columns.Insert(3, lnk)
+        'dgv_mods.Columns("mods_version").HeaderText = "Version"
+        'dgv_mods.Columns("mods_version").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        'dgv_mods.Columns("mods_version").ReadOnly = True
+        dgv_mods.Columns("mods_update").HeaderText = "Update"
+        dgv_mods.Columns("mods_update").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        dgv_mods.Columns("mods_update").SortMode = DataGridViewColumnSortMode.Programmatic
+        dgv_mods.Columns("mods_update").Visible = False
+        dgv_mods.Columns("mods_update").ReadOnly = True
+        dgv_mods.Columns("mods_id").Visible = False
+        dgv_mods.Columns("mods_txt").Visible = False
+        dgv_mods.Columns.Remove("mods_update_found")
+        chk = New DataGridViewCheckBoxColumn
+        chk.Name = "mods_update_found"
+        chk.DataPropertyName = "mods_update_found"
+        chk.Visible = False
+        dgv_mods.Columns.Insert(7, chk)
+        dgv_mods.Columns.Remove("mods_legacy")
+        chk = New DataGridViewCheckBoxColumn
+        chk.Name = "mods_legacy"
+        chk.DataPropertyName = "mods_legacy"
+        chk.Visible = False
+        dgv_mods.Columns.Insert(8, chk)        
     End Sub
 
     Private Sub Manager_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
+        ' Window settings
+        If My.Settings.WindowMaximized Then
+            Me.WindowState = FormWindowState.Maximized
+        Else
+            If Not My.Settings.WindowPosition = New Point(0, 0) Then Me.Location = My.Settings.WindowPosition
+            If Not My.Settings.WindowSize = New Size(0, 0) Then Me.Size = My.Settings.WindowSize
+        End If
+        If Not My.Settings.PluginArchiveSplitter = 0 Then SplitContainer2.SplitterDistance = My.Settings.PluginArchiveSplitter
+        If Not My.Settings.ModDownloadSplitter = 0 Then SplitContainer3.SplitterDistance = My.Settings.ModDownloadSplitter
+        If Not My.Settings.MainSplitter = 0 Then SplitContainer1.SplitterDistance = My.Settings.MainSplitter
         ' Fetch directory
         If CreateLog Then Log.Log("Attempting to fetch fallout 4 directory")
         If Not Directories.FindInstall() Then
@@ -66,7 +165,35 @@ Public Class Manager
         Fallout4ModManager.Update.CheckUpdate()
         ' Legacy Mods
         If legacy_mods_found Then ShowFixMessage()
+        ' Sort
+        _mods_sort_order = My.Settings.SortDirection
+        If Not String.IsNullOrEmpty(My.Settings.SortColumn) Then
+            DoModSort(My.Settings.SortColumn)
+        Else
+            _mods_sort_order = SortOrder.Ascending
+            DoModSort("mods_name")
+        End If
     End Sub
+
+    Private Sub Manager_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If Not exit_without_save Then Save()
+        ' Cancel downloads
+        Downloads.AbortAll()
+        ' Window settings
+        My.Settings.PluginArchiveSplitter = SplitContainer2.SplitterDistance
+        My.Settings.ModDownloadSplitter = SplitContainer3.SplitterDistance
+        My.Settings.MainSplitter = SplitContainer1.SplitterDistance
+        My.Settings.WindowPosition = Me.Location
+        My.Settings.WindowSize = Me.Size
+        My.Settings.WindowMaximized = Me.WindowState = FormWindowState.Maximized
+        My.Settings.Save()
+    End Sub
+
+#End Region
+
+    ' ##### CLOSE ###################################################################################
+
+#Region "Functions"
 
     Private Sub ShowFixMessage()
         If Not legacy_message_shown Then
@@ -75,15 +202,7 @@ Public Class Manager
                "To fix them double click on them or right click them and select" + vbCrLf + "'Fix Legacy Mod'.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, _
                "Legacy Mods detected")
             legacy_message_shown = True
-        End If        
-    End Sub
-
-    ' ##### CLOSE ###################################################################################
-
-    Private Sub Manager_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        If Not exit_without_save Then Save()
-        ' Cancel downloads
-        Downloads.AbortAll()
+        End If
     End Sub
 
     Private Sub Save()
@@ -111,10 +230,14 @@ Public Class Manager
         ' Save sResourceDataDirsFinal
         'My.Settings.sResourceDataDirsFinal = TextBox1.Text
         ' Save
-        My.Settings.Save()
+        'My.Settings.Save()
     End Sub
 
+#End Region
+
     ' ##### BUTTONS ###################################################################################
+
+#Region "Buttons"
 
     Private Sub btn_play_Click(sender As Object, e As EventArgs) Handles btn_play.Click
         Save()
@@ -177,8 +300,10 @@ Public Class Manager
         options.ShowDialog()
     End Sub
 
+#End Region
+
     ' ##### MOD UPDATES ############################################################################################################
-    
+
     Private Sub InstalledMods_ModFound(InstalledMod As InstalledMod) Handles InstalledMods.ModFound
         Dim Warning As String
         With InstalledMod
@@ -189,18 +314,35 @@ Public Class Manager
                 Warning = String.Empty
             End If
             listen_to_mod_cell_changes = False
-            If dgv_mods.InvokeRequired Then
-                dgv_mods.Invoke(Sub()
-                                    dgv_mods.Rows.Add(.Active, .Name + Warning, .Info, .Version, "", .ID.ToString)
-                                    If .Legacy Then dgv_mods.Rows(dgv_mods.Rows.Count - 1).Cells("mods_active").ReadOnly = True
-                                End Sub)
-            Else
-                dgv_mods.Rows.Add(.Active, .Name + Warning, .Info, .Version, "", .ID.ToString)
-                If .Legacy Then dgv_mods.Rows(dgv_mods.Rows.Count - 1).Cells("mods_active").ReadOnly = True
-            End If
+            'If dgv_mods.InvokeRequired Then
+            '    dgv_mods.Invoke(Sub()
+            '                        'dgv_mods.Rows.Add(.Active, .Name + Warning, .Info, .Version, "", .ID.ToString)
+            '                        _mods_table.Rows.Add(.Active, .Name + Warning, .Info, .Version, "", .ID.ToString)
+            '                        If .Legacy Then dgv_mods.Rows(dgv_mods.Rows.Count - 1).Cells("mods_active").ReadOnly = True
+            '                    End Sub)
+            'Else
+            '    'dgv_mods.Rows.Add(.Active, .Name + Warning, .Info, .Version, "", .ID.ToString)
+            '    _mods_table.Rows.Add(.Active, .Name + Warning, .Info, .Version, "", .ID.ToString)
+            '    If .Legacy Then dgv_mods.Rows(dgv_mods.Rows.Count - 1).Cells("mods_active").ReadOnly = True
+            'End If
+            _mods_table.Rows.Add(.Active, .Name + Warning, .Category, .Info, .Version, "", .ID.ToString, False, .Legacy)
             listen_to_mod_cell_changes = True
         End With
         'CheckModWarnings()
+    End Sub
+
+    Private Sub InstalledMods_ModUpdated(InstalledMod As InstalledMod) Handles InstalledMods.ModUpdated
+        'With InstalledMod
+        '    For Each Row As DataRow In _mods_table.Rows
+        '        If Row.Field(Of String)("mods_id") = .ID.ToString And _
+        '            Row.Field(Of String)("mods_version") = .Version And _
+        '            Row.Field(Of String)("mods_name") = .Name Then
+        '            _mods_table.Rows.Remove(Row)
+        '            _mods_table.Rows.Add(.Active, .Name, .Category, .Info, .Version, "", .ID.ToString, False, .Legacy)
+        '            Exit Sub
+        '        End If
+        '    Next
+        'End With        
     End Sub
 
     Private Sub InstalledMods_ModChanged(InstalledMod As InstalledMod) Handles InstalledMods.ModChanged
@@ -212,9 +354,17 @@ Public Class Manager
 
     Private Sub InstalledMods_ModUninstalled(InstalledMod As InstalledMod) Handles InstalledMods.ModUninstalled
         With InstalledMod
-            For Each Row As DataGridViewRow In dgv_mods.Rows
-                If Row.Cells("mods_id").Value = .ID.ToString And Row.Cells("mods_version").Value = .Version Then
-                    dgv_mods.Rows.Remove(Row)
+            'For Each Row As DataGridViewRow In dgv_mods.Rows
+            '    If Row.Cells("mods_id").Value = .ID.ToString And Row.Cells("mods_version").Value = .Version And Row.Cells("mods_name").Value = .Name Then
+            '        dgv_mods.Rows.Remove(Row)
+            '        Exit Sub
+            '    End If
+            'Next
+            For Each Row As DataRow In _mods_table.Rows
+                If Row.Field(Of String)("mods_id") = .ID.ToString And _
+                    Row.Field(Of String)("mods_version") = .Version And _
+                    Row.Field(Of String)("mods_name") = .Name Then
+                    _mods_table.Rows.Remove(Row)
                     Exit Sub
                 End If
             Next
@@ -223,19 +373,27 @@ Public Class Manager
 
     Private Sub InstalledMods_UpdateFound(InstalledMod As InstalledMod) Handles InstalledMods.UpdateFound
         With InstalledMod
-            For Each Row As DataGridViewRow In dgv_mods.Rows
-                If Row.Cells("mods_id").Value = .ID.ToString And Row.Cells("mods_version").Value = .Version Then
-                    If dgv_mods.InvokeRequired Then
-                        dgv_mods.Invoke(Sub()
-                                            'Row.Cells("mods_version").Value = .Version + " > " + .Latest
-                                            Row.Cells("mods_update").Value = .Latest
-                                            Row.Cells("mods_version").Style.BackColor = Color.Red
-                                        End Sub)
-                    Else
-                        'Row.Cells("mods_version").Value = .Version + " > " + .Latest
-                        Row.Cells("mods_update").Value = .Latest
-                        Row.Cells("mods_version").Style.BackColor = Color.Red
-                    End If
+            'For Each Row As DataGridViewRow In dgv_mods.Rows
+            '    If Row.Cells("mods_id").Value = .ID.ToString And Row.Cells("mods_version").Value = .Version And Row.Cells("mods_name").Value = .Name Then
+            '        If dgv_mods.InvokeRequired Then
+            '            dgv_mods.Invoke(Sub()
+            '                                'Row.Cells("mods_version").Value = .Version + " > " + .Latest
+            '                                Row.Cells("mods_update").Value = .Latest
+            '                                Row.Cells("mods_version").Style.BackColor = Color.Red
+            '                            End Sub)
+            '        Else
+            '            'Row.Cells("mods_version").Value = .Version + " > " + .Latest
+            '            Row.Cells("mods_update").Value = .Latest
+            '            Row.Cells("mods_version").Style.BackColor = Color.Red
+            '        End If
+            '    End If
+            'Next
+            For Each Row As DataRow In _mods_table.Rows
+                If Row.Field(Of String)("mods_id") = .ID.ToString And _
+                    Row.Field(Of String)("mods_version") = .Version And _
+                    Row.Field(Of String)("mods_name") = .Name Then
+                    Row.SetField(Of Boolean)("mods_update_found", True)
+                    Row.SetField(Of String)("mods_update", .Latest)
                 End If
             Next
         End With
@@ -273,6 +431,46 @@ Public Class Manager
 
     ' ##### MOD CONTROLS ############################################################################################################
 
+    'Private Sub dgv_mods_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgv_mods.ColumnHeaderMouseClick
+    '    Dim Filter As String = "mods_active ASC, " + dgv_mods.Columns(e.ColumnIndex).Name + " ASC"
+    '    _mods_binding.Sort = Filter
+    'End Sub
+
+    Private Sub dgv_mods_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgv_mods.ColumnHeaderMouseClick
+        Select Case _mods_sort_order
+            Case SortOrder.None
+                _mods_sort_order = SortOrder.Ascending
+            Case SortOrder.Ascending
+                _mods_sort_order = SortOrder.Descending
+            Case SortOrder.Descending
+                _mods_sort_order = SortOrder.None
+        End Select
+        My.Settings.SortColumn = dgv_mods.Columns(e.ColumnIndex).Name
+        My.Settings.SortDirection = _mods_sort_order
+        DoModSort(dgv_mods.Columns(e.ColumnIndex).Name)
+    End Sub
+
+    Private Sub DoModSort(ByVal Column As String)
+        Dim Sort As String = "mods_active DESC"
+        With dgv_mods.Columns(Column)
+            Sort += ", " + .Name
+            Select Case _mods_sort_order
+                Case SortOrder.Ascending
+                    Sort += " ASC"
+                Case SortOrder.Descending
+                    Sort += " DESC"
+            End Select
+
+            If Not .Name = "mods_name" Then
+                Sort += ", mods_name ASC"
+            End If
+
+            _mods_binding.Sort = Sort
+
+            .HeaderCell.SortGlyphDirection = _mods_sort_order
+        End With
+    End Sub
+
     Private Sub btn_fix_legacy_Click(sender As Object, e As EventArgs) Handles btn_fix_legacy.Click
         If dgv_mods.SelectedRows.Count > 0 Then
             Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
@@ -286,7 +484,7 @@ Public Class Manager
     End Sub
 
     Private Sub dgv_mods_CellMouseDown(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgv_mods.CellMouseDown
-        If e.Button = Windows.Forms.MouseButtons.Right Then
+        If e.Button = Windows.Forms.MouseButtons.Right And e.RowIndex > -1 Then
             dgv_mods.Rows(e.RowIndex).Selected = True
         End If
     End Sub
@@ -298,7 +496,8 @@ Public Class Manager
     End Sub
 
     Private Sub ReloadMods()
-        dgv_mods.Rows.Clear()
+        'dgv_mods.Rows.Clear()
+        _mods_table.Rows.Clear()
         dgv_mods.Columns("mods_update").Visible = False
         Me.InstalledMods.Reload()
     End Sub
@@ -474,7 +673,7 @@ Public Class Manager
             Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
             If Not IsNothing(InstalledMod) Then
                 InstalledMod.FixLegacy()
-                ReloadMods()
+                'ReloadMods()
             End If
         End If
     End Sub
@@ -498,7 +697,7 @@ Public Class Manager
                 ' Legacy
                 If InstalledMod.Legacy Then
                     InstalledMod.FixLegacy()
-                    ReloadMods()
+                    'ReloadMods()
                     Exit Sub
                 End If
 
@@ -513,11 +712,19 @@ Public Class Manager
 
     Private Sub EditInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditInfoToolStripMenuItem.Click
         If dgv_mods.SelectedRows.Count > 0 Then
-            Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(dgv_mods.SelectedRows(0).Cells("mods_txt").Value)
+            Dim Row As DataGridViewRow = dgv_mods.SelectedRows(0)
+            Dim InstalledMod As InstalledMod = Me.InstalledMods.GetByInfo(Row.Cells("mods_txt").Value)
             If Not IsNothing(InstalledMod) Then
                 Dim edit As New EditModInfo(InstalledMod)
                 If edit.ShowDialog() = Windows.Forms.DialogResult.OK Then
-                    ReloadMods()
+                    'ReloadMods()
+                    Row.Cells("mods_id").Value = InstalledMod.ID.ToString
+                    Row.Cells("mods_name").Value = InstalledMod.Name
+                    Row.Cells("mods_version").Value = InstalledMod.Version
+                    Row.Cells("mods_version").Style.BackColor = SystemColors.Control
+                    Row.Cells("mods_update").Value = String.Empty
+                    Row.Cells("mods_category").Value = InstalledMod.Category
+                    InstalledMod.RecheckUpdate()
                 End If
             End If
         End If
@@ -701,15 +908,19 @@ Public Class Manager
                 ' Install
                 'Dim mod_solver As New ModSolver(.Path)
                 If InstalledMods.InstallMod(.Path) = Windows.Forms.DialogResult.OK Then
-                    If MsgBox("Do you want to delete the """ + .Path + """ from the download directory?", _
+                    If Not My.Settings.DontAskDeleteDownloads Then
+                        If MsgBox("Do you want to delete the """ + .Path + """ from the download directory?", _
                               MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Delete file?") = MsgBoxResult.Yes Then
-                        Files.SetAttributes(Directories.Downloads)
-                        My.Computer.FileSystem.DeleteFile(.Path)
-                        My.Computer.FileSystem.DeleteFile(.Path + ".xml")
-                        ModDownload.Delete()
-                        'Downloads.RemoveDownload(ModDownload)
-                        'RaiseEvent Remove(Me)
-                    End If
+                            Files.SetAttributes(Directories.Downloads)
+                            'My.Computer.FileSystem.DeleteFile(.Path)
+                            'My.Computer.FileSystem.DeleteFile(.Path + ".xml")
+                            DeleteJobs.DeleteFile(.Path)
+                            DeleteJobs.DeleteFile(.Path + ".xml")
+                            ModDownload.Delete()
+                            'Downloads.RemoveDownload(ModDownload)
+                            'RaiseEvent Remove(Me)
+                        End If
+                    End If                    
                     Return True
                 End If
             End If

@@ -137,10 +137,12 @@ Public Class ModDownload
             Abort()
         Else
             If My.Computer.FileSystem.FileExists(_path) Then
-                My.Computer.FileSystem.DeleteFile(_path)
+                'My.Computer.FileSystem.DeleteFile(_path)
+                DeleteJobs.DeleteFile(_path)
             End If
             If My.Computer.FileSystem.FileExists(_path + ".xml") Then
-                My.Computer.FileSystem.DeleteFile(_path + ".xml")
+                'My.Computer.FileSystem.DeleteFile(_path + ".xml")
+                DeleteJobs.DeleteFile(_path + ".xml")
             End If
         End If
         RaiseEvent Remove(Me)

@@ -45,11 +45,16 @@ Partial Class Options
         Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Button4 = New System.Windows.Forms.Button()
+        Me.grp_downloads = New System.Windows.Forms.GroupBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.chk_ask_download_delete = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
+        Me.grp_downloads.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -59,7 +64,7 @@ Partial Class Options
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.TextBox1)
         Me.GroupBox1.Controls.Add(Me.Label1)
-        Me.GroupBox1.Location = New System.Drawing.Point(1, 161)
+        Me.GroupBox1.Location = New System.Drawing.Point(1, 179)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(778, 67)
         Me.GroupBox1.TabIndex = 0
@@ -108,7 +113,7 @@ Partial Class Options
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.Controls.Add(Me.Label5)
         Me.GroupBox2.Controls.Add(Me.CheckBox1)
-        Me.GroupBox2.Location = New System.Drawing.Point(1, 234)
+        Me.GroupBox2.Location = New System.Drawing.Point(1, 252)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(778, 51)
         Me.GroupBox2.TabIndex = 1
@@ -199,12 +204,13 @@ Partial Class Options
         '
         Me.GroupBox4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox4.Controls.Add(Me.Label7)
         Me.GroupBox4.Controls.Add(Me.ProgressBar1)
         Me.GroupBox4.Controls.Add(Me.Button3)
         Me.GroupBox4.Controls.Add(Me.CheckBox2)
         Me.GroupBox4.Location = New System.Drawing.Point(1, 88)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(778, 67)
+        Me.GroupBox4.Size = New System.Drawing.Size(778, 85)
         Me.GroupBox4.TabIndex = 3
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Mod Manager"
@@ -233,11 +239,10 @@ Partial Class Options
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(9, 28)
+        Me.CheckBox2.Location = New System.Drawing.Point(138, 58)
         Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(120, 17)
+        Me.CheckBox2.Size = New System.Drawing.Size(15, 14)
         Me.CheckBox2.TabIndex = 0
-        Me.CheckBox2.Text = "Clean data directory"
         Me.CheckBox2.UseVisualStyleBackColor = True
         '
         'GroupBox5
@@ -249,7 +254,7 @@ Partial Class Options
         Me.GroupBox5.Controls.Add(Me.TextBox3)
         Me.GroupBox5.Controls.Add(Me.Label3)
         Me.GroupBox5.Controls.Add(Me.Button4)
-        Me.GroupBox5.Location = New System.Drawing.Point(1, 291)
+        Me.GroupBox5.Location = New System.Drawing.Point(1, 309)
         Me.GroupBox5.Name = "GroupBox5"
         Me.GroupBox5.Size = New System.Drawing.Size(778, 84)
         Me.GroupBox5.TabIndex = 4
@@ -305,20 +310,61 @@ Partial Class Options
         Me.Button4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.Button4.UseVisualStyleBackColor = True
         '
+        'grp_downloads
+        '
+        Me.grp_downloads.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grp_downloads.Controls.Add(Me.chk_ask_download_delete)
+        Me.grp_downloads.Controls.Add(Me.Label8)
+        Me.grp_downloads.Location = New System.Drawing.Point(1, 399)
+        Me.grp_downloads.Name = "grp_downloads"
+        Me.grp_downloads.Size = New System.Drawing.Size(778, 65)
+        Me.grp_downloads.TabIndex = 5
+        Me.grp_downloads.TabStop = False
+        Me.grp_downloads.Text = "Downloads"
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(6, 59)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(101, 13)
+        Me.Label7.TabIndex = 3
+        Me.Label7.Text = "Clean data directory"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(6, 24)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(97, 26)
+        Me.Label8.TabIndex = 0
+        Me.Label8.Text = "Offer deleting after " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "installation"
+        '
+        'chk_ask_download_delete
+        '
+        Me.chk_ask_download_delete.AutoSize = True
+        Me.chk_ask_download_delete.Location = New System.Drawing.Point(138, 23)
+        Me.chk_ask_download_delete.Name = "chk_ask_download_delete"
+        Me.chk_ask_download_delete.Size = New System.Drawing.Size(15, 14)
+        Me.chk_ask_download_delete.TabIndex = 1
+        Me.chk_ask_download_delete.UseVisualStyleBackColor = True
+        '
         'Options
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(780, 397)
+        Me.ClientSize = New System.Drawing.Size(780, 488)
+        Me.Controls.Add(Me.grp_downloads)
         Me.Controls.Add(Me.GroupBox5)
         Me.Controls.Add(Me.GroupBox4)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(1920, 436)
+        Me.MaximumSize = New System.Drawing.Size(1920, 527)
         Me.MinimizeBox = False
-        Me.MinimumSize = New System.Drawing.Size(488, 436)
+        Me.MinimumSize = New System.Drawing.Size(488, 527)
         Me.Name = "Options"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
@@ -333,6 +379,8 @@ Partial Class Options
         Me.GroupBox4.PerformLayout()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
+        Me.grp_downloads.ResumeLayout(False)
+        Me.grp_downloads.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -359,4 +407,8 @@ Partial Class Options
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents chk_start_f4se As System.Windows.Forms.CheckBox
     Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents grp_downloads As System.Windows.Forms.GroupBox
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents chk_ask_download_delete As System.Windows.Forms.CheckBox
+    Friend WithEvents Label8 As System.Windows.Forms.Label
 End Class

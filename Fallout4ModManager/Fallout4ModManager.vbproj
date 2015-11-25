@@ -120,6 +120,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\DeleteJob.vb" />
+    <Compile Include="Common\DeleteJobs.vb" />
     <Compile Include="CustomTreeview.Designer.vb">
       <DependentUpon>CustomTreeview.vb</DependentUpon>
     </Compile>
@@ -170,7 +172,6 @@
     <Compile Include="Mod\InstalledMod.vb" />
     <Compile Include="Download\ModDownload.vb" />
     <Compile Include="Download\ModDownloads.vb" />
-    <Compile Include="Mod\ModHelper.vb" />
     <Compile Include="Installation\ModSolver.Designer.vb">
       <DependentUpon>ModSolver.vb</DependentUpon>
     </Compile>

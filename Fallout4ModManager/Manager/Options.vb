@@ -22,6 +22,7 @@
         TextBox3.Text = My.Settings.NexusUser
         TextBox4.Text = My.Settings.NexusPassword
         chk_start_f4se.Checked = Not My.Settings.DontStartF4SE
+        chk_ask_download_delete.Checked = Not My.Settings.DontAskDeleteDownloads
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -45,6 +46,8 @@
             My.Settings.NexusUser = TextBox3.Text
             My.Settings.NexusPassword = TextBox4.Text
             My.Settings.DontStartF4SE = Not chk_start_f4se.Checked
+            My.Settings.DontAskDeleteDownloads = Not chk_ask_download_delete.Checked
+            My.Settings.Save()
         End If        
     End Sub
 

@@ -16,6 +16,9 @@
             TextBox1.Text = node.Attributes("Name").Value
             TextBox2.Text = node.Attributes("Version").Value
             TextBox3.Text = node.Attributes("ID").Value
+            If Not node.Attributes.ItemOf("Category") Is Nothing Then
+                txt_category.Text = node.Attributes("Category").Value
+            End If            
         Catch ex As Exception
             Debug.Print(ex.Message)
         End Try
@@ -35,27 +38,50 @@
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         DialogResult = Windows.Forms.DialogResult.OK
-        Dim Path As String = String.Empty
-        Dim xmldoc As New Xml.XmlDocument
-        Dim node As Xml.XmlNode        
-        ' Edit modcache file
-        Path = Directories.ModCache + "/" + _installedmod.Info
-        xmldoc.Load(Path)
-        node = xmldoc.GetElementsByTagName("Info")(0)
-        node.Attributes("Name").Value = TextBox1.Text
-        node.Attributes("Version").Value = TextBox2.Text
-        node.Attributes("ID").Value = TextBox3.Text
-        xmldoc.Save(Path)
-        ' Edit mod file
-        Path = Directories.Mods + "/" + _installedmod.Info
-        If My.Computer.FileSystem.FileExists(Path) Then
-            xmldoc.Load(Path)
-            node = xmldoc.GetElementsByTagName("Info")(0)
-            node.Attributes("Name").Value = TextBox1.Text
-            node.Attributes("Version").Value = TextBox2.Text
-            node.Attributes("ID").Value = TextBox3.Text
-            xmldoc.Save(Path)
-        End If
+        'Dim Path As String = String.Empty
+        'Dim xmldoc As New Xml.XmlDocument
+        'Dim node As Xml.XmlNode
+
+        Dim Name As String
+        Dim ID As Integer
+        Dim Version As String
+        Dim Category As String
+
+        Try            
+            ID = Val(TextBox3.Text)
+        Catch ex As Exception
+            MsgBox("The mod ID has to be a number.", MsgBoxStyle.Exclamation + MsgBoxStyle.OkOnly, "Error")
+            Exit Sub
+        End Try
+        Name = TextBox1.Text
+        Version = TextBox2.Text
+        Category = txt_category.Text
+
+        '' Edit modcache file
+        'Path = Directories.ModCache + "/" + _installedmod.Info
+        'xmldoc.Load(Path)
+        'node = xmldoc.GetElementsByTagName("Info")(0)
+        'node.Attributes("Name").Value = Name
+        'node.Attributes("Version").Value = Version
+        'node.Attributes("ID").Value = ID.ToString
+        'node.Attributes("Category").Value = Category
+        'xmldoc.Save(Path)
+        '' Edit mod file
+        'Path = Directories.Mods + "/" + _installedmod.Info
+        'If My.Computer.FileSystem.FileExists(Path) Then
+        '    xmldoc.Load(Path)
+        '    node = xmldoc.GetElementsByTagName("Info")(0)
+        '    node.Attributes("Name").Value = Name
+        '    node.Attributes("Version").Value = Version
+        '    node.Attributes("ID").Value = ID.ToString
+        '    node.Attributes("Category").Value = Category
+        '    xmldoc.Save(Path)
+        'End If
+
+        _installedmod.UpdateInfoFiles(Name, ID, Version, Category)
+        '' Mod values
+        '_installedmod.UpdateInfo(Name, ID, Version, Category)
+
     End Sub
 
     Private Sub EditModInfo_Load(sender As Object, e As EventArgs) Handles MyBase.Load

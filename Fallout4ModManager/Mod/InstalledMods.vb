@@ -8,6 +8,7 @@ Public Class InstalledMods
 
     Public Event ModFound(ByVal InstalledMod As InstalledMod)
     Public Event ModChanged(ByVal InstalledMod As InstalledMod)
+    Public Event ModUpdated(ByVal InstalledMod As InstalledMod)
     Public Event ModUninstalled(ByVal InstalledMod As InstalledMod)
     Public Event UpdateFound(ByVal InstalledMod As InstalledMod)
 
@@ -27,6 +28,7 @@ Public Class InstalledMods
         AddHandler InstalledMod.UpdateFound, AddressOf ModUpdateFound
         AddHandler InstalledMod.Changed, AddressOf ModWasChanged
         AddHandler InstalledMod.Uninstalled, AddressOf ModWasUninstalled
+        AddHandler InstalledMod.Update, AddressOf ModWasUpdated
         RaiseEvent ModFound(InstalledMod)
     End Sub
 
@@ -57,12 +59,17 @@ Public Class InstalledMods
         Me.Remove(InstalledMod)
     End Sub
 
+    Private Sub ModWasUpdated(ByVal InstalledMod As InstalledMod)
+        RaiseEvent ModUpdated(InstalledMod)
+    End Sub
+
     ' ##### LOAD ##########################################################################################
 
     Private Sub LoadMods()
         Dim modfile As XmlDocument
         Dim node As XmlNode
         Dim Name As String
+        Dim Category As String = String.Empty
         Dim Version As String
         Dim ID As String
         Dim Active As Boolean
@@ -71,6 +78,7 @@ Public Class InstalledMods
         Dim ActiveMods As List(Of String) = Files.FindActiveMods
         Dim InstalledMods As List(Of String) = Files.InstalledMods
         For Each InsMod As String In InstalledMods
+            Category = String.Empty
             Try
                 ' Open xml
                 modfile = New XmlDocument
@@ -78,14 +86,18 @@ Public Class InstalledMods
                 ' Read
                 node = modfile.GetElementsByTagName("Info")(0)
                 Name = node.Attributes("Name").Value
+                If Not node.Attributes.ItemOf("Category") Is Nothing Then
+                    Category = node.Attributes("Category").Value
+                End If
                 Version = node.Attributes("Version").Value
                 ID = node.Attributes("ID").Value
                 Active = ActiveMods.Contains(InsMod)
                 ' Add
-                InstalledMod = New InstalledMod(Name, ID, Version, Active, InsMod)
+                InstalledMod = New InstalledMod(Name, ID, Version, Active, InsMod, , Category)
                 AddHandler InstalledMod.UpdateFound, AddressOf ModUpdateFound
                 AddHandler InstalledMod.Changed, AddressOf ModWasChanged
                 AddHandler InstalledMod.Uninstalled, AddressOf ModWasUninstalled
+                AddHandler InstalledMod.Update, AddressOf ModWasUpdated
                 Me.Add(InstalledMod)
                 ' Event
                 RaiseEvent ModFound(InstalledMod)
@@ -100,7 +112,7 @@ Public Class InstalledMods
             Name = Microsoft.VisualBasic.Left(InsMod, InStrRev(InsMod, ".", Len(InsMod) - 4) - 1)
             Active = ActiveLegacyMods.Contains(InsMod)
             ' Add
-            InstalledMod = New InstalledMod(Name, 0, "N/A", Active, InsMod, True)
+            InstalledMod = New InstalledMod(Name, 0, "N/A", Active, InsMod, True, Category)
             Me.Add(InstalledMod)
             ' Event
             RaiseEvent ModFound(InstalledMod)

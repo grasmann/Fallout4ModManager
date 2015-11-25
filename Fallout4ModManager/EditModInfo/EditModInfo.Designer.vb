@@ -30,6 +30,8 @@ Partial Class EditModInfo
         Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
+        Me.lbl_category = New System.Windows.Forms.Label()
+        Me.txt_category = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'Label1
@@ -52,7 +54,7 @@ Partial Class EditModInfo
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(64, 22)
+        Me.TextBox2.Location = New System.Drawing.Point(64, 44)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(72, 20)
         Me.TextBox2.TabIndex = 2
@@ -60,7 +62,7 @@ Partial Class EditModInfo
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(2, 25)
+        Me.Label2.Location = New System.Drawing.Point(2, 47)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(42, 13)
         Me.Label2.TabIndex = 3
@@ -69,7 +71,7 @@ Partial Class EditModInfo
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(2, 47)
+        Me.Label3.Location = New System.Drawing.Point(2, 69)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(42, 13)
         Me.Label3.TabIndex = 4
@@ -77,7 +79,7 @@ Partial Class EditModInfo
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(64, 44)
+        Me.TextBox3.Location = New System.Drawing.Point(64, 66)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(72, 20)
         Me.TextBox3.TabIndex = 5
@@ -106,11 +108,29 @@ Partial Class EditModInfo
         Me.Button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.Button2.UseVisualStyleBackColor = True
         '
+        'lbl_category
+        '
+        Me.lbl_category.AutoSize = True
+        Me.lbl_category.Location = New System.Drawing.Point(2, 25)
+        Me.lbl_category.Name = "lbl_category"
+        Me.lbl_category.Size = New System.Drawing.Size(49, 13)
+        Me.lbl_category.TabIndex = 8
+        Me.lbl_category.Text = "Category"
+        '
+        'txt_category
+        '
+        Me.txt_category.Location = New System.Drawing.Point(64, 22)
+        Me.txt_category.Name = "txt_category"
+        Me.txt_category.Size = New System.Drawing.Size(297, 20)
+        Me.txt_category.TabIndex = 9
+        '
         'EditModInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(496, 86)
+        Me.Controls.Add(Me.txt_category)
+        Me.Controls.Add(Me.lbl_category)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.TextBox3)
@@ -138,4 +158,6 @@ Partial Class EditModInfo
     Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents lbl_category As System.Windows.Forms.Label
+    Friend WithEvents txt_category As System.Windows.Forms.TextBox
 End Class
