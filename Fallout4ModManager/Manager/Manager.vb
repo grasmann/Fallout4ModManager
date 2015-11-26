@@ -325,7 +325,17 @@ Public Class Manager
             '    _mods_table.Rows.Add(.Active, .Name + Warning, .Info, .Version, "", .ID.ToString)
             '    If .Legacy Then dgv_mods.Rows(dgv_mods.Rows.Count - 1).Cells("mods_active").ReadOnly = True
             'End If
-            _mods_table.Rows.Add(.Active, .Name + Warning, .Category, .Info, .Version, "", .ID.ToString, False, .Legacy)
+            Try
+                If Me.InvokeRequired Then
+                    Me.Invoke(Sub()
+                                  _mods_table.Rows.Add(.Active, .Name + Warning, .Category, .Info, .Version, "", .ID.ToString, False, .Legacy)
+                              End Sub)
+                Else
+                    _mods_table.Rows.Add(.Active, .Name + Warning, .Category, .Info, .Version, "", .ID.ToString, False, .Legacy)
+                End If
+            Catch ex As Exception
+                Debug.Print(ex.Message)
+            End Try            
             listen_to_mod_cell_changes = True
         End With
         'CheckModWarnings()
@@ -360,14 +370,24 @@ Public Class Manager
             '        Exit Sub
             '    End If
             'Next
-            For Each Row As DataRow In _mods_table.Rows
-                If Row.Field(Of String)("mods_id") = .ID.ToString And _
-                    Row.Field(Of String)("mods_version") = .Version And _
-                    Row.Field(Of String)("mods_name") = .Name Then
-                    _mods_table.Rows.Remove(Row)
-                    Exit Sub
-                End If
-            Next
+            Try
+                For Each Row As DataRow In _mods_table.Rows
+                    If Row.Field(Of String)("mods_id") = .ID.ToString And _
+                        Row.Field(Of String)("mods_version") = .Version And _
+                        Row.Field(Of String)("mods_name") = .Name Then
+                        If Me.InvokeRequired Then
+                            Me.Invoke(Sub()
+                                          _mods_table.Rows.Remove(Row)
+                                      End Sub)
+                        Else
+                            _mods_table.Rows.Remove(Row)
+                        End If
+                        Exit Sub
+                    End If
+                Next
+            Catch ex As Exception
+                Debug.Print(ex.Message)
+            End Try            
         End With        
     End Sub
 
@@ -379,23 +399,35 @@ Public Class Manager
             '            dgv_mods.Invoke(Sub()
             '                                'Row.Cells("mods_version").Value = .Version + " > " + .Latest
             '                                Row.Cells("mods_update").Value = .Latest
-            '                                Row.Cells("mods_version").Style.BackColor = Color.Red
+            '                                'Row.Cells("mods_version").Style.BackColor = Color.Red
             '                            End Sub)
             '        Else
             '            'Row.Cells("mods_version").Value = .Version + " > " + .Latest
             '            Row.Cells("mods_update").Value = .Latest
-            '            Row.Cells("mods_version").Style.BackColor = Color.Red
+            '            'Row.Cells("mods_version").Style.BackColor = Color.Red
             '        End If
             '    End If
             'Next
-            For Each Row As DataRow In _mods_table.Rows
-                If Row.Field(Of String)("mods_id") = .ID.ToString And _
-                    Row.Field(Of String)("mods_version") = .Version And _
-                    Row.Field(Of String)("mods_name") = .Name Then
-                    Row.SetField(Of Boolean)("mods_update_found", True)
-                    Row.SetField(Of String)("mods_update", .Latest)
-                End If
-            Next
+            Try
+                For Each Row As DataRow In _mods_table.Rows
+                    If Row.Field(Of String)("mods_id") = .ID.ToString And _
+                        Row.Field(Of String)("mods_version") = .Version And _
+                        Row.Field(Of String)("mods_name") = .Name Then
+                        If Me.InvokeRequired Then
+                            Me.Invoke(Sub()
+                                          Row.SetField(Of Boolean)("mods_update_found", True)
+                                          Row.SetField(Of String)("mods_update", .Latest)
+                                      End Sub)
+                        Else
+                            Row.SetField(Of Boolean)("mods_update_found", True)
+                            Row.SetField(Of String)("mods_update", .Latest)
+                        End If
+                        Exit For
+                    End If
+                Next
+            Catch ex As Exception
+                Debug.Print(ex.Message)
+            End Try
         End With
         CheckModUpdates()
     End Sub
@@ -755,7 +787,7 @@ Public Class Manager
                     dgv_plugins.Rows(dgv_plugins.Rows.Count - 1).ReadOnly = True
                 End If
             End If
-            Save()
+            'Save()
             listen_to_plugin_cell_changes = True
         End With
     End Sub

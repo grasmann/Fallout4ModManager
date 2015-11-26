@@ -79,6 +79,7 @@ Public Class InstalledMod
         _name = Name
         _id = ID
         _version = Version
+        _latest = _version
         _active = Active
         _legacy = Legacy
         _info = Info
@@ -282,21 +283,6 @@ Public Class InstalledMod
 
         ' Edit modcache file
         Dim Path As String = Directories.ModCache + "\" + _info
-        xmldoc.Load(Path)
-        node = xmldoc.GetElementsByTagName("Info")(0)
-        node.Attributes("Name").Value = Name
-        node.Attributes("Version").Value = Version
-        node.Attributes("ID").Value = ID.ToString
-        If node.Attributes.ItemOf("Category") Is Nothing Then
-            Dim attr As XmlAttribute = xmldoc.CreateAttribute("Category")
-            attr.Value = Category
-            node.Attributes.Append(attr)
-        Else
-            node.Attributes("Category").Value = Category
-        End If
-        xmldoc.Save(Path)
-        ' Edit mod file
-        Path = Directories.Mods + "/" + _info
         If My.Computer.FileSystem.FileExists(Path) Then
             xmldoc.Load(Path)
             node = xmldoc.GetElementsByTagName("Info")(0)
@@ -311,9 +297,26 @@ Public Class InstalledMod
                 node.Attributes("Category").Value = Category
             End If
             xmldoc.Save(Path)
-        End If
+            ' Edit mod file
+            Path = Directories.Mods + "/" + _info
+            If My.Computer.FileSystem.FileExists(Path) Then
+                xmldoc.Load(Path)
+                node = xmldoc.GetElementsByTagName("Info")(0)
+                node.Attributes("Name").Value = Name
+                node.Attributes("Version").Value = Version
+                node.Attributes("ID").Value = ID.ToString
+                If node.Attributes.ItemOf("Category") Is Nothing Then
+                    Dim attr As XmlAttribute = xmldoc.CreateAttribute("Category")
+                    attr.Value = Category
+                    node.Attributes.Append(attr)
+                Else
+                    node.Attributes("Category").Value = Category
+                End If
+                xmldoc.Save(Path)
+            End If
 
-        UpdateInfo(Name, ID, Version, Category)
+            UpdateInfo(Name, ID, Version, Category)
+        End If        
     End Sub
 
     Public Sub FixLegacy()
@@ -369,7 +372,7 @@ Public Class InstalledMod
                 UpdateInfoFiles(_name, _id, _version, nexus.Category)
                 RaiseEvent Update(Me)
             End If
-            If Not nexus.Latest = Version Then                
+            If Not String.IsNullOrEmpty(nexus.Latest) And Not nexus.Latest = Version Then
                 _latest = nexus.Latest
                 RaiseEvent UpdateFound(Me)
             End If

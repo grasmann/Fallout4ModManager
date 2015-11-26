@@ -10,7 +10,7 @@ Public Class ModSolver
     Private common_data_folders As New List(Of String) _
         ({"music", "textures", "interface", "video", "sound", "meshes", "programs", "materials", "lodsettings", "vis", "misc", "scripts", "shadersfx", "strings"})
     Private common_data_files As New List(Of String) _
-        ({"esp", "esm", "bsa", "ba2", "ini"})
+        ({"esp", "esm", "bsa", "ba2", "ini", "xml", "strings", "ilstrings", "dlstrings"})
     Private archive_data As New TreeNode("Data ( don't disable )")
     Private path As String
     Private extract_jobs As New List(Of ExtractJob)
@@ -289,7 +289,7 @@ Public Class ModSolver
                                 If Not parent.Nodes.ContainsKey(node) Then
                                     Dim newnode As TreeNode = parent.Nodes.Add(node, node)
                                     newnode.Tag = Name
-                                    If common_data_folders.Contains(node.ToLower) Or common_data_files.Contains(Microsoft.VisualBasic.Right(node.ToLower, 3)) Then
+                                    If common_data_folders.Contains(node.ToLower) Or common_data_files.Contains(node.ToLower.Ending) Then
                                         newnode.ForeColor = Color.Green
                                     ElseIf parent.ForeColor = Color.Green Then
                                         newnode.ForeColor = Color.Green

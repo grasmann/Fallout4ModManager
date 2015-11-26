@@ -112,7 +112,7 @@ Public Class InstalledMods
             Name = Microsoft.VisualBasic.Left(InsMod, InStrRev(InsMod, ".", Len(InsMod) - 4) - 1)
             Active = ActiveLegacyMods.Contains(InsMod)
             ' Add
-            InstalledMod = New InstalledMod(Name, 0, "N/A", Active, InsMod, True, Category)
+            InstalledMod = New InstalledMod(Name, 0, "N/A", Active, InsMod, True)
             Me.Add(InstalledMod)
             ' Event
             RaiseEvent ModFound(InstalledMod)

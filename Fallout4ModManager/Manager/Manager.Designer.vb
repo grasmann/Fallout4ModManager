@@ -784,7 +784,7 @@ Partial Class Manager
         '
         Me.ProgressBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProgressBar1.Location = New System.Drawing.Point(213, 1)
+        Me.ProgressBar1.Location = New System.Drawing.Point(150, 1)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(691, 34)
         Me.ProgressBar1.TabIndex = 10
@@ -792,7 +792,7 @@ Partial Class Manager
         'btn_settings
         '
         Me.btn_settings.Image = Global.Fallout4ModManager.My.Resources.Resources.settings
-        Me.btn_settings.Location = New System.Drawing.Point(132, 0)
+        Me.btn_settings.Location = New System.Drawing.Point(69, 0)
         Me.btn_settings.Name = "btn_settings"
         Me.btn_settings.Size = New System.Drawing.Size(80, 36)
         Me.btn_settings.TabIndex = 9
@@ -816,8 +816,9 @@ Partial Class Manager
         '
         'btn_play
         '
+        Me.btn_play.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_play.Image = Global.Fallout4ModManager.My.Resources.Resources.play
-        Me.btn_play.Location = New System.Drawing.Point(69, 0)
+        Me.btn_play.Location = New System.Drawing.Point(842, 0)
         Me.btn_play.Name = "btn_play"
         Me.btn_play.Size = New System.Drawing.Size(63, 36)
         Me.btn_play.TabIndex = 4
