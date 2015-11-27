@@ -70,6 +70,7 @@ Public Class InstalledMods
         Dim node As XmlNode
         Dim Name As String
         Dim Category As String = String.Empty
+        Dim Hash As String = String.Empty
         Dim Version As String
         Dim ID As String
         Dim Active As Boolean
@@ -89,11 +90,21 @@ Public Class InstalledMods
                 If Not node.Attributes.ItemOf("Category") Is Nothing Then
                     Category = node.Attributes("Category").Value
                 End If
+                If node.Attributes.ItemOf("Hash") Is Nothing Then
+                    Hash = Fallout4ModManager.InstalledMods.NewHash
+                    Dim attr As XmlAttribute = modfile.CreateAttribute("Hash")
+                    attr.Value = Hash
+                    node.Attributes.Append(attr)
+                    modfile.Save(Directories.ModCache + "/" + InsMod)
+                    modfile.Load(Directories.ModCache + "/" + InsMod)
+                Else
+                    Hash = node.Attributes("Hash").Value
+                End If
                 Version = node.Attributes("Version").Value
                 ID = node.Attributes("ID").Value
                 Active = ActiveMods.Contains(InsMod)
                 ' Add
-                InstalledMod = New InstalledMod(Name, ID, Version, Active, InsMod, , Category)
+                InstalledMod = New InstalledMod(Name, ID, Version, Active, InsMod, , Category, Hash)
                 AddHandler InstalledMod.UpdateFound, AddressOf ModUpdateFound
                 AddHandler InstalledMod.Changed, AddressOf ModWasChanged
                 AddHandler InstalledMod.Uninstalled, AddressOf ModWasUninstalled
@@ -118,5 +129,16 @@ Public Class InstalledMods
             RaiseEvent ModFound(InstalledMod)
         Next
     End Sub
+
+    Public Shared Function NewHash() As String
+        Dim s As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        Dim r As New Random
+        Dim sb As String = String.Empty
+        For i As Integer = 1 To 32
+            Dim idx As Integer = r.Next(0, 35)
+            sb += s.Substring(idx, 1)
+        Next
+        Return sb.ToString()
+    End Function
 
 End Class

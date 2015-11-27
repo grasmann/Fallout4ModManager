@@ -119,7 +119,7 @@ Public Class NexusAPI
             ' Download infos        
             Dim DLData As String = _client.DownloadString(_download_url.Replace("%ID%", ID.ToString))
             ' Filename
-            _filename = Uri.UnescapeDataString(Regex.Match(DLData, _filename_pattern).Groups(1).Value)
+            _filename = Uri.UnescapeDataString(Regex.Match(DLData, _filename_pattern).Groups(1).Value).Filename
             ' Address
             _fileaddress = Regex.Match(DLData, _fileaddress_pattern).Groups(1).Value
         Catch ex As Exception
@@ -173,7 +173,7 @@ retry:
                 _client.Headers.Add("Cookie", cookie)
                 Return True
             Else
-                If MsgBox("The username or password inserted appears to wrong.", MsgBoxStyle.Exclamation + MsgBoxStyle.RetryCancel, "Login failed") = MsgBoxResult.Retry Then
+                If MsgBox("The username or password inserted appears to be wrong.", MsgBoxStyle.Exclamation + MsgBoxStyle.RetryCancel, "Login failed") = MsgBoxResult.Retry Then
                     GoTo retry
                 Else
                     dont_try_to_login = True

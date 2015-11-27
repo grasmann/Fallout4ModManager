@@ -12,6 +12,7 @@ Public Class InstalledMod
     Private _category As String
     Private _name As String
     Private _id As Integer
+    Private _hash As String
     Private _version As String
     Private _latest As String
     Private _legacy As Boolean
@@ -66,6 +67,12 @@ Public Class InstalledMod
         End Get
     End Property
 
+    Public ReadOnly Property Hash As String
+        Get
+            Return _hash
+        End Get
+    End Property
+
     Public ReadOnly Property Category As String
         Get
             Return _category
@@ -75,7 +82,8 @@ Public Class InstalledMod
     ' ##### INIT ###############################################################################################
 
     Public Sub New(ByVal Name As String, ByVal ID As Integer, ByVal Version As String, ByVal Active As Boolean, _
-                   ByVal Info As String, Optional ByVal Legacy As Boolean = False, Optional ByVal Category As String = "")
+                   ByVal Info As String, Optional ByVal Legacy As Boolean = False, Optional ByVal Category As String = "", _
+                   Optional ByVal Hash As String = "")
         _name = Name
         _id = ID
         _version = Version
@@ -244,10 +252,11 @@ Public Class InstalledMod
         doc.AppendChild(root)
         ' create info
         Dim info As XmlElement = doc.CreateElement("Info")
-        info.SetAttribute("Name", Name)
-        info.SetAttribute("ID", ID)
-        info.SetAttribute("Version", Version)
-        info.SetAttribute("Category", Category)
+        info.SetAttribute("Name", _name)
+        info.SetAttribute("ID", _id)
+        info.SetAttribute("Version", _version)
+        info.SetAttribute("Category", _category)
+        info.SetAttribute("Hash", _hash)
         doc.DocumentElement.AppendChild(info)
         ' list files
         Dim filelist As XmlElement = doc.CreateElement("Files")
@@ -295,7 +304,7 @@ Public Class InstalledMod
                 node.Attributes.Append(attr)
             Else
                 node.Attributes("Category").Value = Category
-            End If
+            End If            
             xmldoc.Save(Path)
             ' Edit mod file
             Path = Directories.Mods + "/" + _info
@@ -316,7 +325,7 @@ Public Class InstalledMod
             End If
 
             UpdateInfo(Name, ID, Version, Category)
-        End If        
+        End If
     End Sub
 
     Public Sub FixLegacy()

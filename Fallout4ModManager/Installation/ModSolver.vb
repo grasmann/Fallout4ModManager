@@ -12,7 +12,7 @@ Public Class ModSolver
     Private common_data_files As New List(Of String) _
         ({"esp", "esm", "bsa", "ba2", "ini", "xml", "strings", "ilstrings", "dlstrings"})
     Private archive_data As New TreeNode("Data ( don't disable )")
-    Private path As String
+    'Private path As String
     Private extract_jobs As New List(Of ExtractJob)
     Private WithEvents extracter As SevenZipExtractor
     'Private writer As StreamWriter
@@ -217,9 +217,9 @@ Public Class ModSolver
     Private Sub btn_install_Click(sender As Object, e As EventArgs) Handles btn_install.Click
         btn_install.Enabled = False
         DialogResult = Windows.Forms.DialogResult.OK
-        extracter = New SevenZipExtractor(path)
+        extracter = New SevenZipExtractor(_archive)
         already_exist = New List(Of ExtractJob)
-        Preprocess(TreeView1.Nodes(0), Directories.ModCache + "\" + path.Filename)
+        Preprocess(TreeView1.Nodes(0), Directories.ModCache + "\" + _archive.Filename)
         ' Values
         _name = txt_name.Text
         _version = txt_version.Text
@@ -271,8 +271,8 @@ Public Class ModSolver
     End Sub
 
     Private Sub ScanArchive(ByVal Archive As String)
-        path = Archive
-        Using fs As Stream = File.OpenRead(path)
+        'path = Archive
+        Using fs As Stream = File.OpenRead(_archive)
             Try
                 Dim ext As New SevenZipExtractor(fs)
                 If ext.Check Then
@@ -312,11 +312,11 @@ Public Class ModSolver
                 ext = Nothing
             Catch ex As Exception
                 Debug.Print(ex.Message)
-                MsgBox("The mod manager can't open file """ + path + """." + vbCrLf + "The file might be corrutped.")
+                MsgBox("The mod manager can't open file """ + _archive + """." + vbCrLf + "The file might be corrutped.")
             End Try
             fs.Close()
         End Using
-        _info = path + ".xml"
+        _info = _archive + ".xml"
         If My.Computer.FileSystem.FileExists(_info) Then
             Dim doc As New Xml.XmlDocument
             Dim node As Xml.XmlNode
@@ -331,7 +331,7 @@ Public Class ModSolver
                 MsgBox("The mod manager can't open file """ + _info + """." + vbCrLf + "The file might be corrutped.")
             End Try
         End If
-        _name = path.Filename
+        _name = _archive.Filename
         _version = "N/A"
         _id = 0
     End Sub
@@ -362,7 +362,7 @@ Public Class ModSolver
     Private Sub _install_worker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _install_worker.RunWorkerCompleted
         ' Event
         Dim Info As String = Microsoft.VisualBasic.Right(_info, Len(_info) - Len(_info.Folder))
-        Dim InstalledMod As New InstalledMod(_name, _id, _version, False, Info)
+        Dim InstalledMod As New InstalledMod(_name, _id, _version, False, Info, , , InstalledMods.NewHash)
         RaiseEvent ModInstalled(InstalledMod)
     End Sub
 
@@ -469,7 +469,7 @@ Public Class ModSolver
             filelist.AppendChild(file)
         Next        
 
-        doc.Save(Directories.ModCache + "\" + path.Filename + ".xml")
+        doc.Save(Directories.ModCache + "\" + _archive.Filename + ".xml")
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
