@@ -1,7 +1,10 @@
 ﻿Public Class InstalledArchive
 
+    ' Attributes
     Private _name As String
     Private _active As String
+
+    ' ##### PROPERTIES ################################################################################
 
     Public ReadOnly Property Name As String
         Get
@@ -15,7 +18,11 @@
         End Get
     End Property
 
+    ' ##### CONSTRUCTOR ###############################################################################
+
+    ' Create new archive object
     Public Sub New(ByVal Name As String, ByVal Active As Boolean)
+        Log.Log(String.Format("Initializing archive '{0}' ...", Name))
         _name = Name
         _active = Active
     End Sub

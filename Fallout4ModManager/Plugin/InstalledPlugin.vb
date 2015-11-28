@@ -25,19 +25,10 @@
     ' ##### INIT ###############################################################################################
 
     Public Sub New(ByVal Name As String, ByVal Active As Boolean, ByRef Read_Only As Boolean)
+        Log.Log(String.Format("Initializing plugin '{0}' ...", Name))
         _name = Name
         _active = Active
         _readonly = Read_Only
-    End Sub
-
-    ' ##### ACTIONS ###############################################################################################
-
-    Public Sub Activate()
-
-    End Sub
-
-    Public Sub Deactivate()
-
     End Sub
 
 End Class

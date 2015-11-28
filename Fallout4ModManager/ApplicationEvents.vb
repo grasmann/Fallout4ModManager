@@ -45,6 +45,12 @@
                 End If
             End If
         End Sub
+
+        Private Sub MyApplication_UnhandledException(sender As Object, e As ApplicationServices.UnhandledExceptionEventArgs) Handles Me.UnhandledException
+            Fallout4ModManager.Log.Log(String.Format("##### Unhandled exception occured #####{0}{1}{0}{2}{0}#######################################", _
+                                                     vbCrLf, e.Exception.Message, e.Exception.StackTrace))
+        End Sub
+
     End Class
 
 End Namespace

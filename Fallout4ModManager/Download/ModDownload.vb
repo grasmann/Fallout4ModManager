@@ -10,17 +10,18 @@ Public Class ModDownload
 
     Private Const _id_pattern As String = "mods/(.+?)/"
 
-    Private WithEvents _dl_client As AdvancedDownloadClient.DownloadClient
+    ' Attributes
     Private _name As String
     Private _path As String
     Private _info As String
     Private _percentage As Integer
     Private _speed As String
     Private _finished As Boolean
-
     Private _mod_id As Integer
     Private _file_id As Integer
 
+    ' Objects
+    Private WithEvents _dl_client As AdvancedDownloadClient.DownloadClient
     Private nexus As NexusAPI
 
     Public ReadOnly Property Name As String
@@ -77,6 +78,8 @@ Public Class ModDownload
         End Get
     End Property
 
+    ' ##### EVENTS ##########################################################################################
+
     Public Event Update(ByVal Download As ModDownload)
     Public Event Finished(ByVal Download As ModDownload)
     Public Event Remove(ByVal Download As ModDownload)
@@ -84,6 +87,7 @@ Public Class ModDownload
     ' ##### INIT ##########################################################################################
 
     Public Sub New(ByVal Name As String, ByVal Percentage As Integer, ByVal Archive As String)
+        Log.Log(String.Format("Initializing mod download '{0}' ...", Name))
         _name = Name
         _percentage = Percentage
         _path = Archive
@@ -118,6 +122,7 @@ Public Class ModDownload
 
     ' ##### FUNCTIONS ##########################################################################################
 
+    ' Toggle download pause
     Public Sub TogglePause()
         If Not _finished Then
             If _dl_client.IsBusy Then
@@ -128,62 +133,23 @@ Public Class ModDownload
         End If        
     End Sub
 
+    ' Cancel download
     Private Sub Abort()
         _dl_client.CancelAsync()
     End Sub
 
+    ' Delete download
     Public Sub Delete()
         If Not _finished Then
             Abort()
-        Else
-            If My.Computer.FileSystem.FileExists(_path) Then
-                'My.Computer.FileSystem.DeleteFile(_path)
-                DeleteJobs.DeleteFile(_path)
-            End If
-            If My.Computer.FileSystem.FileExists(_path + ".xml") Then
-                'My.Computer.FileSystem.DeleteFile(_path + ".xml")
-                DeleteJobs.DeleteFile(_path + ".xml")
-            End If
+        End If
+        If My.Computer.FileSystem.FileExists(_path) Then
+            DeleteJobs.DeleteFile(_path)
+        End If
+        If My.Computer.FileSystem.FileExists(_path + ".xml") Then
+            DeleteJobs.DeleteFile(_path + ".xml")
         End If
         RaiseEvent Remove(Me)
-    End Sub
-
-    'Public Function Install() As Boolean
-    '    If _finished Then
-    '        'Dim Path As String = dgv_downloads.SelectedRows(0).Cells("dls_path").Value
-    '        'Dim Info As String = Path + ".xml"
-    '        ' Install
-    '        Dim mod_solver As New ModSolver(_path)
-    '        If mod_solver.ShowDialog() = Windows.Forms.DialogResult.OK Then
-    '            If MsgBox("Do you want to delete the """ + _path + """ from the download directory?", _
-    '                      MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Delete file?") = MsgBoxResult.Yes Then
-    '                Files.SetAttributes(Directories.Downloads)
-    '                My.Computer.FileSystem.DeleteFile(_path)
-    '                My.Computer.FileSystem.DeleteFile(_path + ".xml")
-    '                RaiseEvent Remove(Me)
-    '            End If
-    '            Return True
-    '        End If
-    '    End If
-    '    Return False
-    'End Function
-
-    ' ##### DOWNLOAD ##########################################################################################
-
-    Private Sub _dl_client_DownloadFileComplete(sender As Object, e As FileDownloadCompletedEventArgs) Handles _dl_client.DownloadFileComplete
-        _speed = String.Empty
-        _dl_client = Nothing
-        _finished = True
-        If Not e.Cancelled Then
-            CreateInfoFile()
-            RaiseEvent Finished(Me)
-        End If
-    End Sub
-
-    Private Sub _dl_client_DownloadProgessChanged(sender As Object, e As FileDownloadProgressChangedEventArgs) Handles _dl_client.DownloadProgessChanged
-        _percentage = e.ProgressPercentage
-        _speed = (e.DownloadSpeedBytesPerSec / 1000).ToString
-        RaiseEvent Update(Me)
     End Sub
 
     Private Sub CreateInfoFile()
@@ -199,9 +165,28 @@ Public Class ModDownload
         info.SetAttribute("Name", nexus.Name)
         info.SetAttribute("ID", _mod_id.ToString)
         info.SetAttribute("Version", nexus.Version)
+        info.SetAttribute("Category", nexus.Category)
         doc.DocumentElement.AppendChild(info)
         ' Save
         doc.Save(_path + ".xml")
+    End Sub
+
+    ' ##### DOWNLOAD ##########################################################################################
+
+    Private Sub _dl_client_DownloadFileComplete(sender As Object, e As FileDownloadCompletedEventArgs) Handles _dl_client.DownloadFileComplete
+        _speed = String.Empty
+        _finished = True
+        _dl_client = Nothing        
+        If Not e.Cancelled Then
+            CreateInfoFile()
+            RaiseEvent Finished(Me)
+        End If
+    End Sub
+
+    Private Sub _dl_client_DownloadProgessChanged(sender As Object, e As FileDownloadProgressChangedEventArgs) Handles _dl_client.DownloadProgessChanged
+        _percentage = e.ProgressPercentage
+        _speed = (e.DownloadSpeedBytesPerSec / 1000).ToString
+        RaiseEvent Update(Me)
     End Sub
 
 End Class

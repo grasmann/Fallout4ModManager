@@ -257,6 +257,18 @@ Namespace My
                 Me("SortDirection") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property WriteLogFile() As Boolean
+            Get
+                Return CType(Me("WriteLogFile"),Boolean)
+            End Get
+            Set
+                Me("WriteLogFile") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

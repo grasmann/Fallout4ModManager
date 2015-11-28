@@ -157,7 +157,7 @@ Public Class Manager
         InstalledMods.Reload()
         InstalledPlugins.Reload()
         InstalledArchives.Reload()
-        Downloads.FindFinishedDownloads()
+        Downloads.LoadDownloads()
         ' sResourceDataDirsFinal
         If String.IsNullOrEmpty(My.Settings.sResourceDataDirsFinal) Then _
             My.Settings.sResourceDataDirsFinal = sResourceDataDirsFinal_Default

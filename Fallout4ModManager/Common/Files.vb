@@ -8,78 +8,40 @@ Module Files
         "# Please do not modify this file." + vbCrLf + _
         "Fallout4.esm" + vbCrLf
 
-    Private _archive_files() As String = {"*.ba2", "*.bsa"}
-    Private _plugin_files() As String = {"*.esp", "*.esm"}
+
+
+    Private _fallout4ini As String
+    Private _pluginstxt As String
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
-    Private Function WritePrivateProfileString(ByVal lpAppName As String, ByVal lpKeyName As String, _
-                                               ByVal lpString As String, ByVal lpFileName As String) As Boolean
+    Public Function WritePrivateProfileString(ByVal lpAppName As String, ByVal lpKeyName As String, _
+                                              ByVal lpString As String, ByVal lpFileName As String) As Boolean
     End Function
 
     <DllImport("kernel32.dll", SetLastError:=True)> _
-    Private Function GetPrivateProfileString(ByVal lpAppName As String, ByVal lpKeyName As String, _
-                            ByVal lpDefault As String, ByVal lpReturnedString As StringBuilder, _
-                            ByVal nSize As Integer, ByVal lpFileName As String) As Integer
+    Public Function GetPrivateProfileString(ByVal lpAppName As String, ByVal lpKeyName As String, _
+                                            ByVal lpDefault As String, ByVal lpReturnedString As StringBuilder, _
+                                            ByVal nSize As Integer, ByVal lpFileName As String) As Integer
     End Function
 
-    ' ##### ARCHIVES #######################################################################################################################
+    ' ##### FILES #######################################################################################################################
 
-    ' Find archive files
-    Public Function FindArchives() As List(Of String)
-        Dim Plugins As New List(Of String)
-        Dim Files As List(Of String) = My.Computer.FileSystem.GetFiles(Directories.Data, FileIO.SearchOption.SearchTopLevelOnly, _archive_files).ToList
-        For Each Plugin As String In Files
-            Plugins.Add(Plugin)
-        Next
-        Return Plugins
-    End Function
-
-    ' Find active archives
-    Public Function ActiveArchives() As List(Of String)
-        Dim Archives As New List(Of String)
-        Dim Path As String = Directories.MyGames + "\Fallout4.ini"
-        ' Read
-        Dim sb As New StringBuilder(1024)
-        Dim rt As Integer = GetPrivateProfileString("Archive", "sResourceStartUpArchiveList", "", sb, sb.Capacity, Path)
-        ' Split
-        Archives = sb.ToString.Split(",").ToList
-        For i = 0 To Archives.Count - 1
-            Archives(i) = Trim(Archives(i))
-        Next
-        Return Archives
-    End Function
-
-    ' ##### PLUGINS #######################################################################################################################
-
-    ' Find plugins
-    Public Function FindPlugins() As List(Of String)
-        Dim Plugins As New List(Of String)
-        Dim Files As List(Of String) = My.Computer.FileSystem.GetFiles(Directories.Data, FileIO.SearchOption.SearchTopLevelOnly, _plugin_files).ToList
-        For Each Plugin As String In Files
-            Plugins.Add(Plugin)
-        Next
-        Return Plugins
-    End Function
-
-    ' Get active plugins
-    Public Function GetActivePlugins() As List(Of String)
-        Dim Plugins As New List(Of String)
-        Dim Plugin As String
-        ' plugins.txt
-        Dim Path As String = Directories.Appdata + "\plugins.txt"
-        ' Read from file
-        If System.IO.File.Exists(Path) = True Then
-            Dim objReader As New System.IO.StreamReader(Path)
-            While Not objReader.EndOfStream
-                Plugin = objReader.ReadLine
-                If Not Left(Plugin, 1) = "#" Then Plugins.Add(Plugin)
-            End While
-            ' Close
-            objReader.Close()
+    Public Function Fallout4ini() As String
+        If String.IsNullOrEmpty(_fallout4ini) Then
+            _fallout4ini = Directories.MyGames + "\Fallout4.ini"
+            Log.Log(String.Format("Fetched Fallout4.ini path '{0}'.", _fallout4ini))
         End If
-        ' Return
-        Return Plugins
+        Return _fallout4ini
     End Function
+    
+    Public Function Pluginstxt() As String
+        If String.IsNullOrEmpty(_pluginstxt) Then
+            _pluginstxt = Directories.Appdata + "\plugins.txt"
+            Log.Log(String.Format("Fetched plugins.txt path '{0}'.", _pluginstxt))
+        End If
+        Return _pluginstxt
+    End Function
+    
 
     ' ##### MODS #######################################################################################################################
 
@@ -137,21 +99,6 @@ Module Files
             Installed.Add(dra.Name)
         Next
         Return Installed
-    End Function
-
-    ' ##### DOWNLOADS #######################################################################################################################
-
-    Public Function FindDownloads() As List(Of String)
-        Dim Downloads As New List(Of String)
-        ' make a reference to a directory
-        Dim di As New IO.DirectoryInfo(Directories.Downloads)
-        Dim diar1 As IO.FileInfo() = di.GetFiles("*.xml")
-        Dim dra As IO.FileInfo
-        'list the names of all files in the specified directory
-        For Each dra In diar1
-            Downloads.Add(dra.Name)
-        Next
-        Return Downloads
     End Function
 
     ' ##### WRITE / EDIT FILES #######################################################################################################################
@@ -255,6 +202,12 @@ Module Files
             Return True
         End If
         Return False
+    End Function
+
+    ' ##### HELP #######################################################################################################################
+
+    Public Function Exists(ByVal File As String) As Boolean
+        Return My.Computer.FileSystem.FileExists(File)
     End Function
 
 End Module
