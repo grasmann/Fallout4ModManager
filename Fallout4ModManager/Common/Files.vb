@@ -104,10 +104,12 @@ Module Files
     ' ##### WRITE / EDIT FILES #######################################################################################################################
 
     ' Set file readonly / not readonly
-    Public Sub SetReadOnly(ByVal Path As String, ByVal OnlyRead As Boolean)
+    Public Function SetReadOnly(ByVal Path As String, ByVal OnlyRead As Boolean) As Boolean
         Dim Info As FileInfo = New FileInfo(Path)
+        Dim WasReadOnly As Boolean = Info.IsReadOnly
         Info.IsReadOnly = OnlyRead
-    End Sub
+        Return WasReadOnly
+    End Function
 
     ' Set attributes of files in a folder
     Public Sub SetAttributes(ByVal directory As String)

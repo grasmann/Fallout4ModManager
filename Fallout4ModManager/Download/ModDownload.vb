@@ -12,8 +12,8 @@ Public Class ModDownload
 
     ' Attributes
     Private _name As String
-    Private _path As String
-    Private _info As String
+    Private _archive_path As String
+    Private _info_path As String
     Private _percentage As Integer
     Private _speed As String
     Private _finished As Boolean
@@ -38,13 +38,13 @@ Public Class ModDownload
 
     Public ReadOnly Property Path As String
         Get
-            Return _path
+            Return _archive_path
         End Get
     End Property
 
     Public ReadOnly Property Info As String
         Get
-            Return _info
+            Return _info_path
         End Get
     End Property
 
@@ -86,15 +86,18 @@ Public Class ModDownload
 
     ' ##### INIT ##########################################################################################
 
+    ' Create finished moddownload
     Public Sub New(ByVal Name As String, ByVal Percentage As Integer, ByVal Archive As String)
         Log.Log(String.Format("Initializing mod download '{0}' ...", Name))
         _name = Name
         _percentage = Percentage
-        _path = Archive
+        _archive_path = Archive
         _finished = True
     End Sub
 
+    ' Create moddownload from url protocol info
     Public Sub New(ByVal URL As String)
+        Log.Log(String.Format("Initializing mod download '{0}' ...", URL))
         Try
             ' Extract IDs
             _mod_id = Val(Regex.Match(URL, _id_pattern).Groups(1).Value)
@@ -107,16 +110,17 @@ Public Class ModDownload
             _name = nexus.Name + " " + nexus.Version
 
             ' Paths
-            _path = Directories.Downloads + "\" + nexus.Filename
-            _info = _path + ".xml"
+            _archive_path = Directories.Downloads + "\" + nexus.Filename
+            _info_path = _archive_path + ".xml"
 
             ' Start download
             _dl_client = New AdvancedDownloadClient.DownloadClient(Manager)
             _dl_client.DeleteFileWhenCancelled = True
-            _dl_client.DownloadFileAsync(New Uri(nexus.Address), _path)
+            _dl_client.DownloadFileAsync(New Uri(nexus.Address), _archive_path)
 
+            Log.Log(String.Format("Download of file '{0}' started.{1}URL: {2}{1}Path: {3}", _archive_path.Filename, vbCrLf, URL, _archive_path))
         Catch ex As Exception
-            Debug.Print(ex.Message)
+            Log.Log(String.Format("Error downloading mod.{0}{1}{0}{2}", vbCrLf, ex.Message, ex.StackTrace))
         End Try
     End Sub
 
@@ -143,36 +147,44 @@ Public Class ModDownload
         If Not _finished Then
             Abort()
         End If
-        If My.Computer.FileSystem.FileExists(_path) Then
-            DeleteJobs.DeleteFile(_path)
+        If My.Computer.FileSystem.FileExists(_archive_path) Then
+            DeleteJobs.DeleteFile(_archive_path)
         End If
-        If My.Computer.FileSystem.FileExists(_path + ".xml") Then
-            DeleteJobs.DeleteFile(_path + ".xml")
+        If My.Computer.FileSystem.FileExists(_info_path) Then
+            DeleteJobs.DeleteFile(_info_path)
         End If
         RaiseEvent Remove(Me)
     End Sub
 
+    ' Create info file
     Private Sub CreateInfoFile()
-        ' Create document
-        Dim doc As New XmlDocument
-        Dim declaration As XmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
-        ' Create root and decleration
-        Dim root As XmlElement = doc.CreateElement("Mod")
-        doc.InsertBefore(declaration, doc.DocumentElement)
-        doc.AppendChild(root)
-        ' Create info
-        Dim info As XmlElement = doc.CreateElement("Info")
-        info.SetAttribute("Name", nexus.Name)
-        info.SetAttribute("ID", _mod_id.ToString)
-        info.SetAttribute("Version", nexus.Version)
-        info.SetAttribute("Category", nexus.Category)
-        doc.DocumentElement.AppendChild(info)
-        ' Save
-        doc.Save(_path + ".xml")
+        Log.Log(String.Format("Creating info file for downloaded file '{0}' ...", _archive_path.Filename))
+        Try
+            ' Create document
+            Dim doc As New XmlDocument
+            Dim declaration As XmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
+            ' Create root and decleration
+            Dim root As XmlElement = doc.CreateElement("Mod")
+            doc.InsertBefore(declaration, doc.DocumentElement)
+            doc.AppendChild(root)
+            ' Create info
+            Dim info As XmlElement = doc.CreateElement("Info")
+            info.SetAttribute("Name", nexus.Name)
+            info.SetAttribute("ID", _mod_id.ToString)
+            info.SetAttribute("Version", nexus.Version)
+            info.SetAttribute("Category", nexus.Category)
+            doc.DocumentElement.AppendChild(info)
+            ' Save
+            doc.Save(_info_path)
+            Log.Log(String.Format("Info file for downloaded file '{0}' successfully created.", _archive_path.Filename))
+        Catch ex As Exception
+            Log.Log(String.Format("Error creating info file for downloaded file '{0}'.{1}{2}{1}{3}", _archive_path.Filename, vbCrLf, ex.Message, ex.StackTrace))
+        End Try        
     End Sub
 
     ' ##### DOWNLOAD ##########################################################################################
 
+    ' Download was finished
     Private Sub _dl_client_DownloadFileComplete(sender As Object, e As FileDownloadCompletedEventArgs) Handles _dl_client.DownloadFileComplete
         _speed = String.Empty
         _finished = True
@@ -180,9 +192,13 @@ Public Class ModDownload
         If Not e.Cancelled Then
             CreateInfoFile()
             RaiseEvent Finished(Me)
+            Log.Log(String.Format("Download of file '{0}' finished.", _archive_path.Filename))
+        Else            
+            Log.Log(String.Format("Download of file '{0}' was canceled.", _archive_path.Filename))
         End If
     End Sub
 
+    ' Download progress changed
     Private Sub _dl_client_DownloadProgessChanged(sender As Object, e As FileDownloadProgressChangedEventArgs) Handles _dl_client.DownloadProgessChanged
         _percentage = e.ProgressPercentage
         _speed = (e.DownloadSpeedBytesPerSec / 1000).ToString

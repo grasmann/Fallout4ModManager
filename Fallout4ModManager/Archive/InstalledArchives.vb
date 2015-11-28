@@ -18,7 +18,6 @@ Public Class InstalledArchives
 
     ' ##### EVENTS ####################################################################################
 
-    Public Event ArchivesCleared()
     Public Event ArchiveFound(ByVal InstalledArchive As InstalledArchive)
 
     ' ##### LOAD ARCHIVES ####################################################################################
@@ -27,7 +26,6 @@ Public Class InstalledArchives
     Public Sub Reload()
         Log.Log(String.Format("{0}Reloading archive files ...", vbCrLf))
         Me.Clear()
-        RaiseEvent ArchivesCleared()
         LoadArchives()
     End Sub
 
